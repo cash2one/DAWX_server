@@ -1,0 +1,34 @@
+-- 2015-11-27 16:29:37,790  -- [INFO]  JSON-RPC Server Endpoint: http://z.rhel.cc//api_jsonrpc.php
+-- 2015-11-27 16:29:37,905  -- [DEBUG]  Sending: {
+    "params": {
+        "password": "dawx@99!",
+        "user": "Admin"
+    },
+    "jsonrpc": "2.0",
+    "method": "user.login",
+    "id": 0
+}
+-- 2015-11-27 16:29:37,919  -- [INFO]  Starting new HTTP connection (1): z.rhel.cc
+-- 2015-11-27 16:29:38,401  -- [DEBUG]  "POST //api_jsonrpc.php HTTP/1.1" 200 None
+-- 2015-11-27 16:29:38,409  -- [DEBUG]  Response Code: 200
+-- 2015-11-27 16:29:38,409  -- [DEBUG]  Response Body: {
+    "jsonrpc": "2.0",
+    "result": "a2af35c46fa07be90cea6e0f25bf11d8",
+    "id": 0
+}
+-- 2015-11-27 16:29:38,419  -- [DEBUG]  Sending: {
+    "params": {
+        "output": "extend",
+        "time_till": 1448612978,
+        "time_from": 1448008178,
+        "itemids": "49650",
+        "history": "3"
+    },
+    "jsonrpc": "2.0",
+    "method": "history.get",
+    "auth": "a2af35c46fa07be90cea6e0f25bf11d8",
+    "id": 1
+}
+-- 2015-11-27 16:29:38,420  -- [INFO]  Resetting dropped connection: z.rhel.cc
+-- 2015-11-27 16:29:41,583  -- [DEBUG]  "POST //api_jsonrpc.php HTTP/1.1" 200 None
+-- 2015-11-27 16:29:42,142  -- [DEBUG]  Response Code: 200

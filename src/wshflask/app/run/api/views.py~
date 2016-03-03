@@ -1,0 +1,39 @@
+#coding=utf-8
+from datetime import datetime
+from flask import render_template,session,redirect,url_for,request
+
+from . import api
+
+
+from ..libbase.add_item import DawxZabbix
+import json
+
+@api.route('/getitems')
+def getitems():
+    hostid =request.args.get('id')
+    ainstance = DawxZabbix()
+    return json.dumps(ainstance.getitem(hostid))
+
+@api.route('/gethostgroups')
+def gethostgroups():
+    # 这个id无用
+    hostgroupid =request.args.get('id')
+    ainstance = DawxZabbix()
+    return json.dumps(ainstance.gethostgroup())
+
+
+@api.route('/gethosts')
+def gethosts():
+    hostgroupid =request.args.get('id')
+    ainstance = DawxZabbix()
+    return json.dumps(ainstance.gethost(hostgroupid))
+
+
+
+@api.route('/getiteminfo')
+def getiteminfo():
+    itemid =[request.args.get('id')]
+    ainstance = DawxZabbix()
+    res = ainstance.wshtest(itemid)
+    adict = {u'hostname':'hostname',u'itemname':'itemname',u'timelist':res[0], u'datalist': res[1]}
+    return json.dumps(adict)

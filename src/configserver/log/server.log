@@ -1,0 +1,169 @@
+Started 
+Process Process-1:
+Traceback (most recent call last):
+  File "/usr/lib64/python2.7/multiprocessing/process.py", line 258, in _bootstrap
+    self.run()
+  File "/usr/lib64/python2.7/multiprocessing/process.py", line 114, in run
+    self._target(*self._args, **self._kwargs)
+  File "libbase/csdaemon.py", line 120, in start
+    self.daemonize()
+  File "libbase/csdaemon.py", line 91, in daemonize
+    file(self.pidfile, 'w+').write("%s\n"% pid)
+IOError: [Errno 2] No such file or directory: "'/tmp/test.pid'"
+Started 
+Process Process-1:
+Traceback (most recent call last):
+  File "/usr/lib64/python2.7/multiprocessing/process.py", line 258, in _bootstrap
+    self.run()
+  File "/usr/lib64/python2.7/multiprocessing/process.py", line 114, in run
+    self._target(*self._args, **self._kwargs)
+  File "libbase/csdaemon.py", line 120, in start
+    self.daemonize()
+  File "libbase/csdaemon.py", line 91, in daemonize
+    file(self.pidfile, 'w+').write("%s\n"% pid)
+IOError: [Errno 2] No such file or directory: "'/tmp/test.pid'"
+Started 
+Process Process-1:
+Traceback (most recent call last):
+  File "/usr/lib64/python2.7/multiprocessing/process.py", line 258, in _bootstrap
+    self.run()
+  File "/usr/lib64/python2.7/multiprocessing/process.py", line 114, in run
+    self._target(*self._args, **self._kwargs)
+  File "libbase/csdaemon.py", line 120, in start
+    self.daemonize()
+  File "libbase/csdaemon.py", line 91, in daemonize
+    file(self.pidfile, 'w+').write("%s\n"% pid)
+IOError: [Errno 2] No such file or directory: "'/tmp/test.pid'"
+Started 
+send >................................
+[1;37m-- 2015-11-19 18:24:56,772  -- [INFO]  CSServer  Check OK[1;0m
+send >................................
+[1;37m-- 2015-11-19 18:24:56,772  -- [INFO]  CSServer starts[1;0m
+Started 
+send >................................
+[1;37m-- 2015-11-19 18:26:45,979  -- [INFO]  CSServer  Check OK[1;0m
+send >................................
+[1;37m-- 2015-11-19 18:26:45,979  -- [INFO]  CSServer starts[1;0m
+Started 
+send >................................
+[1;37m-- 2015-11-23 11:23:04,034  -- [INFO]  CSServer  Check OK[1;0m
+send >................................
+[1;37m-- 2015-11-23 11:23:04,035  -- [INFO]  CSServer starts[1;0m
+send >................................
+[1;37m-- 2015-11-23 11:23:22,318  -- [INFO]  ('got connection from ', ('127.0.0.1', 50885))[1;0m
+[1;32m-- 2015-11-23 11:23:30,158  -- [DEBUG]  CSserver md5 : 5b0dbfbcdbf682c6aab6b57fd695d583[1;0m
+[1;32m-- 2015-11-23 11:23:30,158  -- [DEBUG]  Client CSserver: ÿôÿýÿôÿý][1;0m
+send >................................
+[1;31m-- 2015-11-23 11:23:30,158  -- [ERROR]  PassWord refused[1;0m
+Started 
+check dir staring .......................
+check file starting ......................
+check conf starting ..........................
+all check done.........................
+[1;37mProcess-1 -- 2015-12-15 10:14:43,183  -- [INFO]  CSServer  Check OK[1;0m
+[1;37mProcess-1 -- 2015-12-15 10:14:43,184  -- [INFO]  CSServer starts[1;0m
+Process Process-1:
+Traceback (most recent call last):
+  File "/usr/lib64/python2.7/multiprocessing/process.py", line 258, in _bootstrap
+    self.run()
+  File "/usr/lib64/python2.7/multiprocessing/process.py", line 114, in run
+    self._target(*self._args, **self._kwargs)
+  File "libbase/csdaemon.py", line 121, in start
+    self.run(*args, **kwargs)
+  File "CSSocketServer.py", line 112, in run
+    main()
+  File "CSSocketServer.py", line 125, in main
+    server = ThreadedTCPServer(addr,Servers)
+  File "/usr/lib64/python2.7/SocketServer.py", line 419, in __init__
+    self.server_bind()
+  File "/usr/lib64/python2.7/SocketServer.py", line 430, in server_bind
+    self.socket.bind(self.server_address)
+  File "/usr/lib64/python2.7/socket.py", line 224, in meth
+    return getattr(self._sock,name)(*args)
+error: [Errno 98] Address already in use
+Started 
+check dir staring .......................
+check file starting ......................
+check conf starting ..........................
+all check done.........................
+ sys.argv //////////CSSocketServer.py
+[1;37mProcess-1 -- 2016-01-08 14:40:33,540  -- [INFO]  CSServer  Check OK[1;0m
+ sys.argv //////////CSSocketServer.py
+[1;37mProcess-1 -- 2016-01-08 14:40:33,540  -- [INFO]  CSServer starts[1;0m
+ sys.argv //////////CSSocketServer.py
+[1;37mProcess-1 -- 2016-01-08 14:40:51,254  -- [INFO]  ('got connection from ', ('127.0.0.1', 33075))[1;0m
+ sys.argv //////////CSSocketServer.py
+[1;37mProcess-1 -- 2016-01-08 14:40:51,255  -- [INFO]  PassWord check OK![1;0m
+ sys.argv //////////CSSocketServer.py
+[1;33mProcess-1 -- 2016-01-08 14:40:51,255  -- [WARNING]  receive command: sda [1;0m
+ sys.argv //////////CSSocketServer.py
+[1;31mProcess-1 -- 2016-01-08 14:40:51,255  -- [ERROR]  command EXEC FAILED[1;0m
+[1;32mProcess-1 -- 2016-01-08 14:40:51,255  -- [DEBUG]  send result: command error, You should input right command!! [1;0m
+ sys.argv //////////CSSocketServer.py
+[1;37mProcess-1 -- 2016-01-08 14:43:33,104  -- [INFO]  ('got connection from ', ('127.0.0.1', 33083))[1;0m
+ sys.argv //////////CSSocketServer.py
+[1;37mProcess-1 -- 2016-01-08 14:43:33,105  -- [INFO]  PassWord check OK![1;0m
+ sys.argv //////////CSSocketServer.py
+[1;33mProcess-1 -- 2016-01-08 14:43:33,105  -- [WARNING]  receive command: findbydb 120 [1;0m
+['120']
+[1;32mProcess-1 -- 2016-01-08 14:43:33,105  -- [DEBUG]  EXEC SQL: select server.name,server.ip,domain.value,domain.domainname,domain.iswork from domain,server where domain.ip = server.ip and server.servertype like '%web%' and domain.dbnum =? 
+		 AND ARGV: 120[1;0m
+ sys.argv //////////CSSocketServer.py
+[1;37mProcess-1 -- 2016-01-08 14:43:33,106  -- [INFO]  command EXEC OK[1;0m
+[1;32mProcess-1 -- 2016-01-08 14:43:33,106  -- [DEBUG]  send result: [('webnew3', '10.221.141.143', '103', 's129.app1101376335.qqopenapp.com', '1')][1;0m
+ sys.argv //////////CSSocketServer.py
+[1;37mProcess-1 -- 2016-01-08 14:43:34,108  -- [INFO]  ('got connection from ', ('127.0.0.1', 33089))[1;0m
+ sys.argv //////////CSSocketServer.py
+[1;37mProcess-1 -- 2016-01-08 14:43:34,108  -- [INFO]  PassWord check OK![1;0m
+ sys.argv //////////CSSocketServer.py
+[1;33mProcess-1 -- 2016-01-08 14:43:34,108  -- [WARNING]  receive command: update iswork=1 dbnum=120 [1;0m
+['iswork=1', 'dbnum=120']
+ sys.argv //////////CSSocketServer.py
+[1;37mProcess-1 -- 2016-01-08 14:43:34,182  -- [INFO]  command EXEC OK[1;0m
+[1;32mProcess-1 -- 2016-01-08 14:43:34,183  -- [DEBUG]  send result: UPDATE SUCESS[1;0m
+ sys.argv //////////CSSocketServer.py
+[1;37mProcess-1 -- 2016-01-08 14:43:35,185  -- [INFO]  ('got connection from ', ('127.0.0.1', 33094))[1;0m
+ sys.argv //////////CSSocketServer.py
+[1;37mProcess-1 -- 2016-01-08 14:43:35,185  -- [INFO]  PassWord check OK![1;0m
+ sys.argv //////////CSSocketServer.py
+[1;33mProcess-1 -- 2016-01-08 14:43:35,185  -- [WARNING]  receive command: findbydb 10 [1;0m
+['10']
+[1;32mProcess-1 -- 2016-01-08 14:43:35,186  -- [DEBUG]  EXEC SQL: select server.name,server.ip,domain.value,domain.domainname,domain.iswork from domain,server where domain.ip = server.ip and server.servertype like '%web%' and domain.dbnum =? 
+		 AND ARGV: 10[1;0m
+ sys.argv //////////CSSocketServer.py
+[1;37mProcess-1 -- 2016-01-08 14:43:35,186  -- [INFO]  command EXEC OK[1;0m
+[1;32mProcess-1 -- 2016-01-08 14:43:35,186  -- [DEBUG]  send result: [('web30', '10.207.141.251', '1', 's11.app1101376335.qqopenapp.com', '1')][1;0m
+ sys.argv //////////CSSocketServer.py
+[1;37mProcess-1 -- 2016-01-08 14:43:47,157  -- [INFO]  ('got connection from ', ('127.0.0.1', 33105))[1;0m
+ sys.argv //////////CSSocketServer.py
+[1;37mProcess-1 -- 2016-01-08 14:43:47,158  -- [INFO]  PassWord check OK![1;0m
+ sys.argv //////////CSSocketServer.py
+[1;33mProcess-1 -- 2016-01-08 14:43:47,158  -- [WARNING]  receive command: findbydb 120 [1;0m
+['120']
+[1;32mProcess-1 -- 2016-01-08 14:43:47,158  -- [DEBUG]  EXEC SQL: select server.name,server.ip,domain.value,domain.domainname,domain.iswork from domain,server where domain.ip = server.ip and server.servertype like '%web%' and domain.dbnum =? 
+		 AND ARGV: 120[1;0m
+ sys.argv //////////CSSocketServer.py
+[1;37mProcess-1 -- 2016-01-08 14:43:47,158  -- [INFO]  command EXEC OK[1;0m
+[1;32mProcess-1 -- 2016-01-08 14:43:47,159  -- [DEBUG]  send result: [('webnew3', '10.221.141.143', '103', 's129.app1101376335.qqopenapp.com', '1')][1;0m
+ sys.argv //////////CSSocketServer.py
+[1;37mProcess-1 -- 2016-01-08 14:43:48,160  -- [INFO]  ('got connection from ', ('127.0.0.1', 33110))[1;0m
+ sys.argv //////////CSSocketServer.py
+[1;37mProcess-1 -- 2016-01-08 14:43:48,161  -- [INFO]  PassWord check OK![1;0m
+ sys.argv //////////CSSocketServer.py
+[1;33mProcess-1 -- 2016-01-08 14:43:48,161  -- [WARNING]  receive command: update iswork=1 dbnum=120 [1;0m
+['iswork=1', 'dbnum=120']
+ sys.argv //////////CSSocketServer.py
+[1;37mProcess-1 -- 2016-01-08 14:43:48,226  -- [INFO]  command EXEC OK[1;0m
+[1;32mProcess-1 -- 2016-01-08 14:43:48,227  -- [DEBUG]  send result: UPDATE SUCESS[1;0m
+ sys.argv //////////CSSocketServer.py
+[1;37mProcess-1 -- 2016-01-08 14:43:49,229  -- [INFO]  ('got connection from ', ('127.0.0.1', 33115))[1;0m
+ sys.argv //////////CSSocketServer.py
+[1;37mProcess-1 -- 2016-01-08 14:43:49,229  -- [INFO]  PassWord check OK![1;0m
+ sys.argv //////////CSSocketServer.py
+[1;33mProcess-1 -- 2016-01-08 14:43:49,229  -- [WARNING]  receive command: findbydb 10 [1;0m
+['10']
+[1;32mProcess-1 -- 2016-01-08 14:43:49,229  -- [DEBUG]  EXEC SQL: select server.name,server.ip,domain.value,domain.domainname,domain.iswork from domain,server where domain.ip = server.ip and server.servertype like '%web%' and domain.dbnum =? 
+		 AND ARGV: 10[1;0m
+ sys.argv //////////CSSocketServer.py
+[1;37mProcess-1 -- 2016-01-08 14:43:49,230  -- [INFO]  command EXEC OK[1;0m
+[1;32mProcess-1 -- 2016-01-08 14:43:49,230  -- [DEBUG]  send result: [('web30', '10.207.141.251', '1', 's11.app1101376335.qqopenapp.com', '1')][1;0m

@@ -1,0 +1,21 @@
+from datetime import datetime
+from flask import render_template,session,redirect,url_for,flash
+
+from . import main
+
+
+from add_item import wshtest
+from ..libbase.dawxform  import KaiquForm
+
+@main.route('/', methods=['GET', 'POST'])
+@main.route('/index.html', methods=['GET', 'POST'])
+def index():
+    name = ''
+        
+    form = KaiquForm()
+    if form.validate_on_submit():
+        name = form.opendbnum.data
+        form.opendbnum.data =''
+        if name == '1111' or name == 1111 :
+            flash('kaiqu OK!!')
+    return render_template('index.html', form = form, name = name )

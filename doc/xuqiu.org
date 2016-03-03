@@ -1,0 +1,14 @@
+* 2015-06-17
+** 梳理开区步骤
++ 删除domai_config 和lighttpd的配置,并且重新启动lighttpd ok
++ 打包分区，并且将区服务器移动到临时文件夹 OK
++ 在主合区服务器上执行wget  OK
++ 主服务器更改domai 
+  + 删除domai
+  + 设置开区
+  + 更改value
++ 主服务器上执行合区
++ 更改domai
+
+
+** 

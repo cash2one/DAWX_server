@@ -1,0 +1,54 @@
+Started 
+Process Process-2:
+Traceback (most recent call last):
+  File "/usr/lib64/python2.7/multiprocessing/process.py", line 258, in _bootstrap
+    self.run()
+  File "/usr/lib64/python2.7/multiprocessing/process.py", line 114, in run
+    self._target(*self._args, **self._kwargs)
+  File "libbase/csdaemon.py", line 120, in start
+    self.daemonize()
+  File "libbase/csdaemon.py", line 91, in daemonize
+    file(self.pidfile, 'w+').write("%s\n"% pid)
+IOError: [Errno 2] No such file or directory: "'/tmp/test2.pid'"
+Started 
+Process Process-2:
+Traceback (most recent call last):
+  File "/usr/lib64/python2.7/multiprocessing/process.py", line 258, in _bootstrap
+    self.run()
+  File "/usr/lib64/python2.7/multiprocessing/process.py", line 114, in run
+    self._target(*self._args, **self._kwargs)
+  File "libbase/csdaemon.py", line 120, in start
+    self.daemonize()
+  File "libbase/csdaemon.py", line 91, in daemonize
+    file(self.pidfile, 'w+').write("%s\n"% pid)
+IOError: [Errno 2] No such file or directory: "'/tmp/test2.pid'"
+Started 
+Process Process-2:
+Traceback (most recent call last):
+  File "/usr/lib64/python2.7/multiprocessing/process.py", line 258, in _bootstrap
+    self.run()
+  File "/usr/lib64/python2.7/multiprocessing/process.py", line 114, in run
+    self._target(*self._args, **self._kwargs)
+  File "libbase/csdaemon.py", line 120, in start
+    self.daemonize()
+  File "libbase/csdaemon.py", line 91, in daemonize
+    file(self.pidfile, 'w+').write("%s\n"% pid)
+IOError: [Errno 2] No such file or directory: "'/tmp/test2.pid'"
+Started 
+p2 startinh..... 0
+[Errno 111] Connection refused
+p2 startinh..... 1
+[Errno 111] Connection refused
+p2 startinh..... 2
+Started 
+p2 startinh..... 0
+[Errno 111] Connection refused
+p2 startinh..... 1
+[Errno 111] Connection refused
+p2 startinh..... 2
+[Errno 111] Connection refused
+p2 startinh..... 3
+[Errno 111] Connection refused
+p2 startinh..... 4
+Started 
+Started 

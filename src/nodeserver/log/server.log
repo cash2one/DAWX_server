@@ -1,0 +1,21 @@
+Started 
+[1;37m-- 2015-11-30 19:13:59,686  -- [INFO]  NDServer is starting[1;0m
+Process Process-1:
+Traceback (most recent call last):
+  File "/usr/lib64/python2.7/multiprocessing/process.py", line 258, in _bootstrap
+    self.run()
+  File "/usr/lib64/python2.7/multiprocessing/process.py", line 114, in run
+    self._target(*self._args, **self._kwargs)
+  File "commands/libbase/csdaemon.py", line 121, in start
+    self.run(*args, **kwargs)
+  File "NDSocketServer.py", line 111, in run
+    main()
+  File "NDSocketServer.py", line 120, in main
+    server = ThreadedTCPServer(addr,Servers)
+  File "/usr/lib64/python2.7/SocketServer.py", line 419, in __init__
+    self.server_bind()
+  File "/usr/lib64/python2.7/SocketServer.py", line 430, in server_bind
+    self.socket.bind(self.server_address)
+  File "/usr/lib64/python2.7/socket.py", line 224, in meth
+    return getattr(self._sock,name)(*args)
+error: [Errno 98] Address already in use

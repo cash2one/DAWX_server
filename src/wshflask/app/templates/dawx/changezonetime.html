@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %} 更改开区时间 {% endblock %}
+{% set astr="更改开区时间" %}
+
+
+
+{% block page_content  %}
+
+<div class="col-lg-6 col-lg-offset-3">
+  
+  <div class="bs-example bs-example-tabs" >
+    <div id="myTabContent" class="tab-content">
+		  <div role="tabpanel" class="tab-pane fade in active" id="home" aria-labelledBy="home-tab">
+		    <h1></h1>
+		    {{ wtf.quick_form(changezonetimeform) }}
+		  </div>
+    </div>
+  </div>
+
+  <hr>
+  <div>
+    <h3> NOTE: </h3>
+    <p> 第二次了别再写错了</p>
+  </div>
+
+</div>
+{% endblock %}

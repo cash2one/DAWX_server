@@ -1,0 +1,18 @@
+Started 
+[1;37m-- 2015-09-23 21:00:58,128  -- [INFO]  NDServer is starting[1;0m
+Traceback (most recent call last):
+  File "NDSocketServer.py", line 115, in <module>
+    daemon.start()
+  File "commands/libbase/csdaemon.py", line 121, in start
+    self.run(*args, **kwargs)
+  File "NDSocketServer.py", line 99, in run
+    main()
+  File "NDSocketServer.py", line 104, in main
+    server = ThreadedTCPServer(addr,Servers)
+  File "/usr/lib64/python2.7/SocketServer.py", line 419, in __init__
+    self.server_bind()
+  File "/usr/lib64/python2.7/SocketServer.py", line 430, in server_bind
+    self.socket.bind(self.server_address)
+  File "/usr/lib64/python2.7/socket.py", line 224, in meth
+    return getattr(self._sock,name)(*args)
+socket.error: [Errno 13] Permission denied

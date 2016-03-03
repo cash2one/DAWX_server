@@ -1,0 +1,75 @@
+# lighttpd configuration file
+
+#server.max-worker = 0
+server.max-fds = 10240
+server.max-keep-alive-requests = 0
+server.event-handler = "linux-sysepoll"
+server.network-backend = "linux-sendfile"
+
+server.modules = (
+  "mod_cgi",
+  "mod_fastcgi",
+  "mod_accesslog",
+  "mod_expire",
+  "mod_access",
+  "mod_compress",
+  "mod_rewrite"
+)
+
+server.document-root = "/data/release/sgonline/webroot/"
+## bind to port (default: 80)
+
+server.errorlog = "/data/lighttpd_logs/error.log"
+accesslog.filename = "/data/lighttpd_logs/access.log"
+
+server.core-files = "enable"
+server.tag = "apache/0.00001"
+
+index-file.names = ( "index.php", "index.html" )
+
+# mimetype mapping
+mimetype.assign = (
+  ".gz"           => "application/x-gzip",
+  ".swf"          => "application/x-shockwave-flash",
+  ".tar.gz"       => "application/x-tgz",
+  ".tgz"          => "application/x-tgz",
+  ".tar"          => "application/x-tar",
+  ".zip"          => "application/zip",
+  ".mp3"          => "audio/mpeg",
+  ".m3u"          => "audio/x-mpegurl",
+  ".wma"          => "audio/x-ms-wma",
+  ".wax"          => "audio/x-ms-wax",
+  ".wav"          => "audio/x-wav",
+  ".gif"          => "image/gif",
+  ".jpg"          => "image/jpeg",
+  ".jpeg"         => "image/jpeg",
+  ".png"          => "image/png",
+  ".css"          => "text/css",
+  ".html"         => "text/html",
+  ".htm"          => "text/html",
+  ".js"           => "text/javascript",
+  ".text"         => "text/plain",
+  ".txt"          => "text/plain",
+  ".dtd"          => "text/xml",
+  ".xml"          => "text/xml",
+  ".mpeg"         => "video/mpeg",
+  ".mpg"          => "video/mpeg",
+  ".avi"          => "video/x-msvideo",
+  ".wmv"          => "video/x-ms-wmv",
+  ".bz2"          => "application/x-bzip",
+  ".tbz"          => "application/x-bzip-compressed-tar",
+  ".tar.bz2"      => "application/x-bzip-compressed-tar"
+)
+
+static-file.exclude-extensions = ( ".fcgi", ".php", ".cgi", ".pl" )
+cgi.assign = (
+".pl" => "/usr/bin/perl",
+".php" => "/usr/bin/php-cgi"
+)
+
+
+include "host.conf"
+include "cgi.conf"
+
+
+

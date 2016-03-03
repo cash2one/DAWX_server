@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block title %} CPU_info {% endblock  %}
+
+
+
+
+{% block page_content %}
+
+	
+    <select class="multiselect"  multiple="multiple">
+      <option value="cheese">Cheese</option>
+      <option value="tomatoes">Tomatoes</option>
+      <option value="mozarella">Mozzarella</option>
+      <option value="mushrooms">Mushrooms</option>
+      <option value="pepperoni">Pepperoni</option>
+      <option value="onions">Onions</option>
+    </select>
+
+
+	
+
+      <hr>
+    <div class="row">
+      <div class="form-inline  text-center" >
+
+        <!-- 这个用作选择框-->
+        <div    class="form-group">
+          <lable>请选择查看的时间线:</lable>
+          <input name="mycheckbox" type="radio" value="0" checked="checked" > today
+          <input name="mycheckbox" type="radio" value="1"> Yesterday
+          <input name="mycheckbox" type="radio" value="6"> 7days
+          <input name="mycheckbox" type="radio" value="29"> 30days
+        </div>
+        <!-- 选择框结束 -->
+
+        <div class="form-group" >
+          <label>&nbsp;&nbsp;请选择时间间隔:</label>
+          <!-- 下拉框用于选择时间间隔 -->
+          <select id="myoption" >
+            <option value="1"> 1天</option>
+            <option value="7"> 7天</option>
+            <option value="30"> 30天</option>
+          </select>
+        </div>
+        <!-- 下拉框结束 -->
+
+        <!-- 提交按钮 -->
+        <button onclick="dawxgraphcreate()" class="btn btn-default">提交</button>
+        <!-- 提交按钮结束 -->
+      </div>
+    </div>
+    <hr >
+
+
+
+
+
+
+<hr />
+<div id="test" class='col-lg-12' style="height:400px"></div>
+
+
+</div>
+
+{% endblock %}
+
+ {% block scripts %}
+  {{ super() }}
+
+<script src="{{ url_for('static', filename='js/wshtest.js') }}"></script>
+
+
+<script type="text/javascript">
+
+
+  var namevalue = 10137; //V10_web
+  var applicationvalue = 3094; //application: web
+  // getitemlist(namevalue,applicationvalue);
+
+
+  $(document).ready(function() {
+    $('#multiselect').multiselect();
+  });
+
+
+
+function dawxgraphcreate()
+{
+    drawgraphinit();
+    var titlename = $("#item").children('option:selected').text();
+    var itemvalue = $("#item").children('option:selected').val();
+    var time_eval = [];
+    $("[name='mycheckbox']").each(function(){
+        if (true == $(this).prop("checked")) {
+            time_eval.push($(this).prop('value'));
+        }
+  });
+    alert(time_eval[0]);
+    var days_eval =$("#myoption").children('option:selected').val();
+    gethistorylist_item(itemvalue,titlename,1,1);
+}
+
+
+</script>
+	  {% endblock %}

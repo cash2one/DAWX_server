@@ -1,0 +1,52 @@
+#!/bin/env python
+#coding=utf-8
+
+import CSsqliteconsole
+
+
+def dataanalyse(data):
+    
+    alist = data.split()
+    if not alist:
+        return [False, ""]
+    handlecmd = alist[0]
+    
+    if handlecmd == 'findbydb':
+        handledb = alist[1]
+        res = CSsqliteconsole.findbydb(handledb)
+        print res
+        return res
+    elif handlecmd == 'update':
+        # 目前仅仅支持根据db 修改value
+        handledb = alist[1]
+        handlevalue = alist[2]
+        return CSsqliteconsole.update([(handlevalue,handledb)])
+    elif handlecmd == 'add':
+        handledata = alist[1]
+        listitems = []
+        for i in handledata.split('|'):
+            alist = i.split(',')
+            if len(alist) != 5:
+                return False
+            alist[2] = int(alist[2])
+            alist[3] = int(alist[3])
+            listitems.append(tuple(alist))
+        return CSsqliteconsole.add(listitems)
+    
+    elif handlecmd == 'delete':
+        handledb = alist[1]
+        return CSsqliteconsole.deletebydb(handledb)
+    elif handlecmd == ''
+    else:
+        return [False , "You should input right command!!"]
+    
+            
+if __name__ == '__main__':
+    #data ='findbydb 215'
+    #data = 'add [("hello"","world"),("nihao")]'
+    #data = 'delete 217'
+    data = 'add 192.168.100.1,3.xxt.cn,218,218,1|192.168.100.1,4.xxt.cn,219,219,1'
+    #data = 'add 192.168.100.1,3.xxt.cn,218,218,1'
+    dataanalyse(data)
+
+    

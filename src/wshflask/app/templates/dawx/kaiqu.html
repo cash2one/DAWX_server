@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %} 开区/合区 {% endblock %}
+{% set astr="开区" %}
+
+
+
+{% block page_content  %}
+
+<div class="col-lg-6 col-lg-offset-3">
+  
+  <div class="bs-example bs-example-tabs" >
+    <div id="myTabContent" class="tab-content">
+		  <div role="tabpanel" class="tab-pane fade in active" id="home" aria-labelledBy="home-tab">
+		    <h1></h1>
+		    {{ wtf.quick_form(kaiquform) }}
+		  </div>
+    </div>
+  </div>
+
+  <hr>
+  <div>
+    <h3> NOTE: </h3>
+    <p> 1. <mark>游戏区号</mark>输入框内默认为<mark>目前要开</mark>的区。请再三确认一下。</p>
+    <p> 2. <mark>开区时间</mark> 格式为"<mark>YYYYDDMM</mark>"，其余格式不予支持。</p>
+  </div>
+
+</div>
+{% endblock %}
+
+

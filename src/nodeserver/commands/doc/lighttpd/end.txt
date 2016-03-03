@@ -1,0 +1,348 @@
+fastcgi.server = (
+    "/cgi/login" =>
+    (
+        "pi.login.handler" =>
+        (
+            "socket" => "/tmp/pi_sgonline_login.socket",
+            "check-local" => "disable",
+            "bin-path" => "/data/release/sgonline/pi/cgi/CgiLogin",
+            "idle-timeout" => 10,
+	"kill-signal" => 64,
+            "min-procs" => 1,
+            "max-procs" => 20 
+        )
+    ),
+    "/cgi/activity"=>
+    (
+        "pi.activity.handler" =>
+        (
+            "socket" => "/tmp/pi_sgonline_activity.socket",
+            "check-local" => "disable",
+            "bin-path" => "/data/release/sgonline/pi/cgi/CgiActivity",
+            "idle-timeout" => 10,
+	"kill-signal" => 64,
+            "min-procs" => 1,
+            "max-procs" => 50
+        )
+    ),
+    "/cgi/world"=>
+    (
+        "pi.world.handler" =>
+        (
+            "socket" => "/tmp/pi_sgonline_world.socket",
+            "check-local" => "disable",
+            "bin-path" => "/data/release/sgonline/pi/cgi/CgiWorld",
+            "idle-timeout" => 10,
+	"kill-signal" => 64,
+            "min-procs" => 1,
+            "max-procs" => 10
+        )
+    ),
+    "/cgi/getbase" =>
+    (
+        "pi.getbase.handler" =>
+        (
+            "socket" => "/tmp/pi_sgonline_getbase.socket",
+            "check-local" => "disable",
+            "bin-path" => "/data/release/sgonline/pi/cgi/CgiLoad",
+            "idle-timeout" => 10,
+	"kill-signal" => 64,
+            "min-procs" => 1,
+            "max-procs" => 50
+        )
+    ),
+    "/cgi/setbase" =>
+    (
+        "pi.setbase.handler" =>
+        (
+            "socket" => "/tmp/pi_sgonline_setbase.socket",
+            "check-local" => "disable",
+            "bin-path" => "/data/release/sgonline/pi/cgi/CgiSave",
+            "idle-timeout" => 10,
+	"kill-signal" => 64,
+            "min-procs" => 1,
+            "max-procs" => 180
+        )
+    ),
+    "/cgi/refresh" =>
+    (
+        "pi.refresh.handler" =>
+        (
+            "socket" => "/tmp/pi_sgonline_refresh.socket",
+            "check-local" => "disable",
+            "bin-path" => "/data/release/sgonline/pi/cgi/CgiUpdateSave",
+            "idle-timeout" => 10,
+	"kill-signal" => 64,
+            "min-procs" => 1,
+            "max-procs" => 100
+        )
+    ),
+    "/cgi/friend_push"=>
+    (
+        "pi.friend_push.handler" =>
+        (
+            "socket" => "/tmp/pi_sgonline_friend_push.socket",
+            "check-local" => "disable",
+            "bin-path" => "/data/release/sgonline/pi/cgi/CgiNomenateFriend",
+            "idle-timeout" => 10,
+	"kill-signal" => 64,
+            "min-procs" => 1,
+            "max-procs" => 10
+        )
+    ),
+    "/cgi/friend" =>
+    (
+        "pi_friend.handler" =>
+        (
+            "socket" => "/tmp/pi_sgonline_friend.socket",
+            "check-local" => "disable",
+            "bin-path" => "/data/release/sgonline/pi/cgi/CgiFriend",
+            "idle-timeout" => 10,
+	"kill-signal" => 64,
+            "min-procs" => 1,
+            "max-procs" => 10
+        )
+    ),
+    "/cgi/gate" =>
+    (
+        "pi_sgonlinegate.handler" =>
+        (
+            "socket" => "/tmp/pi_sgonline_gate.socket",
+            "check-local" => "disable",
+            "bin-path" => "/data/release/sgonline/pi/cgi/CgiGate",
+            "idle-timeout" => 10,
+	"kill-signal" => 64,
+            "min-procs" => 1,
+            "max-procs" => 10
+        )
+    ),
+    "/cgi/updates" =>
+    (
+        "pi_updates.handler" =>
+        (
+            "socket" => "/tmp/pi_sgonline_updates.socket",
+            "check-local" => "disable",
+            "bin-path" => "/data/release/sgonline/pi/cgi/CgiUpdates",
+            "idle-timeout" => 10,
+	"kill-signal" => 64,
+            "min-procs" => 1,
+            "max-procs" => 10
+        )
+    ),
+    "/cgi/neighbour" =>
+    (
+        "pi_neighbour.handler" =>
+        (
+            "socket" => "/tmp/pi_sgonline_neighbour.socket",
+            "check-local" => "disable",
+            "bin-path" => "/data/release/sgonline/pi/cgi/CgiNeighbour",
+            "idle-timeout" => 10,
+	"kill-signal" => 64,
+            "min-procs" => 1,
+            "max-procs" => 10
+        )
+    ),
+    "/cgi/attack" =>
+    (
+        "pi.attack.handler" =>
+        (
+            "socket" => "/tmp/pi_sgonline_attack.socket",
+            "check-local" => "disable",
+            "bin-path" => "/data/release/sgonline/pi/cgi/CgiAttack",
+            "idle-timeout" => 10,
+	"kill-signal" => 64,
+            "min-procs" => 1,
+            "max-procs" => 10
+        )
+    ),
+	"/cgi/newmatch"=>
+	(
+		"pi.newmatch.handler" =>
+		(
+		"socket" => "/tmp/pi_sgonline_newmatch.socket",
+		"check-local" => "disable",
+		"bin-path" => "/data/release/sgonline/pi/cgi/CgiNewMatch",
+		"idle-timeout" => 10,
+		"kill-signal" => 64,
+		"min-procs" => 1,
+		"max-procs" => 1
+		)
+	),
+    "/cgi/message" =>
+    (
+        "pi.message.handler" =>
+        (
+            "socket" => "/tmp/pi_sgonline_message.socket",
+            "check-local" => "disable",
+            "bin-path" => "/data/release/sgonline/pi/cgi/CgiMessage",
+            "idle-timeout" => 10,
+	"kill-signal" => 64,
+            "min-procs" => 1,
+            "max-procs" => 5
+        )
+    ),
+    "/cgi/alliance" =>
+    (
+        "pi.alliance.handler" =>
+        (
+            "socket" => "/tmp/pi_sgonline_alliance.socket",
+            "check-local" => "disable",
+            "bin-path" => "/data/release/sgonline/pi/cgi/CgiAlliance",
+            "idle-timeout" => 10,
+	"kill-signal" => 64,
+            "min-procs" => 1,
+            "max-procs" => 5
+        )
+    ),
+    "/cgi/upload" =>
+    (
+        "pi.upload.handler" =>
+        (
+            "socket" => "/tmp/pi_sgonline_upload.socket",
+            "check-local" => "disable",
+            "bin-path" => "/data/release/sgonline/pi/cgi/CgiUpload",
+            "idle-timeout" => 10,
+	"kill-signal" => 64,
+            "min-procs" => 1,
+            "max-procs" => 5
+        )
+    ),
+    "/cgi/nonlogin" =>
+    (
+        "pi.nonlogin.handler" =>
+        (
+            "socket" => "/tmp/pi_sgonline_nonlogin.socket",
+            "check-local" => "disable",
+            "bin-path" => "/data/release/sgonline/pi/cgi/CgiNonLogin",
+            "idle-timeout" => 10,
+	"kill-signal" => 64,
+            "min-procs" => 1,
+            "max-procs" => 5
+        )
+    ),
+   "/cgi/qqreport" =>
+    (
+        "qqreport.fcgi.handler" =>
+        (
+            "socket" => "/tmp/sg_qqreport-fcgi.socket",
+            "check-local" => "disable",
+            "bin-path" => "/data/release/sgonline/pi/cgi/CgiQQReport",
+            "idle-timeout" => 10,
+	"kill-signal" => 64,
+            "min-procs" => 1,
+            "max-procs" => 10
+        )
+    ),
+    "/cgi/qqpay" =>
+    (
+        "qqpay.fcgi.handler" =>
+        (
+            "socket" => "/tmp/pi_sgonline_qqpay-fcgi.socket",
+            "check-local" => "disable",
+            "bin-path" => "/data/release/sgonline/pi/cgi/CgiQQPay",
+            "idle-timeout" => 10,
+	"kill-signal" => 64,
+            "min-procs" => 1, 
+            "max-procs" => 10
+        ) 
+    ),
+    "/cgi/admin" =>
+    (
+        "pi.admin.handler" =>
+        (
+            "socket" => "/tmp/pi_sgonline_admin.socket",
+            "check-local" => "disable",
+            "bin-path" => "/data/release/sgonline/pi/cgi/CgiAdmin",
+            "idle-timeout" => 10,
+	"kill-signal" => 64,
+            "min-procs" => 1,
+            "max-procs" => 1
+        )
+    ),
+    "/cgi/email" =>
+    (
+        "pi.email.handler" =>
+        (
+            "socket" => "/tmp/pi_sgonline_email.socket",
+            "check-local" => "disable",
+            "bin-path" => "/data/release/sgonline/pi/cgi/CgiEmail",
+            "idle-timeout" => 10,
+	"kill-signal" => 64,
+            "min-procs" => 1,
+            "max-procs" => 5
+        )
+    ),
+    "/cgi-bin/sgqhPostReport.cgi" =>
+    (
+        "pi.sgqhPostReport.handler" =>
+        (
+            "socket" => "/tmp/pi_sgqhPostReport.socket",
+            "check-local" => "disable",
+            "bin-path" => "/data/release/sgonline/pi/cgi/CgiPostReport",
+            "idle-timeout" => 10,
+	"kill-signal" => 64,
+            "min-procs" => 1,
+            "max-procs" => 10
+        )
+    ),
+    "/cgi/getregisterts" =>
+    (
+        "pi.getregisterts.handler" =>
+        (
+            "socket" => "/tmp/pi_getregisterts.socket",
+            "check-local" => "disable",
+            "bin-path" => "/data/release/sgonline/pi/cgi/CgiGetRegisterTime",
+            "idle-timeout" => 10,
+	"kill-signal" => 64,
+            "min-procs" => 1,
+            "max-procs" => 10
+        )
+    ),
+    "/cgi/newworldbattle"=>
+    (
+        "pi.newworldbattle.handler" =>
+        (
+            "socket" => "/tmp/pi_sgonline_new_world_battle.socket",
+            "check-local" => "disable",
+            "bin-path" => "/data/release/sgonline/pi/cgi/CgiNewWorldBattle",
+            "idle-timeout" => 10,
+	"kill-signal" => 64,
+            "min-procs" => 1,
+            "max-procs" => 10
+        )
+    ),
+    "/cgi/newworld"=>
+    (
+        "pi.newworld.handler" =>
+        (
+            "socket" => "/tmp/pi_ten_srv_newworld.socket",
+            "check-local" => "disable",
+            "bin-path" => "/data/release/sgonline/pi/cgi/CgiNewWorld",
+            "idle-timeout" => 10,
+	"kill-signal" => 64,
+            "min-procs" => 1,
+            "max-procs" => 50
+        )
+    ),
+    "/cgi/usergift"=>
+    (
+       "pi.usergift.handler" =>
+        (
+            "socket" => "/tmp/pi_ten_srv_usergift.socket",
+            "check-local" => "disable",
+            "bin-path" => "/data/release/sgonline/pi/cgi/CgiUserGift",
+            "idle-timeout" => 10,
+	"kill-signal" => 64,
+            "min-procs" => 1,
+            "max-procs" => 10
+        )
+    )
+)
+
+expire.url = (
+"/images/" => "access 1 months",
+"/scripts/" => "access 1 months",
+"/img/" => "access 1 months",
+"/js/" => "access 1 months",
+"/css/" => "access 1 months"
+)

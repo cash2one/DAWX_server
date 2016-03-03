@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %} 开区/合区 {% endblock %}
+{% set astr="合区" %}
+
+
+
+{% block page_content  %}
+
+<div class="col-lg-6 col-lg-offset-3">
+  
+ <div class="bs-example bs-example-tabs" >
+    <div id="myTabContent" class="tab-content">
+		  <div role="tabpanel" class="tab-pane fade in active" id="home" aria-labelledBy="home-tab">
+		    <h1></h1>
+		      {{ wtf.quick_form(hequform) }}
+		  </div>
+    </div>
+  </div>
+
+
+ <br>
+  <hr>
+  <div>
+    <h3> NOTE: </h3>
+    <p> 1. <mark>合区游戏列表</mark>为游戏区号，以空格为分割，作为<mark>value</mark>的区在第一个。请再三确认一下。</p>
+    <p> 2. 注意跨服服务器的所在的区号。非常主要！非常重要！非常重要！ 千万不要合了。。。<mark> 1、125、450</mark></p>
+  </div>
+{% endblock %}
+
+

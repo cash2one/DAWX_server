@@ -1,0 +1,120 @@
+Started 
+send >................................
+[1;37m-- 2015-11-19 16:02:34,238  -- [INFO]  CSServer  Check OK[1;0m
+send >................................
+[1;37m-- 2015-11-19 16:02:34,239  -- [INFO]  CSServer starts[1;0m
+send >................................
+[1;37m-- 2015-11-19 16:03:03,054  -- [INFO]  ('got connection from ', ('127.0.0.1', 48104))[1;0m
+send >................................
+[1;37m-- 2015-11-19 16:03:08,238  -- [INFO]  PassWord check OK![1;0m
+send >................................
+[1;33m-- 2015-11-19 16:03:11,590  -- [WARNING]  receive command: ÿôÿý [1;0m
+send >................................
+[1;31m-- 2015-11-19 16:03:11,590  -- [ERROR]  command EXEC FAILED[1;0m
+[1;32m-- 2015-11-19 16:03:11,591  -- [DEBUG]  send result: command error, You should input right command!! [1;0m
+Started 
+send >................................
+[1;37m-- 2015-11-19 16:08:43,734  -- [INFO]  CSServer  Check OK[1;0m
+send >................................
+[1;37m-- 2015-11-19 16:08:43,735  -- [INFO]  CSServer starts[1;0m
+send >................................
+[1;37m-- 2015-11-19 16:09:25,401  -- [INFO]  ('got connection from ', ('127.0.0.1', 48301))[1;0m
+[1;32m-- 2015-11-19 16:09:36,865  -- [DEBUG]  CSserver md5 : 52b16f24201d67850f862ddf2bcc688d[1;0m
+[1;32m-- 2015-11-19 16:09:36,865  -- [DEBUG]  Client CSserver: sda[1;0m
+send >................................
+[1;31m-- 2015-11-19 16:09:36,865  -- [ERROR]  PassWord refused[1;0m
+send >................................
+[1;37m-- 2015-11-19 16:09:37,871  -- [INFO]  ('got connection from ', ('127.0.0.1', 48302))[1;0m
+send >................................
+[1;37m-- 2015-11-19 16:09:52,011  -- [INFO]  PassWord check OK![1;0m
+send >................................
+[1;33m-- 2015-11-19 16:10:00,548  -- [WARNING]  receive command: findbydb 123 [1;0m
+['123']
+[1;32m-- 2015-11-19 16:10:00,548  -- [DEBUG]  EXEC SQL: select server.name,server.ip,domain.value,domain.domainname,domain.iswork from domain,server where domain.ip = server.ip and domain.dbnum =? 
+		 AND ARGV: 123[1;0m
+send >................................
+[1;37m-- 2015-11-19 16:10:00,548  -- [INFO]  command EXEC OK[1;0m
+[1;32m-- 2015-11-19 16:10:00,548  -- [DEBUG]  send result: [('web4', '10.221.48.77', '115', 's133.app1101376335.qqopenapp.com', '1')][1;0m
+Started 
+send >................................
+[1;37m-- 2015-11-19 16:22:50,119  -- [INFO]  CSServer  Check OK[1;0m
+send >................................
+[1;37m-- 2015-11-19 16:22:50,119  -- [INFO]  CSServer starts[1;0m
+Started 
+p2 startinh..... 0
+Started 
+p2 startinh..... 0
+Started 
+send >................................
+[1;37m-- 2015-11-19 16:24:08,668  -- [INFO]  CSServer  Check OK[1;0m
+send >................................
+[1;37m-- 2015-11-19 16:24:08,669  -- [INFO]  CSServer starts[1;0m
+[Errno 111] Connection refused
+p2 startinh..... 1
+[Errno 111] Connection refused
+p2 startinh..... 2
+send >................................
+[1;37m-- 2015-11-19 16:24:32,722  -- [INFO]  ('got connection from ', ('127.0.0.1', 48339))[1;0m
+[Errno 111] Connection refused
+p2 startinh..... 3
+[1;32m-- 2015-11-19 16:24:44,022  -- [DEBUG]  CSserver md5 : 52b16f24201d67850f862ddf2bcc688d[1;0m
+[1;32m-- 2015-11-19 16:24:44,022  -- [DEBUG]  Client CSserver: sda[1;0m
+send >................................
+[1;31m-- 2015-11-19 16:24:44,022  -- [ERROR]  PassWord refused[1;0m
+[Errno 111] Connection refused
+p2 startinh..... 4
+send >................................
+[1;37m-- 2015-11-19 16:24:56,632  -- [INFO]  ('got connection from ', ('127.0.0.1', 48342))[1;0m
+[Errno 111] Connection refused
+p2 startinh..... 5
+Started 
+p2 startinh..... 0
+Started 
+send >................................
+[1;37m-- 2015-11-19 16:27:19,088  -- [INFO]  CSServer  Check OK[1;0m
+send >................................
+[1;37m-- 2015-11-19 16:27:19,089  -- [INFO]  CSServer starts[1;0m
+Process Process-1:
+Traceback (most recent call last):
+  File "/usr/lib64/python2.7/multiprocessing/process.py", line 258, in _bootstrap
+    self.run()
+  File "/usr/lib64/python2.7/multiprocessing/process.py", line 114, in run
+    self._target(*self._args, **self._kwargs)
+  File "libbase/csdaemon.py", line 121, in start
+    self.run(*args, **kwargs)
+  File "CSSocketServer.py", line 101, in run
+    main()
+  File "CSSocketServer.py", line 114, in main
+    server = ThreadedTCPServer(addr,Servers)
+  File "/usr/lib64/python2.7/SocketServer.py", line 419, in __init__
+    self.server_bind()
+  File "/usr/lib64/python2.7/SocketServer.py", line 430, in server_bind
+    self.socket.bind(self.server_address)
+  File "/usr/lib64/python2.7/socket.py", line 224, in meth
+    return getattr(self._sock,name)(*args)
+error: [Errno 98] Address already in use
+[Errno 111] Connection refused
+p2 startinh..... 1
+[Errno 111] Connection refused
+p2 startinh..... 2
+Started 
+p2 startinh..... 0
+Started 
+[Errno 111] Connection refused
+p2 startinh..... 1
+send >................................
+[1;37m-- 2015-11-19 16:29:08,248  -- [INFO]  CSServer  Check OK[1;0m
+send >................................
+[1;37m-- 2015-11-19 16:29:08,249  -- [INFO]  CSServer starts[1;0m
+[Errno 111] Connection refused
+p2 startinh..... 2
+send >................................
+[1;37m-- 2015-11-19 16:29:24,336  -- [INFO]  ('got connection from ', ('127.0.0.1', 48356))[1;0m
+[Errno 111] Connection refused
+p2 startinh..... 3
+[1;32m-- 2015-11-19 16:32:55,012  -- [DEBUG]  CSserver md5 : 52b16f24201d67850f862ddf2bcc688d[1;0m
+[1;32m-- 2015-11-19 16:32:55,012  -- [DEBUG]  Client CSserver: ÿôÿý[1;0m
+send >................................
+[1;31m-- 2015-11-19 16:32:55,012  -- [ERROR]  PassWord refused[1;0m
+[Errno 111] Connection refused
+p2 startinh..... 4

@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% set astr="游戏总人数" %}
+{% block title %} CPU_info {% endblock  %}
+
+
+
+{% block page_content %}
+
+<div class="col-lg-12">
+  <div class="nav navbar ">
+
+    <hr>
+    <div class="row">
+      <div class="form-inline  text-center" >
+
+        <!-- 这个用作选择框-->
+        <div    class="form-group">
+          <lable>请选择查看的时间线:</lable>
+          <input name="mycheckbox" type="checkbox" value="0"> today
+          <input name="mycheckbox" type="checkbox" value="1"> Yesterday
+          <input name="mycheckbox" type="checkbox" value="6"> 7days
+          <input name="mycheckbox" type="checkbox" value="29"> 30days
+        </div>
+        <!-- 选择框结束 -->
+
+        <div class="form-group" >
+          <label>&nbsp;&nbsp;请选择时间间隔:</label>
+          <!-- 下拉框用于选择时间间隔 -->
+          <select id="myoption" >
+            <option value="1"> 1天</option>
+            <option value="7"> 7天</option>
+            <option value="30"> 30天</option>
+          </select>
+        </div>
+        <!-- 下拉框结束 -->
+
+        <!-- 提交按钮 -->
+        <button onclick="dawxgraphcreate()" class="btn btn-default">提交</button>
+        <!-- 提交按钮结束 -->
+      </div>
+    </div>
+    <hr >
+
+
+
+    <hr />
+    <div id="test" class='col-lg-12' style="height:400px"></div>
+</div>
+
+{% endblock %}
+
+ {% block scripts %}
+  {{ super() }}
+
+<script src="{{ url_for('static', filename='js/wshtest.js') }}"></script>
+
+
+<script type="text/javascript">
+
+function dawxgraphcreate()
+{
+    drawgraphinit();
+
+    var titlename = '游戏总人数';
+    var itemvalue = 49650;
+    var days_eval =$("#myoption").children('option:selected').val();
+    var time_eval = [];
+    $("[name='mycheckbox']").each(function(){
+        if (true == $(this).prop("checked")) {
+            time_eval.push($(this).prop('value'));
+        }
+    });
+
+
+    gethistorylist(itemvalue,titlename,time_eval,days_eval);
+}
+
+
+</script>
+	  {% endblock %}
+

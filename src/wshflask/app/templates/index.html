@@ -1,0 +1,83 @@
+{% extends "base.html"  %}
+
+{% block title %} Index {% endblock %}
+
+{% block page_content  %}
+
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><a href= {{url_for('dawx.index') }}>业务自动化</a></h3>
+      </div>
+      <div class="panel-body ">
+        <table class="table">
+          <tbody>
+            <tr>
+              <td ><a href= {{ url_for('dawx.kaiqu') }} >开区</a></td>
+              <td><a href= {{ url_for('dawx.hequ')}}>合区</a></td>
+            </tr>
+            <tr>
+              <td><a href= {{ url_for('dawx.changezonetime') }}>更改开区时间</a></td>
+              <td><a href= {{ url_for('dawx.mvzone') }}>迁区</a></td>
+             </tr>
+            <tr>
+              <td><a href= {{ url_for('dawx.dnsbind') }}>域名绑定/解绑</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><a href={{ url_for('sginfo.index')}} >服务器数据查看</a></h3>
+      </div>
+      <div class="panel-body"> 
+        <table class="table">
+          <tbody>
+            <tr>
+              <td ><a href={{ url_for('sginfo.dbnuminfo')}} />游戏区服分布</a></td>
+              <td><a href={{ url_for('sginfo.serverinfo')}} >服务器对应关系</a></td>
+            </tr>
+          </tbody>
+        </table>       
+      </div>
+</div>
+
+
+
+<div class="panel panel-default ">
+  <div class="panel-heading"><a href={{url_for('dawxinfo.index')}}>业务数据查看</a></div>
+  <div class="panel-body ">
+    <table class="table">
+      <tbody>
+        <tr>
+          <td ><a href={{ url_for('dawxinfo.allusernum') }}>游戏总人数</a></td>
+          <td><a href={{ url_for('dawxinfo.oneusernum') }}>每个区的人数查看</a></td>
+        </tr>
+        <tr>
+          <td><a href= {{ url_for('dawxinfo.valuenum') }}>合并后大区的人数</a></td>
+          <td><a href= {{ url_for('dawx.mvzone') }}>更改开区时间</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><a href={{ url_for('chat.index')}} >消息中心</a></h3>
+      </div>
+      <div class="panel-body"> 
+        <table class="table">
+          <tbody>
+            <tr>
+              <td ><a href={{ url_for('chat.message')}} />服务器实时消息</a></td>
+            </tr>
+          </tbody>
+        </table>       
+      </div>
+    </div>
+
+
+{% endblock %}

@@ -1,0 +1,4 @@
+cd socket
+python CSSocketServer.py debug/start/restart/stop 
+cd nodeserver
+python NDSocketServer.py debug/start/restart/stop 

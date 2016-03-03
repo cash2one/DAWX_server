@@ -1,0 +1,38 @@
+{% extends "base.html"  %}
+{% block title %} 游戏区服列表 {% endblock %}
+{set attr="游戏区赋" %}
+
+{% block page_content %}
+<div class="col-lg-9 col-lg-offset-1">
+  <div class="table-responsive">
+    <table class="table table-hover">
+      <caption> DBNUM-VALUE </caption>
+      <thead>
+        <tr>
+          <th> MIN(dbnum)</th>
+          <th> MAX(dbnum)</th>
+          <th> WEB_NAME </th>
+          <th> WEB_IP </th>
+          <th> DBC_NAME </th>
+          <th> DBC_IP </th>
+          <th> DB_NAME </th>
+          <th> DB_IP </th>
+        </tr>
+      </thead>
+      {%   for key in alist %}
+      <tr>
+        <td> {{ key[0] }} </td>
+        <td> {{ key[1] }} </td>
+        <td> {{ key[2] }} </td>
+        <td> {{ key[3] }} </td>
+        <td> {{ key[4] }} </td>
+        <td> {{ key[5] }} </td>
+        <td> {{ key[6] }} </td>
+        <td> {{ key[7] }} </td>
+      </tr>
+      {% endfor  %}
+    </table>
+  </div>
+</div>
+
+{% endblock  %}

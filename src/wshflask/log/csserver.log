@@ -1,0 +1,61 @@
+-- 2015-11-27 16:33:03,108  -- [INFO]   * Detected change in '/home/huihui/work/server/wshflask/manage.py', reloading
+-- 2016-01-26 16:21:28,196  -- [ERROR]  Connect  CSSERVER ERROR 
+-- 2016-01-26 16:21:28,237  -- [INFO]  192.168.100.92 - - [26/Jan/2016 16:21:28] "GET /sginfo/dbnuminfo.html HTTP/1.1" 500 -
+-- 2016-01-26 16:21:28,309  -- [INFO]  192.168.100.92 - - [26/Jan/2016 16:21:28] "GET /sginfo/dbnuminfo.html?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+-- 2016-01-26 16:21:28,340  -- [INFO]  192.168.100.92 - - [26/Jan/2016 16:21:28] "GET /sginfo/dbnuminfo.html?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1" 200 -
+-- 2016-01-26 16:21:28,342  -- [INFO]  192.168.100.92 - - [26/Jan/2016 16:21:28] "GET /sginfo/dbnuminfo.html?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+-- 2016-01-26 16:21:28,349  -- [INFO]  192.168.100.92 - - [26/Jan/2016 16:21:28] "GET /sginfo/dbnuminfo.html?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+-- 2016-01-26 16:21:28,395  -- [INFO]  192.168.100.92 - - [26/Jan/2016 16:21:28] "GET /sginfo/dbnuminfo.html?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 -
+-- 2016-01-26 16:21:28,435  -- [INFO]  192.168.100.92 - - [26/Jan/2016 16:21:28] "GET /sginfo/dbnuminfo.html?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+-- 2016-01-26 16:21:28,455  -- [INFO]  192.168.100.92 - - [26/Jan/2016 16:21:28] "GET /sginfo/dbnuminfo.html?__debugger__=yes&cmd=resource&f=source.png HTTP/1.1" 200 -
+-- 2016-01-26 16:26:36,925  -- [INFO]   * Detected change in '/home/huihui/work/server/wshflask/app/run/libbase/dbnuminfo.py', reloading
+-- 2016-01-26 16:27:07,370  -- [ERROR]  Connect  CSSERVER ERROR 
+-- 2016-01-26 16:27:07,376  -- [INFO]  192.168.100.92 - - [26/Jan/2016 16:27:07] "GET /sginfo/dbnuminfo.html HTTP/1.1" 500 -
+-- 2016-01-26 16:27:07,405  -- [INFO]  192.168.100.92 - - [26/Jan/2016 16:27:07] "GET /sginfo/dbnuminfo.html?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+-- 2016-01-26 16:27:07,406  -- [INFO]  192.168.100.92 - - [26/Jan/2016 16:27:07] "GET /sginfo/dbnuminfo.html?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1" 200 -
+-- 2016-01-26 16:27:07,408  -- [INFO]  192.168.100.92 - - [26/Jan/2016 16:27:07] "GET /sginfo/dbnuminfo.html?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+-- 2016-01-26 16:27:07,429  -- [INFO]  192.168.100.92 - - [26/Jan/2016 16:27:07] "GET /sginfo/dbnuminfo.html?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+-- 2016-01-26 16:27:07,473  -- [INFO]  192.168.100.92 - - [26/Jan/2016 16:27:07] "GET /sginfo/dbnuminfo.html?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+-- 2016-01-26 16:27:07,477  -- [INFO]  192.168.100.92 - - [26/Jan/2016 16:27:07] "GET /sginfo/dbnuminfo.html?__debugger__=yes&cmd=resource&f=source.png HTTP/1.1" 200 -
+-- 2016-01-26 16:27:23,225  -- [ERROR]  Connect  CSSERVER ERROR 
+-- 2016-01-26 16:27:23,230  -- [INFO]  192.168.100.92 - - [26/Jan/2016 16:27:23] "GET /sginfo/dbnuminfo.html HTTP/1.1" 500 -
+-- 2016-01-26 16:27:23,253  -- [INFO]  192.168.100.92 - - [26/Jan/2016 16:27:23] "GET /sginfo/dbnuminfo.html?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+-- 2016-01-26 16:27:23,254  -- [INFO]  192.168.100.92 - - [26/Jan/2016 16:27:23] "GET /sginfo/dbnuminfo.html?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1" 200 -
+-- 2016-01-26 16:27:23,256  -- [INFO]  192.168.100.92 - - [26/Jan/2016 16:27:23] "GET /sginfo/dbnuminfo.html?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+-- 2016-01-26 16:27:23,283  -- [INFO]  192.168.100.92 - - [26/Jan/2016 16:27:23] "GET /sginfo/dbnuminfo.html?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+-- 2016-01-26 16:27:23,308  -- [INFO]  192.168.100.92 - - [26/Jan/2016 16:27:23] "GET /sginfo/dbnuminfo.html?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 -
+-- 2016-01-26 16:27:23,332  -- [INFO]  192.168.100.92 - - [26/Jan/2016 16:27:23] "GET /sginfo/dbnuminfo.html?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+-- 2016-01-26 16:27:23,336  -- [INFO]  192.168.100.92 - - [26/Jan/2016 16:27:23] "GET /sginfo/dbnuminfo.html?__debugger__=yes&cmd=resource&f=source.png HTTP/1.1" 200 -
+-- 2016-01-26 16:27:40,035  -- [INFO]   * Detected change in '/home/huihui/work/server/wshflask/app/run/libbase/dbnuminfo.py', reloading
+-- 2016-01-26 16:27:50,757  -- [ERROR]  Connect  CSSERVER ERROR 
+-- 2016-01-26 16:27:50,763  -- [INFO]  192.168.100.92 - - [26/Jan/2016 16:27:50] "GET /sginfo/dbnuminfo.html HTTP/1.1" 500 -
+-- 2016-01-26 16:27:50,795  -- [INFO]  192.168.100.92 - - [26/Jan/2016 16:27:50] "GET /sginfo/dbnuminfo.html?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+-- 2016-01-26 16:27:50,797  -- [INFO]  192.168.100.92 - - [26/Jan/2016 16:27:50] "GET /sginfo/dbnuminfo.html?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1" 200 -
+-- 2016-01-26 16:27:50,798  -- [INFO]  192.168.100.92 - - [26/Jan/2016 16:27:50] "GET /sginfo/dbnuminfo.html?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+-- 2016-01-26 16:27:50,823  -- [INFO]  192.168.100.92 - - [26/Jan/2016 16:27:50] "GET /sginfo/dbnuminfo.html?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+-- 2016-01-26 16:27:50,867  -- [INFO]  192.168.100.92 - - [26/Jan/2016 16:27:50] "GET /sginfo/dbnuminfo.html?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+-- 2016-01-26 16:27:50,871  -- [INFO]  192.168.100.92 - - [26/Jan/2016 16:27:50] "GET /sginfo/dbnuminfo.html?__debugger__=yes&cmd=resource&f=source.png HTTP/1.1" 200 -
+-- 2016-01-26 16:28:31,632  -- [INFO]   * Detected change in '/home/huihui/work/server/wshflask/app/run/libbase/dbnuminfo.py', reloading
+-- 2016-01-26 16:28:49,235  -- [ERROR]  Connect  CSSERVER ERROR 
+-- 2016-01-26 16:28:49,241  -- [INFO]  192.168.100.92 - - [26/Jan/2016 16:28:49] "GET /sginfo/dbnuminfo.html HTTP/1.1" 500 -
+-- 2016-01-26 16:28:49,268  -- [INFO]  192.168.100.92 - - [26/Jan/2016 16:28:49] "GET /sginfo/dbnuminfo.html?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+-- 2016-01-26 16:28:49,270  -- [INFO]  192.168.100.92 - - [26/Jan/2016 16:28:49] "GET /sginfo/dbnuminfo.html?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1" 200 -
+-- 2016-01-26 16:28:49,272  -- [INFO]  192.168.100.92 - - [26/Jan/2016 16:28:49] "GET /sginfo/dbnuminfo.html?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+-- 2016-01-26 16:28:49,295  -- [INFO]  192.168.100.92 - - [26/Jan/2016 16:28:49] "GET /sginfo/dbnuminfo.html?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+-- 2016-01-26 16:28:49,316  -- [INFO]  192.168.100.92 - - [26/Jan/2016 16:28:49] "GET /sginfo/dbnuminfo.html?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 -
+-- 2016-01-26 16:28:49,342  -- [INFO]  192.168.100.92 - - [26/Jan/2016 16:28:49] "GET /sginfo/dbnuminfo.html?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+-- 2016-01-26 16:28:49,346  -- [INFO]  192.168.100.92 - - [26/Jan/2016 16:28:49] "GET /sginfo/dbnuminfo.html?__debugger__=yes&cmd=resource&f=source.png HTTP/1.1" 200 -
+-- 2016-01-26 16:29:07,876  -- [INFO]  127.0.0.1 - - [26/Jan/2016 16:29:07] "POST /chat/getlog.html HTTP/1.1" 200 -
+-- 2016-01-26 16:29:07,879  -- [INFO]  127.0.0.1 - - [26/Jan/2016 16:29:07] "POST /chat/getlog.html HTTP/1.1" 200 -
+-- 2016-01-26 16:29:10,353  -- [INFO]  192.168.100.92 - - [26/Jan/2016 16:29:10] "GET /sginfo/dbnuminfo.html HTTP/1.1" 500 -
+-- 2016-01-26 16:29:10,356  -- [INFO]  127.0.0.1 - - [26/Jan/2016 16:29:10] "POST /chat/getlog.html HTTP/1.1" 200 -
+-- 2016-01-26 16:29:10,358  -- [INFO]  127.0.0.1 - - [26/Jan/2016 16:29:10] "POST /chat/getlog.html HTTP/1.1" 200 -
+-- 2016-01-26 16:29:10,361  -- [INFO]  127.0.0.1 - - [26/Jan/2016 16:29:10] "POST /chat/getlog.html HTTP/1.1" 200 -
+-- 2016-01-26 16:29:10,364  -- [INFO]  127.0.0.1 - - [26/Jan/2016 16:29:10] "POST /chat/getlog.html HTTP/1.1" 200 -
+-- 2016-01-26 16:29:10,389  -- [INFO]  192.168.100.92 - - [26/Jan/2016 16:29:10] "GET /sginfo/dbnuminfo.html?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+-- 2016-01-26 16:29:10,391  -- [INFO]  192.168.100.92 - - [26/Jan/2016 16:29:10] "GET /sginfo/dbnuminfo.html?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1" 200 -
+-- 2016-01-26 16:29:10,393  -- [INFO]  192.168.100.92 - - [26/Jan/2016 16:29:10] "GET /sginfo/dbnuminfo.html?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+-- 2016-01-26 16:29:10,433  -- [INFO]  192.168.100.92 - - [26/Jan/2016 16:29:10] "GET /sginfo/dbnuminfo.html?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+-- 2016-01-26 16:29:10,483  -- [INFO]  192.168.100.92 - - [26/Jan/2016 16:29:10] "GET /sginfo/dbnuminfo.html?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+-- 2016-01-26 16:29:10,487  -- [INFO]  192.168.100.92 - - [26/Jan/2016 16:29:10] "GET /sginfo/dbnuminfo.html?__debugger__=yes&cmd=resource&f=source.png HTTP/1.1" 200 -
+-- 2016-01-26 16:29:41,657  -- [INFO]   * Detected change in '/home/huihui/work/server/wshflask/app/run/libbase/dbnuminfo.py', reloading
