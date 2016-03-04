@@ -167,3 +167,8 @@ all check done.........................
  sys.argv //////////CSSocketServer.py
 [1;37mProcess-1 -- 2016-01-08 14:43:49,230  -- [INFO]  command EXEC OK[1;0m
 [1;32mProcess-1 -- 2016-01-08 14:43:49,230  -- [DEBUG]  send result: [('web30', '10.207.141.251', '1', 's11.app1101376335.qqopenapp.com', '1')][1;0m
+Started 
+ sys.argv //////////CSSocketServer.py
+[1;37mProcess-1 -- 2016-03-04 11:45:41,844  -- [INFO]  CSServer  Check OK[1;0m
+ sys.argv //////////CSSocketServer.py
+[1;37mProcess-1 -- 2016-03-04 11:45:41,844  -- [INFO]  CSServer starts[1;0m

@@ -141,8 +141,6 @@ def pro2():
 
 if __name__ == '__main__':
     daemon = daemonserver(mainpid, stdin=logfile, stdout=logfile, stderr=logfile)
-    print type(mainpid)
-    print type(logpid)
     daemon2 = daemon2server(logpid, stdin=log2file, stdout=log2file, stderr=log2file)
     p1 = Process(target=daemon.start,args=())
     p2 = Process(target=daemon2.start,args=())

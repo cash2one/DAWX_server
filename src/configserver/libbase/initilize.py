@@ -20,7 +20,6 @@ class global_env():
 g = global_env()
 
 def initlize():
-    print "start initilize..................."
     if os.getuid() != 0:
         print "current user is not root , please change it .........."
         sys.exit(100)

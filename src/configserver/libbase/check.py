@@ -80,19 +80,16 @@ def check():
     filelist = eval(getConfig('check','filelist'))
     conflist = eval(getConfig('check','conflist'))
     tag = True
-    print "check dir staring ......................."
     for item in dirlist:
         if not  checkdir(item):
             tag = False
-    print "check file starting ......................"
+
     for item in filelist:
         if not checkfile(item):
             tag = False
-    print "check conf starting .........................."
     for item in conflist:
         if not checkconfig(item[0],item[1]):
             tag = False
-    print "all check done........................."
     return tag
 
 
