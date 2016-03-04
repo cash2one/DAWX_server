@@ -8,7 +8,7 @@
 <li><a href="#orgheadline2">2.1. wshflask需求环境</a></li>
 </ul>
 </li>
-<li><a href="#orgheadline10">3. 命令介绍</a>
+<li><a href="#orgheadline11">3. 命令介绍</a>
 <ul>
 <li><a href="#orgheadline6">3.1. CSserver/NDserver</a>
 <ul>
@@ -16,57 +16,68 @@
 <li><a href="#orgheadline5">3.1.2. 效果展示</a></li>
 </ul>
 </li>
-<li><a href="#orgheadline9">3.2. wshflask</a>
+<li><a href="#orgheadline10">3.2. wshflask</a>
 <ul>
 <li><a href="#orgheadline7">3.2.1. 启动方式</a></li>
 <li><a href="#orgheadline8">3.2.2. 效果展示</a></li>
+<li><a href="#orgheadline9">3.2.3. web界面展示</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#orgheadline16">4. 架构说明</a>
+<li><a href="#orgheadline28">4. 架构说明</a>
 <ul>
-<li><a href="#orgheadline12">4.1. 整体架构</a>
+<li><a href="#orgheadline14">4.1. 整体架构</a>
 <ul>
-<li><a href="#orgheadline11">4.1.1. 示意图</a></li>
+<li><a href="#orgheadline12">4.1.1. 说明：</a></li>
+<li><a href="#orgheadline13">4.1.2. 框架</a></li>
 </ul>
 </li>
-<li><a href="#orgheadline15">4.2. 服务架构</a>
+<li><a href="#orgheadline18">4.2. 服务架构</a>
 <ul>
-<li><a href="#orgheadline13">4.2.1. nodeserver</a></li>
-<li><a href="#orgheadline14">4.2.2. CSserver</a></li>
+<li><a href="#orgheadline15">4.2.1. nodeserver</a></li>
+<li><a href="#orgheadline16">4.2.2. CSserver</a></li>
+<li><a href="#orgheadline17">4.2.3. wshflask</a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li><a href="#orgheadline27">5. 功能讲解</a>
+<li><a href="#orgheadline27">4.3. 日志系统</a>
 <ul>
-<li><a href="#orgheadline26">5.1. 通用和基础功能</a>
+<li><a href="#orgheadline19">4.3.1. 日志系统的作用</a></li>
+<li><a href="#orgheadline22">4.3.2. 技术实现</a></li>
+<li><a href="#orgheadline23">4.3.3. 日志系统的框架设计</a></li>
+<li><a href="#orgheadline26">4.3.4. 日志系统的效果展示</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgheadline39">5. 文件讲解</a>
 <ul>
-<li><a href="#orgheadline19">5.1.1. 服务器架构方面</a></li>
-<li><a href="#orgheadline25">5.1.2. libbase</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#orgheadline35">6. 业务功能</a>
+<li><a href="#orgheadline38">5.1. 通用和基础功能</a>
 <ul>
-<li><a href="#orgheadline30">6.1. CSServer 功能讲解</a>
+<li><a href="#orgheadline31">5.1.1. 服务器架构方面</a></li>
+<li><a href="#orgheadline37">5.1.2. libbase</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgheadline47">6. 业务功能简介</a>
 <ul>
-<li><a href="#orgheadline28">6.1.1. 数据库连接模块&#x2014;&#x2014;CSsqlite.py</a></li>
-<li><a href="#orgheadline29">6.1.2. 命令处理&#x2014;&#x2014;CSsqliteconsole.py</a></li>
-</ul>
-</li>
-<li><a href="#orgheadline33">6.2. nodeserver 功能讲解</a>
+<li><a href="#orgheadline42">6.1. CSServer 功能讲解</a>
 <ul>
-<li><a href="#orgheadline31">6.2.1. 开新区&#x2014;&#x2014;kaixinqu.py</a></li>
-<li><a href="#orgheadline32">6.2.2. 合区&#x2014;&#x2014;hequ.py</a></li>
+<li><a href="#orgheadline40">6.1.1. 数据库连接模块&#x2014;&#x2014;CSsqlite.py</a></li>
+<li><a href="#orgheadline41">6.1.2. 命令处理&#x2014;&#x2014;CSsqliteconsole.py</a></li>
 </ul>
 </li>
-<li><a href="#orgheadline34">6.3. webclient 功能讲解</a></li>
+<li><a href="#orgheadline45">6.2. nodeserver 功能讲解</a>
+<ul>
+<li><a href="#orgheadline43">6.2.1. 开新区&#x2014;&#x2014;kaixinqu.py</a></li>
+<li><a href="#orgheadline44">6.2.2. 合区&#x2014;&#x2014;hequ.py</a></li>
 </ul>
 </li>
-<li><a href="#orgheadline36">7. api 函数使用</a></li>
+<li><a href="#orgheadline46">6.3. webclient 功能讲解</a></li>
+</ul>
+</li>
+<li><a href="#orgheadline48">7. api 函数使用</a></li>
 </ul>
 </div>
 </div>
@@ -125,7 +136,7 @@
 
     sda
 
-# 命令介绍<a id="orgheadline10"></a>
+# 命令介绍<a id="orgheadline11"></a>
 
 ## CSserver/NDserver<a id="orgheadline6"></a>
 
@@ -147,39 +158,88 @@
 ![img](doc/pic/csserver/CSserver_stop.png)
 
 1.  restart命令
-2.  debug命令
+
+![img](doc/pic/csserver/CSserver_restart.png)
+
+1.  debug命令
 
 ![img](doc/pic/csserver/CSserver_debug.png)
 
-## wshflask<a id="orgheadline9"></a>
+## wshflask<a id="orgheadline10"></a>
 
 ### 启动方式<a id="orgheadline7"></a>
 
+    python manage.py runserver
+
 ### 效果展示<a id="orgheadline8"></a>
 
-# 架构说明<a id="orgheadline16"></a>
+![img](doc/pic/flask/wshflask_start.png)
 
-## 整体架构<a id="orgheadline12"></a>
+### web界面展示<a id="orgheadline9"></a>
 
-### 示意图<a id="orgheadline11"></a>
+![img](doc/pic/flask/web_main.png)
 
-[开新区](./dia/开新区.jpeg)
+# 架构说明<a id="orgheadline28"></a>
 
-## 服务架构<a id="orgheadline15"></a>
+## 整体架构<a id="orgheadline14"></a>
 
-### nodeserver<a id="orgheadline13"></a>
+### 说明：<a id="orgheadline12"></a>
 
-[nodeserver](./dia/nodeserver.jpeg)
+1.  所有的查找都是基于 CSserver的
+2.  任何的两台服务器之间都是可以通信的
 
-### CSserver<a id="orgheadline14"></a>
+### 框架<a id="orgheadline13"></a>
 
-[CSserver](./dia/CSserver.jpeg)
+![img](doc/dia/zengti.jpeg)
 
-# 功能讲解<a id="orgheadline27"></a>
+## 服务架构<a id="orgheadline18"></a>
 
-## 通用和基础功能<a id="orgheadline26"></a>
+### nodeserver<a id="orgheadline15"></a>
 
-### 服务器架构方面<a id="orgheadline19"></a>
+![img](./doc/dia/nodeserver.jpeg)
+
+### CSserver<a id="orgheadline16"></a>
+
+![img](./doc/dia/CSserver.jpeg)
+
+### wshflask<a id="orgheadline17"></a>
+
+## 日志系统<a id="orgheadline27"></a>
+
+### 日志系统的作用<a id="orgheadline19"></a>
+
+日志可以分为三个部分：
+
+1.  输出到屏幕上，用来作为debug
+2.  输出到日志中，作为历史记录
+3.  输出到远端，作为远端服务区的实时显示。
+
+**NOTE：** 目前1 和2 放到了一起。
+
+### 技术实现<a id="orgheadline22"></a>
+
+1.  CSserver/NDserver
+
+    1.  python的 logging实现 本地的屏幕和日志输出
+    2.  利用multiprocessing 的Pipe实现日志的远端发送
+
+2.  wshflask消息接受机制
+
+    采用 js的 socket io 实现
+
+### 日志系统的框架设计<a id="orgheadline23"></a>
+
+### 日志系统的效果展示<a id="orgheadline26"></a>
+
+1.  CSServer/NDserver端
+
+2.  wshflask的实时显示
+
+# 文件讲解<a id="orgheadline39"></a>
+
+## 通用和基础功能<a id="orgheadline38"></a>
+
+### 服务器架构方面<a id="orgheadline31"></a>
 
 1.  服务器主程序&#x2014;&#x2014;NDSocketServer.py 和CSSocketServer.py
 
@@ -212,7 +272,7 @@
         else:
             return [False , "You should use the right command"]
 
-### libbase<a id="orgheadline25"></a>
+### libbase<a id="orgheadline37"></a>
 
 1.  日志记录&#x2014;&#x2014;CSLogging.py
 
@@ -247,30 +307,30 @@
 
     是一个socket客户端，获取服务端的数据
 
-# 业务功能<a id="orgheadline35"></a>
+# 业务功能简介<a id="orgheadline47"></a>
 
-## CSServer 功能讲解<a id="orgheadline30"></a>
+## CSServer 功能讲解<a id="orgheadline42"></a>
 
-### 数据库连接模块&#x2014;&#x2014;CSsqlite.py<a id="orgheadline28"></a>
+### 数据库连接模块&#x2014;&#x2014;CSsqlite.py<a id="orgheadline40"></a>
 
 对于数据库连接的二次包装，实现了增删改查。
 
-### 命令处理&#x2014;&#x2014;CSsqliteconsole.py<a id="orgheadline29"></a>
+### 命令处理&#x2014;&#x2014;CSsqliteconsole.py<a id="orgheadline41"></a>
 
 实现了dataanalyse和CSsqlite的命令转换。感觉不太彻底。以后改进。
 
-## nodeserver 功能讲解<a id="orgheadline33"></a>
+## nodeserver 功能讲解<a id="orgheadline45"></a>
 
-### 开新区&#x2014;&#x2014;kaixinqu.py<a id="orgheadline31"></a>
+### 开新区&#x2014;&#x2014;kaixinqu.py<a id="orgheadline43"></a>
 
 [开新区](./dia/开新区.jpeg)
 
-### 合区&#x2014;&#x2014;hequ.py<a id="orgheadline32"></a>
+### 合区&#x2014;&#x2014;hequ.py<a id="orgheadline44"></a>
 
 [合区](./dia/合区.jpeg)
 
-## webclient 功能讲解<a id="orgheadline34"></a>
+## webclient 功能讲解<a id="orgheadline46"></a>
 
-# api 函数使用<a id="orgheadline36"></a>
+# api 函数使用<a id="orgheadline48"></a>
 
 请参考
