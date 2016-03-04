@@ -38,31 +38,66 @@
 2. stop命令
 [[file:doc/pic/csserver/CSserver_stop.png]]
 3. restart命令
+[[file:doc/pic/csserver/CSserver_restart.png]]
 4. debug命令
 [[file:doc/pic/csserver/CSserver_debug.png]]
 
 ** wshflask 
 
 ***  启动方式
-
+#+BEGIN_EXAMPLE
+  python manage.py runserver
+#+END_EXAMPLE
 *** 效果展示
+[[file:doc/pic/flask/wshflask_start.png]]
+*** web界面展示
+[[file:doc/pic/flask/web_main.png]]
 
 
 
 * 架构说明
 ** 整体架构
-*** 示意图
-[[./dia/开新区.jpeg][开新区]]
+*** 说明：
+1. 所有的查找都是基于 CSserver的
+2. 任何的两台服务器之间都是可以通信的
+
+*** 框架
+[[file:doc/dia/zengti.jpeg]]
+
 ** 服务架构
 *** nodeserver
-[[./dia/nodeserver.jpeg][nodeserver]]
+[[./doc/dia/nodeserver.jpeg]]
 *** CSserver
-[[./dia/CSserver.jpeg][CSserver]]
+[[./doc/dia/CSserver.jpeg]]
+*** wshflask
+** 日志系统
+*** 日志系统的作用
+日志可以分为三个部分：
+1. 输出到屏幕上，用来作为debug
+2. 输出到日志中，作为历史记录
+3. 输出到远端，作为远端服务区的实时显示。
+
+*NOTE：* 目前1 和2 放到了一起。
+*** 技术实现
+**** CSserver/NDserver
+1. python的 logging实现 本地的屏幕和日志输出
+2. 利用multiprocessing 的Pipe实现日志的远端发送
+**** wshflask消息接受机制
+采用 js的 socket io 实现
+
+*** 日志系统的框架设计
+
+
+*** 日志系统的效果展示
+
+**** CSServer/NDserver端
+
+
+**** wshflask的实时显示
 
 
 
-
-* 功能讲解
+* 文件讲解
 ** 通用和基础功能
 *** 服务器架构方面
 **** 服务器主程序------NDSocketServer.py 和CSSocketServer.py
@@ -127,7 +162,7 @@ exception > critical > error > warning > info > debug
 是一个socket客户端，获取服务端的数据
 
 
-* 业务功能
+* 业务功能简介
 ** CSServer 功能讲解
 *** 数据库连接模块------CSsqlite.py
 对于数据库连接的二次包装，实现了增删改查。
