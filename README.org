@@ -70,6 +70,7 @@
 *** CSserver
 [[./doc/dia/CSserver.jpeg]]
 *** wshflask
+[[file:doc/dia/wshflask.png]]
 ** 日志系统
 *** 日志系统的作用
 日志可以分为三个部分：
@@ -87,14 +88,13 @@
 
 *** 日志系统的框架设计
 
-
+[[file:doc/dia/logkuangjia.png]]
 *** 日志系统的效果展示
 
 **** CSServer/NDserver端
 
 
 **** wshflask的实时显示
-
 
 
 * 文件讲解
@@ -179,3 +179,8 @@ exception > critical > error > warning > info > debug
 
 * api 函数使用
 请参考 
+
+* 关于我
+linux运维开发
+archlinux重度使用者
+[[mailto:872807604@qq.com]]

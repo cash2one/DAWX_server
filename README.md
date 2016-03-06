@@ -78,6 +78,7 @@
 </ul>
 </li>
 <li><a href="#orgheadline48">7. api 函数使用</a></li>
+<li><a href="#orgheadline49">8. 关于我</a></li>
 </ul>
 </div>
 </div>
@@ -204,6 +205,8 @@
 
 ### wshflask<a id="orgheadline17"></a>
 
+![img](doc/dia/wshflask.png)
+
 ## 日志系统<a id="orgheadline27"></a>
 
 ### 日志系统的作用<a id="orgheadline19"></a>
@@ -228,6 +231,8 @@
     采用 js的 socket io 实现
 
 ### 日志系统的框架设计<a id="orgheadline23"></a>
+
+![img](doc/dia/logkuangjia.png)
 
 ### 日志系统的效果展示<a id="orgheadline26"></a>
 
@@ -333,4 +338,10 @@
 
 # api 函数使用<a id="orgheadline48"></a>
 
-请参考
+请参考 
+
+# 关于我<a id="orgheadline49"></a>
+
+linux运维开发
+archlinux重度使用者
+<872807604@qq.com>
