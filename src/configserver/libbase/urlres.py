@@ -95,6 +95,7 @@ class URLRes(object):
             return tag
 
 
+
 """
 try:
     params = urllib.urlencode({'wsh': 'tom', 'age': 22})

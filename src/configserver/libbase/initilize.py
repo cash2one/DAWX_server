@@ -4,14 +4,32 @@ from check import check
 from mod_config import setConfig
 import sys,os
 
+
+
+"""
+    初始化模块
+    ----------
+
+    主要是用来进行系统初始化
+"""
+
 class global_env():
+    """获取PIPE管道
+    
+    """
     def __init__(self):
+        """initilize the PIPE
+        """
         self.message_send,self.message_recv =  self.pipeInit()
 
     def pipeInit(self):
+        """return the PIPE
+        """
         send,recv = Pipe()
         return send,recv
     def __getattr__(self,name):
+        """参数不对的时候的处理
+        """
         print "not found"
         self.atr = None
 
@@ -20,6 +38,10 @@ class global_env():
 g = global_env()
 
 def initlize():
+    """
+    初始化函数 
+    """
+    print "start initilize..................."
     if os.getuid() != 0:
         print "current user is not root , please change it .........."
         sys.exit(100)

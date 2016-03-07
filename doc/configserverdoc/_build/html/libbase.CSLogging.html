@@ -86,11 +86,12 @@
 <li class="toctree-l1 current"><a class="reference internal" href="libbase.html">libbase package</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="libbase.html#submodules">Submodules</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="">libbase.CSLogging module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#cslogging">CSLogging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id1">日志记录模块</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="libbase.check.html">libbase.check module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="libbase.csdaemon.html">libbase.csdaemon module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="libbase.domai_config.html">libbase.domai_config module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="libbase.encrypt.html">libbase.encrypt module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="libbase.getConfigClient.html">libbase.getConfigClient module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="libbase.initilize.html">libbase.initilize module</a></li>
@@ -102,6 +103,7 @@
 <li class="toctree-l2"><a class="reference internal" href="libbase.html#module-libbase">Module contents</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="libbasebak.html">libbasebak package</a></li>
 </ul>
 
             
@@ -150,8 +152,8 @@
             
   <div class="section" id="module-libbase.CSLogging">
 <span id="libbase-cslogging-module"></span><h1>libbase.CSLogging module<a class="headerlink" href="#module-libbase.CSLogging" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="cslogging">
-<h2>CSLogging<a class="headerlink" href="#cslogging" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h2>日志记录模块<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <p>日志记录模块，想使用Logging ，但是系统已经有了logging模块，又因为先写的CSserver，所有就这么定了名字。</p>
 <p>刚开始想法是利用管道，分出精简和详细的日志。但是后来使用了 <em>Deamon</em> 之后，所有的日志可以进行管道处理，于是只保留了精简的日志部分。</p>
 <dl class="class">
@@ -198,15 +200,14 @@
 
 <dl class="function">
 <dt id="libbase.CSLogging.set_logger">
-<code class="descclassname">libbase.CSLogging.</code><code class="descname">set_logger</code><span class="sig-paren">(</span><em>filename=None</em>, <em>mode='a'</em>, <em>fmt='%(processName)s -- %(asctime)s  -- [%(levelname)s]  %(message)s'</em>, <em>backup_count=5</em>, <em>limit=20480</em>, <em>when=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/libbase/CSLogging.html#set_logger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#libbase.CSLogging.set_logger" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">libbase.CSLogging.</code><code class="descname">set_logger</code><span class="sig-paren">(</span><em>filename=None</em>, <em>mode='a'</em>, <em>fmt='-- %(asctime)s  -- [%(levelname)s]  %(message)s'</em>, <em>backup_count=5</em>, <em>limit=20480</em>, <em>when=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/libbase/CSLogging.html#set_logger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#libbase.CSLogging.set_logger" title="Permalink to this definition">¶</a></dt>
 <dd><p>Configure the global logger.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="libbase.CSLogging.write_logger">
 <code class="descclassname">libbase.CSLogging.</code><code class="descname">write_logger</code><span class="sig-paren">(</span><em>level</em>, <em>astr</em>, <em>internal=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/libbase/CSLogging.html#write_logger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#libbase.CSLogging.write_logger" title="Permalink to this definition">¶</a></dt>
-<dd><p>internal : 判断是否需要进行网络发送日志</p>
-</dd></dl>
+<dd></dd></dl>
 
 </div>
 </div>

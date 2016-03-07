@@ -1,0 +1,413 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>libbasebak.CSLogging &mdash; configserver  documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="configserver  documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> configserver
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../CSSocketServer.html">CSSocketServer module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../CSsqlite.html">CSsqlite module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../CSsqliteconsole.html">CSsqliteconsole module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dataanalyse.html">dataanalyse module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libbase.html">libbase package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libbasebak.html">libbasebak package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">configserver</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      
+    <li>libbasebak.CSLogging</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for libbasebak.CSLogging</h1><div class="highlight"><pre>
+<span class="c">#!/bin/bin/env python</span>
+<span class="c">#coding=utf-8</span>
+
+<span class="c"># 日志记录基础模块</span>
+<span class="c"># author :wsh</span>
+<span class="c"># Time: 2015-05-31</span>
+<span class="c"># log：</span>
+<span class="c">#   20150923 增加前端web发送</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    CSLogging</span>
+<span class="sd">    -----------</span>
+<span class="sd">    日志记录模块，想使用Logging ，但是系统已经有了logging模块，又因为先写的CSserver，所有就这么定了名字。</span>
+
+<span class="sd">    刚开始想法是利用管道，分出精简和详细的日志。但是后来使用了 *Deamon* 之后，所有的日志可以进行管道处理，于是只保留了精简的日志部分。</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">ctypes</span>
+<span class="kn">import</span> <span class="nn">logging.handlers</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+
+<span class="kn">import</span> <span class="nn">mod_config</span>
+<span class="kn">from</span>  <span class="nn">urlres</span> <span class="kn">import</span> <span class="n">URLRes</span>
+
+
+<span class="c"># Color escape string</span>
+<span class="n">COLOR_RED</span><span class="o">=</span><span class="s">&#39;</span><span class="se">\033</span><span class="s">[1;31m&#39;</span>
+<span class="n">COLOR_GREEN</span><span class="o">=</span><span class="s">&#39;</span><span class="se">\033</span><span class="s">[1;32m&#39;</span>
+<span class="n">COLOR_YELLOW</span><span class="o">=</span><span class="s">&#39;</span><span class="se">\033</span><span class="s">[1;33m&#39;</span>
+<span class="n">COLOR_BLUE</span><span class="o">=</span><span class="s">&#39;</span><span class="se">\033</span><span class="s">[1;34m&#39;</span>
+<span class="n">COLOR_PURPLE</span><span class="o">=</span><span class="s">&#39;</span><span class="se">\033</span><span class="s">[1;35m&#39;</span>
+<span class="n">COLOR_CYAN</span><span class="o">=</span><span class="s">&#39;</span><span class="se">\033</span><span class="s">[1;36m&#39;</span>
+<span class="n">COLOR_GRAY</span><span class="o">=</span><span class="s">&#39;</span><span class="se">\033</span><span class="s">[1;37m&#39;</span>
+<span class="n">COLOR_WHITE</span><span class="o">=</span><span class="s">&#39;</span><span class="se">\033</span><span class="s">[1;38m&#39;</span>
+<span class="n">COLOR_RESET</span><span class="o">=</span><span class="s">&#39;</span><span class="se">\033</span><span class="s">[1;0m&#39;</span>
+
+<span class="c"># Define log Color</span>
+
+<span class="n">LOG_COLORS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">&#39;DEBUG&#39;</span><span class="p">:</span> <span class="n">COLOR_GREEN</span> <span class="o">+</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">+</span> <span class="n">COLOR_RESET</span><span class="p">,</span>
+    <span class="s">&#39;INFO&#39;</span><span class="p">:</span> <span class="n">COLOR_GRAY</span> <span class="o">+</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">+</span> <span class="n">COLOR_RESET</span><span class="p">,</span>
+    <span class="s">&#39;WARNING&#39;</span><span class="p">:</span> <span class="n">COLOR_YELLOW</span> <span class="o">+</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">+</span> <span class="n">COLOR_RESET</span><span class="p">,</span>
+    <span class="s">&#39;ERROR&#39;</span><span class="p">:</span> <span class="n">COLOR_RED</span> <span class="o">+</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">+</span> <span class="n">COLOR_RESET</span><span class="p">,</span>
+    <span class="s">&#39;CRITICAL&#39;</span><span class="p">:</span> <span class="n">COLOR_RED</span> <span class="o">+</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">+</span> <span class="n">COLOR_RESET</span><span class="p">,</span>
+    <span class="s">&#39;EXCEPTION&#39;</span><span class="p">:</span> <span class="n">COLOR_RED</span> <span class="o">+</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">+</span> <span class="n">COLOR_RESET</span><span class="p">,</span>
+    <span class="p">}</span>
+
+<span class="c"># Global logger</span>
+<span class="n">g_logger</span> <span class="o">=</span> <span class="bp">None</span>
+
+
+<span class="c"># get some configs from config.conf</span>
+<span class="c">#filename=mod_config.getConfig(&#39;log&#39;,&#39;logfile&#39;)</span>
+<span class="n">loglevels</span><span class="o">=</span><span class="n">mod_config</span><span class="o">.</span><span class="n">getConfig</span><span class="p">(</span><span class="s">&#39;log&#39;</span><span class="p">,</span><span class="s">&#39;streamloglevel&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot;:&quot;</span> <span class="o">+</span> <span class="n">mod_config</span><span class="o">.</span><span class="n">getConfig</span><span class="p">(</span><span class="s">&#39;log&#39;</span><span class="p">,</span><span class="s">&#39;fileloglevel&#39;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="ColorFormatter"><a class="viewcode-back" href="../../libbasebak.CSLogging.html#libbasebak.CSLogging.ColorFormatter">[docs]</a><span class="k">class</span> <span class="nc">ColorFormatter</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;彩色的Formatter设置，应用在 **streamHandler** 上</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">fmt</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">datefmt</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">fmt</span><span class="p">,</span><span class="n">datefmt</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ColorFormatter.format"><a class="viewcode-back" href="../../libbasebak.CSLogging.html#libbasebak.CSLogging.ColorFormatter.format">[docs]</a>    <span class="k">def</span> <span class="nf">format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">record</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">level_name</span> <span class="o">=</span> <span class="n">record</span><span class="o">.</span><span class="n">levelname</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">record</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">LOG_COLORS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">level_name</span><span class="p">,</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">&#39;</span><span class="p">)</span> <span class="o">%</span> <span class="n">msg</span>
+
+</div></div>
+<div class="viewcode-block" id="add_handler"><a class="viewcode-back" href="../../libbasebak.CSLogging.html#libbasebak.CSLogging.add_handler">[docs]</a><span class="k">def</span> <span class="nf">add_handler</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">level</span><span class="p">,</span> <span class="n">fmt</span><span class="p">,</span> <span class="n">colorful</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Add a configured handler to the global logger.&#39;&#39;&#39;</span>
+    <span class="k">global</span> <span class="n">g_logger</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">level</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">logging</span><span class="p">,</span> <span class="n">level</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+
+    <span class="n">handler</span> <span class="o">=</span> <span class="n">cls</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">handler</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">colorful</span><span class="p">:</span>
+        <span class="n">formatter</span> <span class="o">=</span> <span class="n">ColorFormatter</span><span class="p">(</span><span class="n">fmt</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">formatter</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">(</span><span class="n">fmt</span><span class="p">)</span>
+
+    <span class="n">handler</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">formatter</span><span class="p">)</span>
+    <span class="n">g_logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">handler</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">handler</span>
+
+</div>
+<div class="viewcode-block" id="add_streamhandler"><a class="viewcode-back" href="../../libbasebak.CSLogging.html#libbasebak.CSLogging.add_streamhandler">[docs]</a><span class="k">def</span> <span class="nf">add_streamhandler</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="n">fmt</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Add a stream handler to the global logger.&#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="n">add_handler</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">StreamHandler</span><span class="p">,</span> <span class="n">level</span><span class="p">,</span> <span class="n">fmt</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="add_filehandler"><a class="viewcode-back" href="../../libbasebak.CSLogging.html#libbasebak.CSLogging.add_filehandler">[docs]</a><span class="k">def</span> <span class="nf">add_filehandler</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="n">fmt</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">backup_count</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="n">when</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Add a file handler to the global logger.&#39;&#39;&#39;</span>
+    <span class="k">global</span> <span class="n">filename</span>
+
+    <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c"># if the filename is not set,  use the default filename</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    if filename is None:</span>
+<span class="sd">        filename = getattr(sys.modules[&#39;__main__&#39;],&#39;__file__&#39;, &#39;log.py&#39;)</span>
+<span class="sd">        filename = os.path.basename(filename.replace(&#39;.py&#39;, &#39;.log&#39;))</span>
+<span class="sd">        filename = os.path.join(&#39;/tmp&#39;, filename)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;filename&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">filename</span>
+
+    <span class="c"># Choose the filehandler based on the passed arguments</span>
+    <span class="k">if</span> <span class="n">backup_count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="c"># use FileHandler</span>
+        <span class="n">cls</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">FileHandler</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;mode&#39;</span><span class="p">]</span> <span class="o">=</span><span class="n">mode</span>
+    <span class="k">elif</span> <span class="n">when</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>  <span class="c"># Use RotatingFileHandler</span>
+        <span class="n">cls</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">handlers</span><span class="o">.</span><span class="n">RotatingFileHandler</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;maxBytes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">limit</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;backupCount&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">backup_count</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;mode&#39;</span> <span class="p">]</span> <span class="o">=</span> <span class="n">mode</span>
+    <span class="k">else</span><span class="p">:</span> <span class="c"># Use TimedRotatingFileHandler</span>
+        <span class="n">cls</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">handlers</span><span class="o">.</span><span class="n">TimedRotatingFileHandler</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;when&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">when</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;interval&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">limit</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;backupCount&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">backup_count</span>
+
+    <span class="k">return</span> <span class="n">add_handler</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">level</span><span class="p">,</span> <span class="n">fmt</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="init_logger"><a class="viewcode-back" href="../../libbasebak.CSLogging.html#libbasebak.CSLogging.init_logger">[docs]</a><span class="k">def</span> <span class="nf">init_logger</span><span class="p">():</span>
+    <span class="sd">&#39;&#39;&#39;Reload the global logger.&#39;&#39;&#39;</span>
+    <span class="k">global</span> <span class="n">g_logger</span>
+
+    <span class="k">if</span> <span class="n">g_logger</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">g_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
+        <span class="n">g_logger</span><span class="o">.</span><span class="n">handlers</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">g_logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="set_logger"><a class="viewcode-back" href="../../libbasebak.CSLogging.html#libbasebak.CSLogging.set_logger">[docs]</a><span class="k">def</span> <span class="nf">set_logger</span><span class="p">(</span><span class="n">filename</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="s">&#39;a&#39;</span><span class="p">,</span>
+               <span class="n">fmt</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%(processName)s</span><span class="s"> -- </span><span class="si">%(asctime)s</span><span class="s">  -- [</span><span class="si">%(levelname)s</span><span class="s">]  </span><span class="si">%(message)s</span><span class="s">&#39;</span><span class="p">,</span>
+               <span class="n">backup_count</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">limit</span> <span class="o">=</span> <span class="mi">20480</span><span class="p">,</span> <span class="n">when</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Configure the global logger.&#39;&#39;&#39;</span>
+    <span class="k">global</span>  <span class="n">loglevels</span>
+    <span class="n">level</span> <span class="o">=</span> <span class="n">loglevels</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;:&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">level</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> <span class="c"># Both set to the same level</span>
+        <span class="n">s_level</span> <span class="o">=</span> <span class="n">f_level</span> <span class="o">=</span> <span class="n">level</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">s_level</span> <span class="o">=</span> <span class="n">level</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">f_level</span> <span class="o">=</span> <span class="n">level</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">init_logger</span><span class="p">()</span>
+    <span class="n">add_streamhandler</span><span class="p">(</span><span class="n">s_level</span><span class="p">,</span> <span class="n">fmt</span><span class="p">)</span>
+    <span class="c">#add_filehandler(f_level,fmt, mode, backup_count, limit, when)</span>
+
+    <span class="c"># Import the common log functions for convenient</span>
+    <span class="k">return</span> <span class="n">import_log_funcs</span><span class="p">()</span>
+
+</div>
+<div class="viewcode-block" id="import_log_funcs"><a class="viewcode-back" href="../../libbasebak.CSLogging.html#libbasebak.CSLogging.import_log_funcs">[docs]</a><span class="k">def</span> <span class="nf">import_log_funcs</span><span class="p">():</span>
+    <span class="sd">&#39;&#39;&#39;Import the common log functions from the global logger to the modules.&#39;&#39;&#39;</span>
+    <span class="k">global</span> <span class="n">g_logger</span>
+
+    <span class="n">curr_mod</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="n">__name__</span><span class="p">]</span>
+    <span class="n">log_funcs</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;debug&#39;</span><span class="p">,</span> <span class="s">&#39;info&#39;</span><span class="p">,</span> <span class="s">&#39;warning&#39;</span><span class="p">,</span> <span class="s">&#39;error&#39;</span><span class="p">,</span> <span class="s">&#39;critical&#39;</span><span class="p">,</span><span class="s">&#39;exception&#39;</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">func_name</span> <span class="ow">in</span> <span class="n">log_funcs</span><span class="p">:</span>
+        <span class="n">func</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">g_logger</span><span class="p">,</span> <span class="n">func_name</span><span class="p">)</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="n">curr_mod</span><span class="p">,</span><span class="n">func_name</span><span class="p">,</span> <span class="n">func</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">g_logger</span>
+
+
+</div>
+<div class="viewcode-block" id="write_logger"><a class="viewcode-back" href="../../libbasebak.CSLogging.html#libbasebak.CSLogging.write_logger">[docs]</a><span class="k">def</span> <span class="nf">write_logger</span><span class="p">(</span><span class="n">level</span> <span class="p">,</span><span class="n">astr</span><span class="p">,</span> <span class="n">internal</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    internal : 判断是否需要进行网络发送日志</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">klog</span> <span class="o">=</span> <span class="n">set_logger</span><span class="p">()</span>
+    <span class="n">aurlres</span> <span class="o">=</span> <span class="n">URLRes</span><span class="p">()</span>
+    <span class="n">leveldict</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;debug&#39;</span><span class="p">:</span> <span class="n">klog</span><span class="o">.</span><span class="n">debug</span><span class="p">,</span>
+                 <span class="s">&#39;info&#39;</span> <span class="p">:</span> <span class="n">klog</span><span class="o">.</span><span class="n">info</span><span class="p">,</span>
+                 <span class="s">&#39;warning&#39;</span><span class="p">:</span> <span class="n">klog</span><span class="o">.</span><span class="n">warning</span><span class="p">,</span>
+                 <span class="s">&#39;error&#39;</span> <span class="p">:</span> <span class="n">klog</span><span class="o">.</span><span class="n">error</span><span class="p">,</span>
+                 <span class="s">&#39;critical&#39;</span> <span class="p">:</span> <span class="n">klog</span><span class="o">.</span><span class="n">critical</span><span class="p">,</span>
+                 <span class="s">&#39;exception&#39;</span><span class="p">:</span> <span class="n">klog</span><span class="o">.</span><span class="n">exception</span><span class="p">}</span>
+
+    <span class="c"># 不区分大小写</span>
+    <span class="n">level</span> <span class="o">=</span> <span class="n">level</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">internal</span> <span class="ow">and</span>  <span class="n">level</span> <span class="ow">in</span> <span class="n">leveldict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">level</span> <span class="o">!=</span> <span class="s">&#39;debug&#39;</span><span class="p">:</span>
+            <span class="c">#aurlres.run( level,str(astr))</span>
+            <span class="k">print</span> <span class="s">&quot; sys.argv //////////&quot;</span>  <span class="o">+</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="ow">in</span>  <span class="p">[</span><span class="s">&#39;CSSocketServer.py&#39;</span><span class="p">,</span><span class="s">&#39;NDSocketServer.py&#39;</span><span class="p">]:</span>
+                <span class="kn">from</span> <span class="nn">initilize</span> <span class="kn">import</span> <span class="n">g</span> 
+                <span class="n">g</span><span class="o">.</span><span class="n">message_send</span><span class="o">.</span><span class="n">send</span><span class="p">((</span><span class="n">level</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">astr</span><span class="p">)))</span>
+            
+        <span class="n">leveldict</span><span class="p">[</span><span class="n">level</span><span class="p">](</span><span class="n">astr</span><span class="p">)</span>
+
+
+
+<span class="c"># Set a default logger</span>
+<span class="c">#klog = set_logger()</span>
+<span class="c">#klog.debug(&#39;This is debug message&#39;)</span>
+<span class="c">#klog.info(&#39;This is  info message&#39;)</span>
+<span class="c">#klog.warning(&#39;this is warning message&#39;)</span>
+<span class="c">#write_logger(&#39;exception&#39;, &#39;debug&#39;)</span>
+<span class="c">#write_logger(&#39;sda&#39;)</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Author.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

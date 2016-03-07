@@ -82,6 +82,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../CSsqliteconsole.html">CSsqliteconsole module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../dataanalyse.html">dataanalyse module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../libbase.html">libbase package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libbasebak.html">libbasebak package</a></li>
 </ul>
 
             
@@ -134,7 +135,7 @@
 <span class="c"># author: wsh</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Check</span>
+<span class="sd">    启动检查模块</span>
 <span class="sd">    --------------</span>
 
 <span class="sd">    服务器启动之前检查一下是否符合启动条件，只需要改写或调用 **check()** ,如果无特殊需要就不用调用其他函数。</span>
@@ -209,16 +210,19 @@
     <span class="n">filelist</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">getConfig</span><span class="p">(</span><span class="s">&#39;check&#39;</span><span class="p">,</span><span class="s">&#39;filelist&#39;</span><span class="p">))</span>
     <span class="n">conflist</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">getConfig</span><span class="p">(</span><span class="s">&#39;check&#39;</span><span class="p">,</span><span class="s">&#39;conflist&#39;</span><span class="p">))</span>
     <span class="n">tag</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="k">print</span> <span class="s">&quot;check dir staring .......................&quot;</span>
     <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">dirlist</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span>  <span class="n">checkdir</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
             <span class="n">tag</span> <span class="o">=</span> <span class="bp">False</span>
-
+    <span class="k">print</span> <span class="s">&quot;check file starting ......................&quot;</span>
     <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">filelist</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">checkfile</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
             <span class="n">tag</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="k">print</span> <span class="s">&quot;check conf starting ..........................&quot;</span>
     <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">conflist</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">checkconfig</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
             <span class="n">tag</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="k">print</span> <span class="s">&quot;all check done.........................&quot;</span>
     <span class="k">return</span> <span class="n">tag</span>
 
 

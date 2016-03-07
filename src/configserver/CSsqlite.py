@@ -23,30 +23,21 @@ dbFilePath = getConfig('csserver','sqlitepath')
 tableName = ''
 
 def getConn():
-    """
+    """连接sqlite
     
-    Arguments:
-    - `path`:
     """
     global dbFilePath
     conn = sqlite3.connect(dbFilePath)
     return conn
 
 def getCursor(conn):
-    """
-    
-    Arguments:
-    - `conn`:
+    """获取游标    
     """
     return conn.cursor()
 
 
 def dropTable(conn,table):
     """如果表存在，就删除表，如果表中存在数据，使用该方法的要注意
-    
-    Arguments:
-    - `conn`:
-    - `table`:
     """
     if table is not None and table != '':
         sql = 'DROP TABLE IF EXISTS' + TABLE
@@ -63,10 +54,6 @@ def dropTable(conn,table):
 
 def createTable(conn,sql):
     """ 创建数据库
-    
-    Arguments:
-    - `conn`:
-    - `sql`:
     """
     if sql.split() :
         cu = getCursor(conn)
@@ -80,11 +67,7 @@ def createTable(conn,sql):
 
     
 def closeAll(conn,cu):
-    """
-    
-    Arguments:
-    - `conn`:
-    - `cu`:
+    """关闭连接
     """
     try :
         if cu is not None:
@@ -95,12 +78,7 @@ def closeAll(conn,cu):
             cu.close()
 
 def save(conn, sql, data):
-    """
-    
-    Arguments:
-    - `conn`:
-    - `sql`:
-    - `data`:
+    """保存数据
     """
     if sql.split():
         if data is not None:
@@ -116,11 +94,7 @@ def save(conn, sql, data):
         return [False, "SQL error"]
 
 def fetchall(conn,sql):
-    """
-
-    Arguments:
-    - `conn`:
-    - `sql`:
+    """查找，并返回所有的结果
     """
     if sql.split():
         cu = getCursor(conn)
@@ -142,12 +116,7 @@ def fetchall(conn,sql):
 
 
 def fetchone(conn,sql,data):
-    """
-    
-    Arguments:
-    - `conn`:
-    - `sql`:
-    - `data`:
+    """查找，只返回一条结果
     """
     if sql.split():
         alist = []
@@ -178,12 +147,7 @@ def fetchone(conn,sql,data):
 
 
 def update(conn,sql,data):
-    """
-    
-    Arguments:
-    - `conn`:
-    - `sql`:
-    - `data`:
+    """更新数据
     """
     if sql.split():
         if data is not None:
@@ -213,8 +177,8 @@ def delete(conn,sql,data):
         return [False,"DELETE SQL ERROR"]
 
 def init():
-
-    # global var
+    """初始化全局数据库目录
+    """
     global dbFilePath
     
 

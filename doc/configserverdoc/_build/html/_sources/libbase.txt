@@ -9,6 +9,7 @@ Submodules
    libbase.CSLogging
    libbase.check
    libbase.csdaemon
+   libbase.domai_config
    libbase.encrypt
    libbase.getConfigClient
    libbase.initilize

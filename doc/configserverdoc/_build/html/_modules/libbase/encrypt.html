@@ -82,6 +82,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../CSsqliteconsole.html">CSsqliteconsole module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../dataanalyse.html">dataanalyse module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../libbase.html">libbase package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libbasebak.html">libbasebak package</a></li>
 </ul>
 
             
@@ -152,7 +153,7 @@
 <div class="viewcode-block" id="getmd5"><a class="viewcode-back" href="../../libbase.encrypt.html#libbase.encrypt.getmd5">[docs]</a><span class="k">def</span> <span class="nf">getmd5</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;然后一个时间和字符串的md5值。</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">amd5str</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">(</span><span class="n">entrystr</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span><span class="o">/</span><span class="mi">86400</span><span class="p">)</span> <span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+    <span class="n">amd5str</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">(</span><span class="n">entrystr</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span><span class="o">/</span><span class="mi">86400</span><span class="p">))</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">amd5str</span>
 </div>
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>

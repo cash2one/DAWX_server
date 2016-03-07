@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # nodeserver documentation build configuration file, created by
-# sphinx-quickstart on Mon Mar  7 14:21:12 2016.
+# sphinx-quickstart on Mon Mar  7 19:22:29 2016.
 #
 # This file is execfile()d with the current directory set to its
 # containing dir.
@@ -20,9 +20,9 @@ import shlex
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 sys.path.insert(0, os.path.abspath('.'))
-sys.path.insert(0, os.path.abspath('../nodeserver/'))
-sys.path.insert(0, os.path.abspath('../nodeserver/commands/'))
-sys.path.insert(0, os.path.abspath('../nodeserver/commands/libbase/'))
+sys.path.insert(0, os.path.abspath('../nodeserver'))
+sys.path.insert(0, os.path.abspath('../nodeserver/commands'))
+sys.path.insert(0, os.path.abspath('../nodeserver/commands/libbase'))
 
 # -- General configuration ------------------------------------------------
 

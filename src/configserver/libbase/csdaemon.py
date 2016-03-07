@@ -13,10 +13,37 @@ import atexit
 import string
 import signal
 
+
+"""
+    守护进程模块
+    --------------
+
+    实现python程序的后台启动，只要重写 **run()** 函数即可。
+
+
+"""
+
 class Daemon:
-    #def __init__(self, pidfile, stdin=os.devnull, stdout=os.devnull, stderr=os.devnull, home_dir='.', umask=022, verbose=1, debug=False):
+    """Daemon 主要是实现程序的后台运行，另外还可以实现日志向另外一个进程传送。
+
+       通过将 stdin， stdout， stderr三个出入输出流进行定向来进行日志的保存
+    
+    """
     def  __init__(self, pidfile, stdin='/tmp/huihui.log', stdout ='/tmp/huihui.log', stderr = '/tmp/huihui.log' , home_dir='.', umask=022, verbose = 1 ,debug = False  ):
         # 如果需要调试，更改为stdin='/dev/stdin',stdout='/dev/stdout',stderr='/dev/stderr', 以root身份运行
+        """init 函数
+
+           参数有如下::
+             **pidfile:* pid进程文件
+             **stdin:* 输入流的日志记录
+             **stdout:* 输入流的日志记录
+             **stderr:* 错误流的日志记录
+             **home_dir:* 日志的存放目录
+             **umask:** 设置权限
+             **verbose:** 版本号
+             **debug:** 是否开启debug
+           
+        """
         self.stdin = stdin
         self.stdout = stdout
         self.stderr = stderr
@@ -92,6 +119,8 @@ class Daemon:
 
 
     def delpid(self):
+        """ remove the pidfile
+        """
         os.remove(self.pidfile)
 
     def start(self, *args,  **kwargs):
@@ -176,6 +205,9 @@ class Daemon:
         self.start()
 
     def get_pid(self):
+        """
+        get the pid file and check 
+        """
         try:
             pf = file(self.pidfile, 'r')
             pid = int(pf.read().strip())
@@ -187,6 +219,8 @@ class Daemon:
         return pid
 
     def is_running(self):
+        """ just check the process is alive
+        """
         pid = self.get_pid()
         print(pid)
         return pid and os.path.exists('/proc/%d' % pid)

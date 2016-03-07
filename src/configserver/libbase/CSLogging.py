@@ -8,7 +8,7 @@
 #   20150923 增加前端web发送
 
 """
-    CSLogging
+    日志记录模块
     -----------
     日志记录模块，想使用Logging ，但是系统已经有了logging模块，又因为先写的CSserver，所有就这么定了名字。
 
@@ -24,9 +24,9 @@ import ctypes
 import logging.handlers
 import logging
 
-
 import mod_config
 from  urlres import URLRes
+
 
 
 # Color escape string
@@ -39,6 +39,7 @@ COLOR_CYAN='\033[1;36m'
 COLOR_GRAY='\033[1;37m'
 COLOR_WHITE='\033[1;38m'
 COLOR_RESET='\033[1;0m'
+
 
 # Define log Color
 
@@ -149,7 +150,7 @@ def init_logger():
     g_logger.setLevel(logging.DEBUG)
 
 def set_logger(filename = None, mode = 'a',
-               fmt = '%(processName)s -- %(asctime)s  -- [%(levelname)s]  %(message)s',
+               fmt = '-- %(asctime)s  -- [%(levelname)s]  %(message)s',
                backup_count = 5, limit = 20480, when = None):
     '''Configure the global logger.'''
     global  loglevels
@@ -184,11 +185,7 @@ def import_log_funcs():
 
 
 
-def write_logger(level ,astr, internal=True):
-    """
-    internal : 判断是否需要进行网络发送日志
-
-    """
+def write_logger(level ,astr,internal=True):
     klog = set_logger()
     aurlres = URLRes()
     leveldict = {'debug': klog.debug,
@@ -208,7 +205,6 @@ def write_logger(level ,astr, internal=True):
             if sys.argv[0]  in  ['CSSocketServer.py','NDSocketServer.py']:
                 from initilize import g 
                 g.message_send.send((level,str(astr)))
-            
         leveldict[level](astr)
 
 

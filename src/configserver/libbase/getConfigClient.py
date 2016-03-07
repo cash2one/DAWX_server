@@ -40,7 +40,7 @@ def getres(astr,host=csip,port=csport):
     :param port: server port。 默认是CSserver 的port。
 
     """
-    time.sleep(0.2)
+    time.sleep(1)
     # 1. 参数初始化
     bufsize = 1024
     addr = (host,port)

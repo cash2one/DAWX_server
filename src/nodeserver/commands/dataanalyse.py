@@ -12,12 +12,34 @@ from tarzone import tarzone
 from tarfile  import tarfile
 from changeZoneTime import changeZoneTime
 from mvzone import mvzone
+
+
+"""
+    数据处理 
+    -----------
+
+    函数和命令的映射程序
+
+
+"""
+
+
 def usage():
-    """
+    """目前可以使用的命令有如下几个::
+         1. kaixinqu
+         2. tarzone
+         3. tarfile
+         4. hequ
+         5. changgezonetime
+         6. mvzone 
     """
     return [True,"U use help"]
 
 def dataanalyse(data):
+    """数据处理程序，进行了一些基本的判断和命令与函数的对应
+
+      *data:* 后端接收的命令
+    """
     dictname = {'kaixinqu':kaixinqu,
                 'tarzone': tarzone,
                 'tarfile': tarfile,

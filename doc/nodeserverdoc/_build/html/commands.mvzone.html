@@ -149,8 +149,10 @@
 <div class="section" id="mvzone">
 <h2>mvzone<a class="headerlink" href="#mvzone" title="Permalink to this headline">¶</a></h2>
 <p>迁区程序，和合区相比，只是进行了服务的迁移，没有进行合区的脚本操作，所以只是将 <strong>changezoneipandvalue</strong> 和 <strong>mvzone</strong> 与合区脚本有区别。</p>
-<p>在命令行的实现为</p>
-<p>mvzone ip=192.168.0.1 dbnumlist</p>
+<p>在命令行的实现为:</p>
+<div class="highlight-python"><div class="highlight"><pre>telnet &gt; mvzone ip=192.168.0.1 dbnumlist
+</pre></div>
+</div>
 <p><em>ip</em>： 可以不使用的，如果不使用，则迁区到dbnumlist的第一个区</p>
 <p><em>dbnumlist</em>：空格分开。</p>
 <dl class="function">

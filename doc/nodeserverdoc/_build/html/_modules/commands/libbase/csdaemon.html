@@ -139,10 +139,37 @@
 <span class="kn">import</span> <span class="nn">string</span>
 <span class="kn">import</span> <span class="nn">signal</span>
 
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    守护进程模块</span>
+<span class="sd">    --------------</span>
+
+<span class="sd">    实现python程序的后台启动，只要重写 **run()** 函数即可。</span>
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+
 <div class="viewcode-block" id="Daemon"><a class="viewcode-back" href="../../../commands.libbase.csdaemon.html#commands.libbase.csdaemon.Daemon">[docs]</a><span class="k">class</span> <span class="nc">Daemon</span><span class="p">:</span>
-    <span class="c">#def __init__(self, pidfile, stdin=os.devnull, stdout=os.devnull, stderr=os.devnull, home_dir=&#39;.&#39;, umask=022, verbose=1, debug=False):</span>
+    <span class="sd">&quot;&quot;&quot;Daemon 主要是实现程序的后台运行，另外还可以实现日志向另外一个进程传送。</span>
+
+<span class="sd">       通过将 stdin， stdout， stderr三个出入输出流进行定向来进行日志的保存</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span>  <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pidfile</span><span class="p">,</span> <span class="n">stdin</span><span class="o">=</span><span class="s">&#39;/tmp/huihui.log&#39;</span><span class="p">,</span> <span class="n">stdout</span> <span class="o">=</span><span class="s">&#39;/tmp/huihui.log&#39;</span><span class="p">,</span> <span class="n">stderr</span> <span class="o">=</span> <span class="s">&#39;/tmp/huihui.log&#39;</span> <span class="p">,</span> <span class="n">home_dir</span><span class="o">=</span><span class="s">&#39;.&#39;</span><span class="p">,</span> <span class="n">umask</span><span class="o">=</span><span class="mo">022</span><span class="p">,</span> <span class="n">verbose</span> <span class="o">=</span> <span class="mi">1</span> <span class="p">,</span><span class="n">debug</span> <span class="o">=</span> <span class="bp">False</span>  <span class="p">):</span>
         <span class="c"># 如果需要调试，更改为stdin=&#39;/dev/stdin&#39;,stdout=&#39;/dev/stdout&#39;,stderr=&#39;/dev/stderr&#39;, 以root身份运行</span>
+        <span class="sd">&quot;&quot;&quot;init 函数</span>
+
+<span class="sd">           参数有如下::</span>
+<span class="sd">             **pidfile:* pid进程文件</span>
+<span class="sd">             **stdin:* 输入流的日志记录</span>
+<span class="sd">             **stdout:* 输入流的日志记录</span>
+<span class="sd">             **stderr:* 错误流的日志记录</span>
+<span class="sd">             **home_dir:* 日志的存放目录</span>
+<span class="sd">             **umask:** 设置权限</span>
+<span class="sd">             **verbose:** 版本号</span>
+<span class="sd">             **debug:** 是否开启debug</span>
+<span class="sd">           </span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stdin</span> <span class="o">=</span> <span class="n">stdin</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="n">stdout</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stderr</span> <span class="o">=</span> <span class="n">stderr</span>
@@ -218,6 +245,8 @@
 
 </div>
 <div class="viewcode-block" id="Daemon.delpid"><a class="viewcode-back" href="../../../commands.libbase.csdaemon.html#commands.libbase.csdaemon.Daemon.delpid">[docs]</a>    <span class="k">def</span> <span class="nf">delpid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; remove the pidfile</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pidfile</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Daemon.start"><a class="viewcode-back" href="../../../commands.libbase.csdaemon.html#commands.libbase.csdaemon.Daemon.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span>  <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -302,6 +331,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="Daemon.get_pid"><a class="viewcode-back" href="../../../commands.libbase.csdaemon.html#commands.libbase.csdaemon.Daemon.get_pid">[docs]</a>    <span class="k">def</span> <span class="nf">get_pid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        get the pid file and check </span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">pf</span> <span class="o">=</span> <span class="nb">file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pidfile</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span>
             <span class="n">pid</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">pf</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
@@ -313,6 +345,8 @@
         <span class="k">return</span> <span class="n">pid</span>
 </div>
 <div class="viewcode-block" id="Daemon.is_running"><a class="viewcode-back" href="../../../commands.libbase.csdaemon.html#commands.libbase.csdaemon.Daemon.is_running">[docs]</a>    <span class="k">def</span> <span class="nf">is_running</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; just check the process is alive</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">pid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_pid</span><span class="p">()</span>
         <span class="k">print</span><span class="p">(</span><span class="n">pid</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">pid</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s">&#39;/proc/</span><span class="si">%d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">pid</span><span class="p">)</span>

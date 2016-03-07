@@ -146,7 +146,9 @@
 <dl class="class">
 <dt id="commands.libbase.csdaemon.Daemon">
 <em class="property">class </em><code class="descclassname">commands.libbase.csdaemon.</code><code class="descname">Daemon</code><span class="sig-paren">(</span><em>pidfile</em>, <em>stdin='/tmp/huihui.log'</em>, <em>stdout='/tmp/huihui.log'</em>, <em>stderr='/tmp/huihui.log'</em>, <em>home_dir='.'</em>, <em>umask=18</em>, <em>verbose=1</em>, <em>debug=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/commands/libbase/csdaemon.html#Daemon"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.libbase.csdaemon.Daemon" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="method">
+<dd><p>Daemon 主要是实现程序的后台运行，另外还可以实现日志向另外一个进程传送。</p>
+<p>通过将 stdin， stdout， stderr三个出入输出流进行定向来进行日志的保存</p>
+<dl class="method">
 <dt id="commands.libbase.csdaemon.Daemon.daemonize">
 <code class="descname">daemonize</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/commands/libbase/csdaemon.html#Daemon.daemonize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.libbase.csdaemon.Daemon.daemonize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Do the UNIX double-fork magic, see Stevens&#8217; &#8220;Advanced
@@ -159,17 +161,20 @@ Programming in the UNIX Environment&#8221; for details (ISBN 0201563177)
 <dl class="method">
 <dt id="commands.libbase.csdaemon.Daemon.delpid">
 <code class="descname">delpid</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/commands/libbase/csdaemon.html#Daemon.delpid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.libbase.csdaemon.Daemon.delpid" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>remove the pidfile</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="commands.libbase.csdaemon.Daemon.get_pid">
 <code class="descname">get_pid</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/commands/libbase/csdaemon.html#Daemon.get_pid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.libbase.csdaemon.Daemon.get_pid" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>get the pid file and check</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="commands.libbase.csdaemon.Daemon.is_running">
 <code class="descname">is_running</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/commands/libbase/csdaemon.html#Daemon.is_running"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.libbase.csdaemon.Daemon.is_running" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>just check the process is alive</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="commands.libbase.csdaemon.Daemon.restart">

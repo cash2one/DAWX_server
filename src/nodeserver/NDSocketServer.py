@@ -25,7 +25,7 @@ from  urlres import URLRes
 basedir = os.path.abspath(os.path.dirname(__file__))
 g.path = basedir
 g.name = 'NDserver'
-initlize()
+
 
 host = getConfig('nodeserver','NDip')
 port = int(getConfig('nodeserver','NDport'))
@@ -38,10 +38,11 @@ log2enable=getConfig('log','enablelog')
 
 
 class Servers(SRH):
-
-    #Don't call the base class finish() method as it does the above
-    #return SocketServer.StreamRequestHandler.finish(self)
+    """Sockertserver handler的封装，记住，这个不是socketserver，是request处理的封装。
+    """
     def finish(self,*args,**kw):
+        """因为存在bug，所以重写了这个函数
+        """
         try:
             if not self.wfile.closed:
                 self.wfile.flush()
@@ -51,6 +52,13 @@ class Servers(SRH):
         self.rfile.close()
 
     def handle(self):
+        """request 请求的处理函数。并作出response。也是我们处理的核心模块
+           它经过了如下几个步骤::
+             1. 验证密钥是否正确
+             2. 函数交给dataanalyse函数进行处理
+             3. 请求回应，并校验
+             4. 判断回应是否成功
+        """
         try:
             msg = 'got connection from ', self.client_address
             write_logger('info',msg)
@@ -101,21 +109,38 @@ class Servers(SRH):
                 print "IOError, you can ignore it! -----wsh"
 
 class ThreadedTCPServer(SocketServer.ThreadingMixIn, SocketServer.TCPServer):
-    # 异步通信
+    """我们采用了多线程的异步通信： 采用tcp协议
+    """
     pass
 
 class daemonserver(Daemon):
-
-    # 重写run方法
+    """设置为以daemon方式运行。Hook 了 main()函数
+    """
     def run(self,*args, **kwargs):
+        """重写了run()
+        """
         main()
 
 class daemon2server(Daemon):
+    """远端发送日志的进程， Hook 了 pro2()函数
+    """
     def run(self,*args,**kwargs):
+        """重写了run()
+        """
         pro2()
 
+def maininitlize():
+    """初始化函数的封装
+    
+       主要使用来检验启动的必须条件是否满足
+    """
+    maininitlize()
 
 def main():
+    """主函数
+
+       用来进行数据处理和日志记录，以及命令行的debug模式
+    """
     write_logger('info','NDServer is starting')
     server = ThreadedTCPServer(addr,Servers)
     try:
@@ -124,6 +149,8 @@ def main():
         write_logger('debug', 'You cancel it!!!!!')
 
 def pro2():
+    """网络日志发送程序
+    """
     aurlres = URLRes()
     debug =True if log2enable == "True" else False
     if debug:

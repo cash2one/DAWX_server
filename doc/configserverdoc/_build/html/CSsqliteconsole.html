@@ -80,9 +80,13 @@
                 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="CSSocketServer.html">CSSocketServer module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CSsqlite.html">CSsqlite module</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">CSsqliteconsole module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">CSsqliteconsole module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">数据库层的再次封装</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="dataanalyse.html">dataanalyse module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="libbase.html">libbase package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libbasebak.html">libbasebak package</a></li>
 </ul>
 
             
@@ -129,52 +133,58 @@
             
   <div class="section" id="module-CSsqliteconsole">
 <span id="cssqliteconsole-module"></span><h1>CSsqliteconsole module<a class="headerlink" href="#module-CSsqliteconsole" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>数据库层的再次封装<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>对于CSsqlite的再次封装</p>
 <dl class="function">
 <dt id="CSsqliteconsole.add">
 <code class="descclassname">CSsqliteconsole.</code><code class="descname">add</code><span class="sig-paren">(</span><em>alist</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/CSsqliteconsole.html#add"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CSsqliteconsole.add" title="Permalink to this definition">¶</a></dt>
-<dd><p>Arguments:
-- <cite>tablename</cite>:
-- <cite>handledata</cite>:</p>
+<dd><p>数据库中添加数据</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="CSsqliteconsole.close">
 <code class="descclassname">CSsqliteconsole.</code><code class="descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/CSsqliteconsole.html#close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CSsqliteconsole.close" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>关于sqlite3连接</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="CSsqliteconsole.deletebydb">
 <code class="descclassname">CSsqliteconsole.</code><code class="descname">deletebydb</code><span class="sig-paren">(</span><em>alist</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/CSsqliteconsole.html#deletebydb"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CSsqliteconsole.deletebydb" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>删除指定的dbnum</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="CSsqliteconsole.findbydb">
 <code class="descclassname">CSsqliteconsole.</code><code class="descname">findbydb</code><span class="sig-paren">(</span><em>alist</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/CSsqliteconsole.html#findbydb"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CSsqliteconsole.findbydb" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>根据dbnum查找基本信息</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="CSsqliteconsole.findbyip">
 <code class="descclassname">CSsqliteconsole.</code><code class="descname">findbyip</code><span class="sig-paren">(</span><em>alist</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/CSsqliteconsole.html#findbyip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CSsqliteconsole.findbyip" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>根据ip查询数据库基本信息</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="CSsqliteconsole.init">
 <code class="descclassname">CSsqliteconsole.</code><code class="descname">init</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/CSsqliteconsole.html#init"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CSsqliteconsole.init" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>初始化sqlite3连接</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="CSsqliteconsole.selectbysql">
 <code class="descclassname">CSsqliteconsole.</code><code class="descname">selectbysql</code><span class="sig-paren">(</span><em>alist</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/CSsqliteconsole.html#selectbysql"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CSsqliteconsole.selectbysql" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>可以任意的执行select语句</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="CSsqliteconsole.update">
 <code class="descclassname">CSsqliteconsole.</code><code class="descname">update</code><span class="sig-paren">(</span><em>alist</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/CSsqliteconsole.html#update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CSsqliteconsole.update" title="Permalink to this definition">¶</a></dt>
-<dd><p>Arguments:
-- <cite>tablename</cite>:
-- <cite>handledata</cite>:</p>
+<dd><p>更新数据库</p>
 </dd></dl>
 
+</div>
 </div>
 
 

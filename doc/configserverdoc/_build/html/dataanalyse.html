@@ -81,8 +81,12 @@
 <li class="toctree-l1"><a class="reference internal" href="CSSocketServer.html">CSSocketServer module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CSsqlite.html">CSsqlite module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CSsqliteconsole.html">CSsqliteconsole module</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">dataanalyse module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">dataanalyse module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">数据处理</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="libbase.html">libbase package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libbasebak.html">libbasebak package</a></li>
 </ul>
 
             
@@ -129,16 +133,29 @@
             
   <div class="section" id="module-dataanalyse">
 <span id="dataanalyse-module"></span><h1>dataanalyse module<a class="headerlink" href="#module-dataanalyse" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>数据处理<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>函数和命令的映射程序</p>
 <dl class="function">
 <dt id="dataanalyse.dataanalyse">
 <code class="descclassname">dataanalyse.</code><code class="descname">dataanalyse</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataanalyse.html#dataanalyse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataanalyse.dataanalyse" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>数据处理程序，进行了一些基本的判断和命令与函数的对应</p>
+<p><em>data:</em> 后端接收的命令</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="dataanalyse.usage">
 <code class="descclassname">dataanalyse.</code><code class="descname">usage</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataanalyse.html#usage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dataanalyse.usage" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>目前可以使用的命令有如下几个::
+1. findbydb 218
+2. update  dbnum=218 iswork=1
+3. delete 218
+4. add 192.168.100.1,3.xxt.cn,218,218,0(<a href="#id2"><span class="problematic" id="id3">|</span></a>192.168.100.1,3.xxt.cn,218,218,0)
+5. selectbysql XXX
+6. help</p>
+</dd></dl>
 
+</div>
 </div>
 
 

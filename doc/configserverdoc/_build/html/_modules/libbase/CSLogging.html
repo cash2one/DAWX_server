@@ -82,6 +82,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../CSsqliteconsole.html">CSsqliteconsole module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../dataanalyse.html">dataanalyse module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../libbase.html">libbase package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libbasebak.html">libbasebak package</a></li>
 </ul>
 
             
@@ -137,7 +138,7 @@
 <span class="c">#   20150923 增加前端web发送</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    CSLogging</span>
+<span class="sd">    日志记录模块</span>
 <span class="sd">    -----------</span>
 <span class="sd">    日志记录模块，想使用Logging ，但是系统已经有了logging模块，又因为先写的CSserver，所有就这么定了名字。</span>
 
@@ -153,9 +154,9 @@
 <span class="kn">import</span> <span class="nn">logging.handlers</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 
-
 <span class="kn">import</span> <span class="nn">mod_config</span>
 <span class="kn">from</span>  <span class="nn">urlres</span> <span class="kn">import</span> <span class="n">URLRes</span>
+
 
 
 <span class="c"># Color escape string</span>
@@ -168,6 +169,7 @@
 <span class="n">COLOR_GRAY</span><span class="o">=</span><span class="s">&#39;</span><span class="se">\033</span><span class="s">[1;37m&#39;</span>
 <span class="n">COLOR_WHITE</span><span class="o">=</span><span class="s">&#39;</span><span class="se">\033</span><span class="s">[1;38m&#39;</span>
 <span class="n">COLOR_RESET</span><span class="o">=</span><span class="s">&#39;</span><span class="se">\033</span><span class="s">[1;0m&#39;</span>
+
 
 <span class="c"># Define log Color</span>
 
@@ -278,7 +280,7 @@
     <span class="n">g_logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="set_logger"><a class="viewcode-back" href="../../libbase.CSLogging.html#libbase.CSLogging.set_logger">[docs]</a><span class="k">def</span> <span class="nf">set_logger</span><span class="p">(</span><span class="n">filename</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="s">&#39;a&#39;</span><span class="p">,</span>
-               <span class="n">fmt</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%(processName)s</span><span class="s"> -- </span><span class="si">%(asctime)s</span><span class="s">  -- [</span><span class="si">%(levelname)s</span><span class="s">]  </span><span class="si">%(message)s</span><span class="s">&#39;</span><span class="p">,</span>
+               <span class="n">fmt</span> <span class="o">=</span> <span class="s">&#39;-- </span><span class="si">%(asctime)s</span><span class="s">  -- [</span><span class="si">%(levelname)s</span><span class="s">]  </span><span class="si">%(message)s</span><span class="s">&#39;</span><span class="p">,</span>
                <span class="n">backup_count</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">limit</span> <span class="o">=</span> <span class="mi">20480</span><span class="p">,</span> <span class="n">when</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Configure the global logger.&#39;&#39;&#39;</span>
     <span class="k">global</span>  <span class="n">loglevels</span>
@@ -313,11 +315,7 @@
 
 
 </div>
-<div class="viewcode-block" id="write_logger"><a class="viewcode-back" href="../../libbase.CSLogging.html#libbase.CSLogging.write_logger">[docs]</a><span class="k">def</span> <span class="nf">write_logger</span><span class="p">(</span><span class="n">level</span> <span class="p">,</span><span class="n">astr</span><span class="p">,</span> <span class="n">internal</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    internal : 判断是否需要进行网络发送日志</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="write_logger"><a class="viewcode-back" href="../../libbase.CSLogging.html#libbase.CSLogging.write_logger">[docs]</a><span class="k">def</span> <span class="nf">write_logger</span><span class="p">(</span><span class="n">level</span> <span class="p">,</span><span class="n">astr</span><span class="p">,</span><span class="n">internal</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
     <span class="n">klog</span> <span class="o">=</span> <span class="n">set_logger</span><span class="p">()</span>
     <span class="n">aurlres</span> <span class="o">=</span> <span class="n">URLRes</span><span class="p">()</span>
     <span class="n">leveldict</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;debug&#39;</span><span class="p">:</span> <span class="n">klog</span><span class="o">.</span><span class="n">debug</span><span class="p">,</span>
@@ -337,7 +335,6 @@
             <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="ow">in</span>  <span class="p">[</span><span class="s">&#39;CSSocketServer.py&#39;</span><span class="p">,</span><span class="s">&#39;NDSocketServer.py&#39;</span><span class="p">]:</span>
                 <span class="kn">from</span> <span class="nn">initilize</span> <span class="kn">import</span> <span class="n">g</span> 
                 <span class="n">g</span><span class="o">.</span><span class="n">message_send</span><span class="o">.</span><span class="n">send</span><span class="p">((</span><span class="n">level</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">astr</span><span class="p">)))</span>
-            
         <span class="n">leveldict</span><span class="p">[</span><span class="n">level</span><span class="p">](</span><span class="n">astr</span><span class="p">)</span>
 
 

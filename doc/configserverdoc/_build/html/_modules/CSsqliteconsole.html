@@ -82,6 +82,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../CSsqliteconsole.html">CSsqliteconsole module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../dataanalyse.html">dataanalyse module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../libbase.html">libbase package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../libbasebak.html">libbasebak package</a></li>
 </ul>
 
             
@@ -135,25 +136,36 @@
 <span class="c"># Time : 2015-05-27</span>
 
 
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    数据库层的再次封装 </span>
+<span class="sd">    -----------</span>
+
+<span class="sd">    对于CSsqlite的再次封装</span>
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+
 <span class="kn">import</span> <span class="nn">CSsqlite</span>
 
 <span class="n">conn</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
 
 <div class="viewcode-block" id="init"><a class="viewcode-back" href="../CSsqliteconsole.html#CSsqliteconsole.init">[docs]</a><span class="k">def</span> <span class="nf">init</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;初始化sqlite3连接</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">global</span> <span class="n">conn</span>
     <span class="n">CSsqlite</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
     <span class="n">conn</span> <span class="o">=</span> <span class="n">CSsqlite</span><span class="o">.</span><span class="n">getConn</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">conn</span>
 </div>
 <div class="viewcode-block" id="close"><a class="viewcode-back" href="../CSsqliteconsole.html#CSsqliteconsole.close">[docs]</a><span class="k">def</span> <span class="nf">close</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;关于sqlite3连接</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">global</span> <span class="n">conn</span>
     <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="add"><a class="viewcode-back" href="../CSsqliteconsole.html#CSsqliteconsole.add">[docs]</a><span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">alist</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Arguments:</span>
-<span class="sd">    - `tablename`:</span>
-<span class="sd">    - `handledata`:</span>
+    <span class="sd">&quot;&quot;&quot;数据库中添加数据</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">listitems</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">alist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;|&#39;</span><span class="p">):</span>
@@ -173,10 +185,7 @@
 
 </div>
 <div class="viewcode-block" id="update"><a class="viewcode-back" href="../CSsqliteconsole.html#CSsqliteconsole.update">[docs]</a><span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="n">alist</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Arguments:</span>
-<span class="sd">    - `tablename`:</span>
-<span class="sd">    - `handledata`:</span>
+    <span class="sd">&quot;&quot;&quot;更新数据库</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c"># 重点部分，list处理，还有一点就是处理麻烦</span>
     <span class="n">adict</span> <span class="o">=</span> <span class="p">{}</span>
@@ -204,6 +213,8 @@
     <span class="k">return</span> <span class="n">res</span>
 </div>
 <div class="viewcode-block" id="findbydb"><a class="viewcode-back" href="../CSsqliteconsole.html#CSsqliteconsole.findbydb">[docs]</a><span class="k">def</span> <span class="nf">findbydb</span><span class="p">(</span><span class="n">alist</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;根据dbnum查找基本信息</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">alist</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">[</span><span class="bp">False</span> <span class="p">,</span> <span class="s">&quot;You should input right command!!&quot;</span><span class="p">]</span>
     <span class="n">dbnum</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">alist</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
@@ -215,6 +226,8 @@
     <span class="k">return</span> <span class="n">res</span>
 </div>
 <div class="viewcode-block" id="findbyip"><a class="viewcode-back" href="../CSsqliteconsole.html#CSsqliteconsole.findbyip">[docs]</a><span class="k">def</span> <span class="nf">findbyip</span><span class="p">(</span><span class="n">alist</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;根据ip查询数据库基本信息</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">alist</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">[</span><span class="bp">False</span> <span class="p">,</span> <span class="s">&quot;You should input right command!!&quot;</span><span class="p">]</span>
     <span class="n">ip</span> <span class="o">=</span> <span class="n">alist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -226,7 +239,7 @@
     <span class="k">return</span> <span class="n">res</span>
 </div>
 <div class="viewcode-block" id="deletebydb"><a class="viewcode-back" href="../CSsqliteconsole.html#CSsqliteconsole.deletebydb">[docs]</a><span class="k">def</span> <span class="nf">deletebydb</span><span class="p">(</span><span class="n">alist</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;删除指定的dbnum</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">alist</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">[</span><span class="bp">False</span> <span class="p">,</span> <span class="s">&quot;You should input right command!!&quot;</span><span class="p">]</span>
@@ -239,7 +252,7 @@
     <span class="k">return</span> <span class="n">res</span>
 </div>
 <div class="viewcode-block" id="selectbysql"><a class="viewcode-back" href="../CSsqliteconsole.html#CSsqliteconsole.selectbysql">[docs]</a><span class="k">def</span> <span class="nf">selectbysql</span><span class="p">(</span><span class="n">alist</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;可以任意的执行select语句</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">sql</span> <span class="o">=</span> <span class="s">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">alist</span><span class="p">)</span>
 

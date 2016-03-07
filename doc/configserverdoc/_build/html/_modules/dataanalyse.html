@@ -82,6 +82,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../CSsqliteconsole.html">CSsqliteconsole module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../dataanalyse.html">dataanalyse module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../libbase.html">libbase package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../libbasebak.html">libbasebak package</a></li>
 </ul>
 
             
@@ -135,10 +136,27 @@
 <span class="c">#  Author : wsh</span>
 <span class="c">#  Time: 2015-06-01</span>
 
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    数据处理 </span>
+<span class="sd">    -----------</span>
+
+<span class="sd">    函数和命令的映射程序</span>
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+
 <span class="kn">import</span>   <span class="nn">CSsqliteconsole</span>
 
+
 <div class="viewcode-block" id="usage"><a class="viewcode-back" href="../dataanalyse.html#dataanalyse.usage">[docs]</a><span class="k">def</span> <span class="nf">usage</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;目前可以使用的命令有如下几个::</span>
+<span class="sd">          1. findbydb 218</span>
+<span class="sd">          2. update  dbnum=218 iswork=1</span>
+<span class="sd">          3. delete 218</span>
+<span class="sd">          4. add 192.168.100.1,3.xxt.cn,218,218,0(|192.168.100.1,3.xxt.cn,218,218,0)</span>
+<span class="sd">          5. selectbysql XXX</span>
+<span class="sd">          6. help</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span>  <span class="p">[</span><span class="bp">True</span><span class="p">,</span><span class="s">&quot;&quot;&quot;##########################################</span>
 <span class="s">            these commands below are supported!&quot;&quot;&quot;</span><span class="p">]</span>
@@ -152,6 +170,10 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     </div>
 <div class="viewcode-block" id="dataanalyse"><a class="viewcode-back" href="../dataanalyse.html#dataanalyse.dataanalyse">[docs]</a><span class="k">def</span> <span class="nf">dataanalyse</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;数据处理程序，进行了一些基本的判断和命令与函数的对应</span>
+
+<span class="sd">      *data:* 后端接收的命令</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">dictname</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;findbydb&#39;</span><span class="p">:</span><span class="n">CSsqliteconsole</span><span class="o">.</span><span class="n">findbydb</span><span class="p">,</span>
                 <span class="s">&#39;findbyip&#39;</span><span class="p">:</span><span class="n">CSsqliteconsole</span><span class="o">.</span><span class="n">findbyip</span><span class="p">,</span>
                 <span class="s">&#39;update&#39;</span><span class="p">:</span><span class="n">CSsqliteconsole</span><span class="o">.</span><span class="n">update</span><span class="p">,</span>

@@ -6,25 +6,36 @@
 # Time : 2015-05-27
 
 
+
+"""
+    数据库层的再次封装 
+    -----------
+
+    对于CSsqlite的再次封装
+
+
+"""
+
 import CSsqlite
 
 conn = ''
 
 def init():
+    """初始化sqlite3连接
+    """
     global conn
     CSsqlite.init()
     conn = CSsqlite.getConn()
     return conn
 
 def close():
+    """关于sqlite3连接
+    """
     global conn
     conn.close()
 
 def add(alist):
-    """
-    Arguments:
-    - `tablename`:
-    - `handledata`:
+    """数据库中添加数据
     """
     listitems = []
     for i in alist[0].split('|'):
@@ -44,10 +55,7 @@ def add(alist):
 
 
 def update(alist):
-    """
-    Arguments:
-    - `tablename`:
-    - `handledata`:
+    """更新数据库
     """
     # 重点部分，list处理，还有一点就是处理麻烦
     adict = {}
@@ -75,6 +83,8 @@ def update(alist):
     return res
 
 def findbydb(alist):
+    """根据dbnum查找基本信息
+    """
     if len(alist) != 1:
         return [False , "You should input right command!!"]
     dbnum = int(alist[0])
@@ -86,6 +96,8 @@ def findbydb(alist):
     return res
 
 def findbyip(alist):
+    """根据ip查询数据库基本信息
+    """
     if len(alist) != 1:
         return [False , "You should input right command!!"]
     ip = alist[0]
@@ -97,7 +109,7 @@ def findbyip(alist):
     return res
 
 def deletebydb(alist):
-    """
+    """删除指定的dbnum
     """
     if len(alist) != 1:
         return [False , "You should input right command!!"]
@@ -110,7 +122,7 @@ def deletebydb(alist):
     return res
 
 def selectbysql(alist):
-    """
+    """可以任意的执行select语句
     """
     sql = " ".join(alist)
 

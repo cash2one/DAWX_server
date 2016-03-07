@@ -15,9 +15,9 @@
 
         telnet > hequ ip=192.168.0.1 dbnumlist
 
-   *ip*： 可以不使用的，如果不使用，则合区到dbnumlist的第一个区
+    *ip*： 可以不使用的，如果不使用，则合区到dbnumlist的第一个区
 
-   *dbnumlist*：空格分开，第一个是合区的value。
+    *dbnumlist*：空格分开，第一个是合区的value。
 
 
 """

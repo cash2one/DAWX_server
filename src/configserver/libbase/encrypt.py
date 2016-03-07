@@ -23,7 +23,7 @@ entrystr = getConfig('entry','str')
 def getmd5():
     """然后一个时间和字符串的md5值。
     """
-    amd5str = hashlib.md5(entrystr + str(int(time.time())/86400) ).hexdigest()
+    amd5str = hashlib.md5(entrystr + str(int(time.time())/86400)).hexdigest()
     return amd5str
 
 if __name__ == '__main__':

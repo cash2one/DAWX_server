@@ -18,6 +18,7 @@ Submodules
    commands.hequ
    commands.kaixinqu
    commands.mvzone
+   commands.socketserver
    commands.tarfile
    commands.tarzone
 

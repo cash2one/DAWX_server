@@ -5,7 +5,7 @@
 # author: wsh
 
 """
-    Check
+    启动检查模块
     --------------
 
     服务器启动之前检查一下是否符合启动条件，只需要改写或调用 **check()** ,如果无特殊需要就不用调用其他函数。
@@ -80,19 +80,24 @@ def check():
     filelist = eval(getConfig('check','filelist'))
     conflist = eval(getConfig('check','conflist'))
     tag = True
+    print "check dir staring ......................."
     for item in dirlist:
         if not  checkdir(item):
             tag = False
-
+    print "check file starting ......................"
     for item in filelist:
         if not checkfile(item):
             tag = False
+    print "check conf starting .........................."
     for item in conflist:
         if not checkconfig(item[0],item[1]):
             tag = False
+    print "all check done........................."
     return tag
 
 
 
 if __name__ == "__main__":
     main()
+
+

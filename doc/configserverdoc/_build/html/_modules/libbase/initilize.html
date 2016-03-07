@@ -82,6 +82,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../CSsqliteconsole.html">CSsqliteconsole module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../dataanalyse.html">dataanalyse module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../libbase.html">libbase package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libbasebak.html">libbasebak package</a></li>
 </ul>
 
             
@@ -133,14 +134,32 @@
 <span class="kn">from</span> <span class="nn">mod_config</span> <span class="kn">import</span> <span class="n">setConfig</span>
 <span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span><span class="nn">os</span>
 
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    初始化模块</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    主要是用来进行系统初始化</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
 <div class="viewcode-block" id="global_env"><a class="viewcode-back" href="../../libbase.initilize.html#libbase.initilize.global_env">[docs]</a><span class="k">class</span> <span class="nc">global_env</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;获取PIPE管道</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;initilize the PIPE</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">message_send</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">message_recv</span> <span class="o">=</span>  <span class="bp">self</span><span class="o">.</span><span class="n">pipeInit</span><span class="p">()</span>
 
 <div class="viewcode-block" id="global_env.pipeInit"><a class="viewcode-back" href="../../libbase.initilize.html#libbase.initilize.global_env.pipeInit">[docs]</a>    <span class="k">def</span> <span class="nf">pipeInit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;return the PIPE</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">send</span><span class="p">,</span><span class="n">recv</span> <span class="o">=</span> <span class="n">Pipe</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">send</span><span class="p">,</span><span class="n">recv</span></div>
     <span class="k">def</span> <span class="nf">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;参数不对的时候的处理</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">print</span> <span class="s">&quot;not found&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">atr</span> <span class="o">=</span> <span class="bp">None</span>
 
@@ -149,6 +168,10 @@
 <span class="n">g</span> <span class="o">=</span> <span class="n">global_env</span><span class="p">()</span>
 
 <div class="viewcode-block" id="initlize"><a class="viewcode-back" href="../../libbase.initilize.html#libbase.initilize.initlize">[docs]</a><span class="k">def</span> <span class="nf">initlize</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    初始化函数 </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">print</span> <span class="s">&quot;start initilize...................&quot;</span>
     <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">getuid</span><span class="p">()</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">print</span> <span class="s">&quot;current user is not root , please change it ..........&quot;</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>

@@ -6,10 +6,27 @@
 #  Author : wsh
 #  Time: 2015-06-01
 
+
+"""
+    数据处理 
+    -----------
+
+    函数和命令的映射程序
+
+
+"""
+
 import   CSsqliteconsole
 
+
 def usage():
-    """
+    """目前可以使用的命令有如下几个::
+          1. findbydb 218
+          2. update  dbnum=218 iswork=1
+          3. delete 218
+          4. add 192.168.100.1,3.xxt.cn,218,218,0(|192.168.100.1,3.xxt.cn,218,218,0)
+          5. selectbysql XXX
+          6. help
     """
     return  [True,"""##########################################
             these commands below are supported!"""]
@@ -23,6 +40,10 @@ def usage():
     """
     
 def dataanalyse(data):
+    """数据处理程序，进行了一些基本的判断和命令与函数的对应
+
+      *data:* 后端接收的命令
+    """
     dictname = {'findbydb':CSsqliteconsole.findbydb,
                 'findbyip':CSsqliteconsole.findbyip,
                 'update':CSsqliteconsole.update,
