@@ -1,0 +1,242 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>commands.changeZoneTime module &mdash; nodeserver  documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="nodeserver  documentation" href="index.html"/>
+        <link rel="up" title="commands package" href="commands.html"/>
+        <link rel="next" title="commands.dataanalyse module" href="commands.dataanalyse.html"/>
+        <link rel="prev" title="commands.libbase.urlres module" href="commands.libbase.urlres.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> nodeserver
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="NDSocketServer.html">NDSocketServer module</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="commands.html">commands package</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="commands.html#subpackages">Subpackages</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="commands.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="">commands.changeZoneTime module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id1">更改开区时间</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="commands.dataanalyse.html">commands.dataanalyse module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="commands.hequ.html">commands.hequ module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="commands.kaixinqu.html">commands.kaixinqu module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="commands.mvzone.html">commands.mvzone module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="commands.tarfile.html">commands.tarfile module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="commands.tarzone.html">commands.tarzone module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="commands.html#module-commands">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">nodeserver</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="commands.html">commands package</a> &raquo;</li>
+      
+    <li>commands.changeZoneTime module</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/commands.changeZoneTime.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-commands.changeZoneTime">
+<span id="commands-changezonetime-module"></span><h1>commands.changeZoneTime module<a class="headerlink" href="#module-commands.changeZoneTime" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>更改开区时间<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>开新区的一个小插曲，和开新区相比，只是做了开新区脚本中更改时间的部分。</p>
+<p>在命令行的实现为:</p>
+<p>changezonetime dbnum  time</p>
+<p><em>dbnum</em>: 区服号码</p>
+<p><em>time</em>：8位的时间形式，like：20151011</p>
+<dl class="function">
+<dt id="commands.changeZoneTime.changeZoneTime">
+<code class="descclassname">commands.changeZoneTime.</code><code class="descname">changeZoneTime</code><span class="sig-paren">(</span><em>alist</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/commands/changeZoneTime.html#changeZoneTime"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.changeZoneTime.changeZoneTime" title="Permalink to this definition">¶</a></dt>
+<dd><p>更改区服时间的操作非常的简单，操作如下:</p>
+<div class="highlight-python"><div class="highlight"><pre>1. 参数判断，必须是两个参数
+2. 是否为老区判断(未做)
+3. 更改时间脚本执行
+</pre></div>
+</div>
+<p>需要注意的是:</p>
+<div class="highlight-python"><div class="highlight"><pre>1. 参数中第一个为 *dbnum* ，第二个为 *time* ，时间参数的格式必须为&quot;20150101&quot;(8位)
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="commands.dataanalyse.html" class="btn btn-neutral float-right" title="commands.dataanalyse module" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="commands.libbase.urlres.html" class="btn btn-neutral" title="commands.libbase.urlres module" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Author.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

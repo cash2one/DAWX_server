@@ -1,0 +1,280 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>commands.hequ module &mdash; nodeserver  documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="nodeserver  documentation" href="index.html"/>
+        <link rel="up" title="commands package" href="commands.html"/>
+        <link rel="next" title="commands.kaixinqu module" href="commands.kaixinqu.html"/>
+        <link rel="prev" title="commands.dataanalyse module" href="commands.dataanalyse.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> nodeserver
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="NDSocketServer.html">NDSocketServer module</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="commands.html">commands package</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="commands.html#subpackages">Subpackages</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="commands.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="commands.changeZoneTime.html">commands.changeZoneTime module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="commands.dataanalyse.html">commands.dataanalyse module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="">commands.hequ module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#hequ">hequ</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="commands.kaixinqu.html">commands.kaixinqu module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="commands.mvzone.html">commands.mvzone module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="commands.tarfile.html">commands.tarfile module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="commands.tarzone.html">commands.tarzone module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="commands.html#module-commands">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">nodeserver</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="commands.html">commands package</a> &raquo;</li>
+      
+    <li>commands.hequ module</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/commands.hequ.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-commands.hequ">
+<span id="commands-hequ-module"></span><h1>commands.hequ module<a class="headerlink" href="#module-commands.hequ" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="hequ">
+<h2>hequ<a class="headerlink" href="#hequ" title="Permalink to this headline">¶</a></h2>
+<p>合区程序</p>
+<p>在命令行的实现为</p>
+<p>hequ ip=192.168.0.1 dbnumlist</p>
+<p><em>ip</em>： 可以不使用的，如果不使用，则合区到dbnumlist的第一个区</p>
+<p><em>dbnumlist</em>：空格分开，第一个是合区的value。</p>
+<dl class="function">
+<dt id="commands.hequ.arch_zone">
+<code class="descclassname">commands.hequ.</code><code class="descname">arch_zone</code><span class="sig-paren">(</span><em>alist</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/commands/hequ.html#arch_zone"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.hequ.arch_zone" title="Permalink to this definition">¶</a></dt>
+<dd><p>根据合区的区号进行归档，得到ip-numlist 的对应关系，生成字典。</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="commands.hequ.changezoneipandvalue">
+<code class="descclassname">commands.hequ.</code><code class="descname">changezoneipandvalue</code><span class="sig-paren">(</span><em>alist</em>, <em>localip</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/commands/hequ.html#changezoneipandvalue"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.hequ.changezoneipandvalue" title="Permalink to this definition">¶</a></dt>
+<dd><p>合区涉及的数据库更改，主要更改两个部分:</p>
+<ol class="arabic simple">
+<li>ip更改</li>
+<li>value更改</li>
+</ol>
+</dd></dl>
+
+<dl class="function">
+<dt id="commands.hequ.getIpAndDBnum">
+<code class="descclassname">commands.hequ.</code><code class="descname">getIpAndDBnum</code><span class="sig-paren">(</span><em>alist</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/commands/hequ.html#getIpAndDBnum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.hequ.getIpAndDBnum" title="Permalink to this definition">¶</a></dt>
+<dd><p>获得ip和合区的列表。有两种形式:</p>
+<div class="highlight-python"><div class="highlight"><pre>1. 给了合区的ip，则直接返回ip和dbnumlist。
+2. 没有给出ip，则获得dbnumlist的第一个区的ip，然后返回。
+</pre></div>
+</div>
+<p>这里面的ip为合区到的ip。理论上合区在任何服务器上都可以。</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="commands.hequ.hequ">
+<code class="descclassname">commands.hequ.</code><code class="descname">hequ</code><span class="sig-paren">(</span><em>alist</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/commands/hequ.html#hequ"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#commands.hequ.hequ" title="Permalink to this definition">¶</a></dt>
+<dd><p>合区的核心程序。
+目前涉及的几个步骤如下:</p>
+<div class="highlight-python"><div class="highlight"><pre>1. 获取ip,numlist 并进行归档。
+2. 根据判断ip是否为本地进行分类操作
+
+     * ip为本地ip，停服。
+     * ip不是本机ip，则向该ip发送 **tarzone** 命令
+
+3. CSserver的数据库更改。主要是更改 *ip* 和 *value*
+4. 由于打包过来的文件日志目录缺失，增加日志目录
+5. 合区脚本执行
+6. 本地domai.conf配置增加。在 *第二步* 的时候将在domai.conf中本地的要合区的dbnum进行了删除。
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>需要注意的是::</dt>
+<dd><ol class="first last arabic simple">
+<li><em>ip</em> 并不是必须存在的，如果存在合区到 <em>ip</em> 所在服务器上，如果不存在则合区到第一个 <em>dbnum</em> 所在的服务器上。</li>
+</ol>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="commands.kaixinqu.html" class="btn btn-neutral float-right" title="commands.kaixinqu module" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="commands.dataanalyse.html" class="btn btn-neutral" title="commands.dataanalyse module" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Author.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

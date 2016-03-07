@@ -1,0 +1,309 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>commands.libbase.urlres &mdash; nodeserver  documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="nodeserver  documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> nodeserver
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../NDSocketServer.html">NDSocketServer module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../commands.html">commands package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">nodeserver</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+    <li>commands.libbase.urlres</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for commands.libbase.urlres</h1><div class="highlight"><pre>
+<span class="c">#!/bin/env python</span>
+<span class="c">#coding=utf-8</span>
+
+<span class="c"># configserver的客户端</span>
+<span class="c"># Author： wsh</span>
+<span class="c"># Time: 2015-09-22</span>
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    urlres</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    向web服务器发送server状态。</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span><span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">httplib</span><span class="o">,</span> <span class="nn">urllib</span>
+<span class="kn">from</span> <span class="nn">mod_config</span> <span class="kn">import</span> <span class="n">getConfig</span>
+
+<span class="n">webip</span> <span class="o">=</span> <span class="n">getConfig</span><span class="p">(</span><span class="s">&#39;webserver&#39;</span><span class="p">,</span><span class="s">&#39;webip&#39;</span><span class="p">)</span>
+<span class="n">webport</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">getConfig</span><span class="p">(</span><span class="s">&#39;webserver&#39;</span><span class="p">,</span><span class="s">&#39;webport&#39;</span><span class="p">))</span>
+<span class="n">servername</span> <span class="o">=</span> <span class="n">getConfig</span><span class="p">(</span><span class="s">&#39;servername&#39;</span><span class="p">,</span><span class="s">&#39;name&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="URLRes"><a class="viewcode-back" href="../../../commands.libbase.urlres.html#commands.libbase.urlres.URLRes">[docs]</a><span class="k">class</span> <span class="nc">URLRes</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">servername</span><span class="o">=</span><span class="n">servername</span><span class="p">,</span><span class="n">domain</span> <span class="o">=</span> <span class="n">webip</span><span class="p">,</span> <span class="n">port</span> <span class="o">=</span> <span class="n">webport</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">domain</span> <span class="o">=</span> <span class="n">domain</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="n">port</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">httpClient</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">headers</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">servername</span> <span class="o">=</span> <span class="s">&quot;ND&quot;</span> <span class="o">+</span> <span class="n">servername</span>
+
+<div class="viewcode-block" id="URLRes.setpostparams"><a class="viewcode-back" href="../../../commands.libbase.urlres.html#commands.libbase.urlres.URLRes.setpostparams">[docs]</a>    <span class="k">def</span> <span class="nf">setpostparams</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">level</span><span class="p">,</span><span class="n">astr</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;设置发送的post信息</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">adict</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;servername&#39;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">servername</span><span class="p">,</span><span class="s">&#39;level&#39;</span><span class="p">:</span><span class="n">level</span><span class="p">,</span><span class="s">&#39;data&#39;</span><span class="p">:</span> <span class="n">astr</span><span class="p">}</span>
+        <span class="k">return</span> <span class="n">urllib</span><span class="o">.</span><span class="n">urlencode</span><span class="p">(</span><span class="n">adict</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="URLRes.seturi"><a class="viewcode-back" href="../../../commands.libbase.urlres.html#commands.libbase.urlres.URLRes.seturi">[docs]</a>    <span class="k">def</span> <span class="nf">seturi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">80</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;设置发送的服务器域名和端口</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">domain</span> <span class="o">=</span> <span class="n">domain</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="n">port</span>
+</div>
+<div class="viewcode-block" id="URLRes.setheaders"><a class="viewcode-back" href="../../../commands.libbase.urlres.html#commands.libbase.urlres.URLRes.setheaders">[docs]</a>    <span class="k">def</span> <span class="nf">setheaders</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;设置头文件</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;Content-type&quot;</span><span class="p">:</span> <span class="s">&quot;application/x-www-form-urlencoded&quot;</span>
+                        <span class="p">,</span> <span class="s">&quot;Accept&quot;</span><span class="p">:</span> <span class="s">&quot;text/plain&quot;</span><span class="p">}</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span>
+</div>
+<div class="viewcode-block" id="URLRes.geturi"><a class="viewcode-back" href="../../../commands.libbase.urlres.html#commands.libbase.urlres.URLRes.geturi">[docs]</a>    <span class="k">def</span> <span class="nf">geturi</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; 获取uri</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">port</span>
+
+</div>
+<div class="viewcode-block" id="URLRes.connect"><a class="viewcode-back" href="../../../commands.libbase.urlres.html#commands.libbase.urlres.URLRes.connect">[docs]</a>    <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; 连接服务器，返回句柄</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">httpClient</span> <span class="o">=</span> <span class="n">httplib</span><span class="o">.</span><span class="n">HTTPConnection</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">,</span><span class="n">timeout</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">httpClient</span>
+</div>
+<div class="viewcode-block" id="URLRes.send"><a class="viewcode-back" href="../../../commands.libbase.urlres.html#commands.libbase.urlres.URLRes.send">[docs]</a>    <span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">level</span><span class="p">,</span><span class="n">astr</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;向web server 发送post请求</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">httpClient</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s">&quot;POST&quot;</span><span class="p">,</span><span class="s">&quot;/chat/getlog.html&quot;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">setpostparams</span><span class="p">(</span><span class="n">level</span><span class="p">,</span><span class="n">astr</span><span class="p">),</span><span class="bp">self</span><span class="o">.</span><span class="n">setheaders</span><span class="p">())</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">httpClient</span><span class="o">.</span><span class="n">getresponse</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="mi">200</span> <span class="p">:</span>
+            <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">return</span> <span class="bp">False</span>
+</div>
+<div class="viewcode-block" id="URLRes.close"><a class="viewcode-back" href="../../../commands.libbase.urlres.html#commands.libbase.urlres.URLRes.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;关闭连接</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">httpClient</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="URLRes.run"><a class="viewcode-back" href="../../../commands.libbase.urlres.html#commands.libbase.urlres.URLRes.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">level</span><span class="p">,</span><span class="n">astr</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; 向web发送实时消息。</span>
+
+<span class="sd">        :param level： 日志等级</span>
+<span class="sd">        :param astr:  日志内容</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tag</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">level</span><span class="p">,</span><span class="n">astr</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">e</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">tag</span>
+
+
+</div></div>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">try:</span>
+<span class="sd">    params = urllib.urlencode({&#39;wsh&#39;: &#39;tom&#39;, &#39;age&#39;: 22})</span>
+<span class="sd">    headers = {&quot;Content-type&quot;: &quot;application/x-www-form-urlencoded&quot;</span>
+<span class="sd">               , &quot;Accept&quot;: &quot;text/plain&quot;}</span>
+
+<span class="sd">    httpClient = httplib.HTTPConnection(&quot;localhost&quot;, 5000, timeout=30)</span>
+<span class="sd">    httpClient.request(&quot;POST&quot;, &quot;/chat/log.html&quot;, params, headers)</span>
+
+
+<span class="sd">    response = httpClient.getresponse()</span>
+<span class="sd">    print response.status</span>
+<span class="sd">    print response.reason</span>
+<span class="sd">    print response.read()</span>
+<span class="sd">    print response.getheaders() </span>
+<span class="sd">except Exception, e:</span>
+<span class="sd">    print e</span>
+<span class="sd">finally:</span>
+<span class="sd">    if httpClient:</span>
+<span class="sd">        httpClient.close()</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">aurlres</span> <span class="o">=</span>  <span class="n">urlres</span><span class="p">()</span>
+    <span class="n">aurlres</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s">&#39;asaa is a test&#39;</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Author.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

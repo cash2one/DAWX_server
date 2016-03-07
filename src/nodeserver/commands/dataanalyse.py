@@ -6,12 +6,12 @@
 #  Author : wsh
 #  Time: 2015-06-01
 
-from  commands.kaixinqu import kaixinqu
-from  commands.hequ import hequ
-from commands.tarzone import tarzone
-from commands.tarfile  import tarfile
-from commands.changeZoneTime import changeZoneTime
-from commands.mvzone import mvzone
+from  kaixinqu import kaixinqu
+from  hequ import hequ
+from tarzone import tarzone
+from tarfile  import tarfile
+from changeZoneTime import changeZoneTime
+from mvzone import mvzone
 def usage():
     """
     """

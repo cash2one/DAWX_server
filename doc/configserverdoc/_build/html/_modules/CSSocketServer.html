@@ -1,0 +1,327 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>CSSocketServer &mdash; configserver  documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="configserver  documentation" href="../index.html"/>
+        <link rel="up" title="Module code" href="index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> configserver
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../CSSocketServer.html">CSSocketServer module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CSsqlite.html">CSsqlite module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CSsqliteconsole.html">CSsqliteconsole module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dataanalyse.html">dataanalyse module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../libbase.html">libbase package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">configserver</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="index.html">Module code</a> &raquo;</li>
+      
+    <li>CSSocketServer</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for CSSocketServer</h1><div class="highlight"><pre>
+<span class="c">#!/bin/env python</span>
+<span class="c">#coding=utf-8</span>
+
+
+
+<span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span><span class="nn">os</span>
+
+
+<span class="kn">import</span> <span class="nn">SocketServer</span>
+<span class="kn">import</span> <span class="nn">socket</span>
+<span class="kn">from</span> <span class="nn">SocketServer</span> <span class="kn">import</span> <span class="n">StreamRequestHandler</span> <span class="k">as</span> <span class="n">SRH</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">dataanalyse</span>
+<span class="kn">from</span> <span class="nn">multiprocessing</span>  <span class="kn">import</span> <span class="n">Process</span>
+
+
+
+<span class="c"># libbase</span>
+<span class="kn">from</span>  <span class="nn">CSLogging</span>  <span class="kn">import</span> <span class="n">write_logger</span>
+<span class="kn">from</span> <span class="nn">csdaemon</span> <span class="kn">import</span> <span class="n">Daemon</span>
+<span class="kn">from</span> <span class="nn">mod_config</span> <span class="kn">import</span> <span class="n">getConfig</span>
+<span class="kn">from</span> <span class="nn">encrypt</span> <span class="kn">import</span> <span class="n">getmd5</span>
+<span class="kn">from</span> <span class="nn">check</span> <span class="kn">import</span> <span class="n">check</span>
+<span class="kn">from</span> <span class="nn">initilize</span> <span class="kn">import</span> <span class="n">g</span><span class="p">,</span><span class="n">initlize</span>
+<span class="kn">from</span>  <span class="nn">urlres</span> <span class="kn">import</span> <span class="n">URLRes</span>
+
+<span class="n">basedir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">))</span>
+<span class="n">g</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">basedir</span>
+<span class="n">g</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">&#39;CSserver&#39;</span>
+
+
+
+
+<span class="n">host</span> <span class="o">=</span> <span class="n">getConfig</span><span class="p">(</span><span class="s">&#39;csserver&#39;</span><span class="p">,</span><span class="s">&#39;CSip&#39;</span><span class="p">)</span>
+<span class="n">port</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">getConfig</span><span class="p">(</span><span class="s">&#39;csserver&#39;</span><span class="p">,</span><span class="s">&#39;CSport&#39;</span><span class="p">))</span>
+<span class="n">addr</span> <span class="o">=</span> <span class="p">(</span><span class="n">host</span><span class="p">,</span><span class="n">port</span><span class="p">)</span>
+<span class="n">mainpid</span> <span class="o">=</span> <span class="n">getConfig</span><span class="p">(</span><span class="s">&#39;pid&#39;</span><span class="p">,</span><span class="s">&#39;mainpid&#39;</span><span class="p">)</span>
+<span class="n">logpid</span> <span class="o">=</span> <span class="n">getConfig</span><span class="p">(</span><span class="s">&#39;pid&#39;</span><span class="p">,</span><span class="s">&#39;logpid&#39;</span><span class="p">)</span>
+<span class="n">logfile</span> <span class="o">=</span> <span class="n">getConfig</span><span class="p">(</span><span class="s">&#39;log&#39;</span><span class="p">,</span><span class="s">&#39;logfile&#39;</span><span class="p">)</span>
+<span class="n">log2file</span> <span class="o">=</span> <span class="n">getConfig</span><span class="p">(</span><span class="s">&#39;log&#39;</span><span class="p">,</span><span class="s">&#39;log2file&#39;</span><span class="p">)</span>
+<span class="n">log2enable</span><span class="o">=</span><span class="n">getConfig</span><span class="p">(</span><span class="s">&#39;log&#39;</span><span class="p">,</span><span class="s">&#39;enablelog&#39;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="Servers"><a class="viewcode-back" href="../CSSocketServer.html#CSSocketServer.Servers">[docs]</a><span class="k">class</span> <span class="nc">Servers</span><span class="p">(</span><span class="n">SRH</span><span class="p">):</span>
+    <span class="c">#Don&#39;t call the base class finish() method as it does the above</span>
+    <span class="c">#return SocketServer.StreamRequestHandler.finish(self)</span>
+<div class="viewcode-block" id="Servers.finish"><a class="viewcode-back" href="../CSSocketServer.html#CSSocketServer.Servers.finish">[docs]</a>    <span class="k">def</span> <span class="nf">finish</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">wfile</span><span class="o">.</span><span class="n">closed</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">wfile</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">wfile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">except</span> <span class="n">socket</span><span class="o">.</span><span class="n">error</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rfile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="Servers.handle"><a class="viewcode-back" href="../CSSocketServer.html#CSSocketServer.Servers.handle">[docs]</a>    <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s">&#39;got connection from &#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">client_address</span>
+            <span class="n">write_logger</span><span class="p">(</span><span class="s">&#39;info&#39;</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">wfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;connection </span><span class="si">%s</span><span class="s">:</span><span class="si">%s</span><span class="s"> at </span><span class="si">%s</span><span class="s">  succeed!</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">host</span><span class="p">,</span><span class="n">port</span><span class="p">,</span><span class="n">time</span><span class="o">.</span><span class="n">ctime</span><span class="p">()))</span>
+            <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+                <span class="n">amd5</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rfile</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                <span class="n">amd5str</span><span class="o">=</span><span class="n">getmd5</span><span class="p">()</span>
+
+
+                <span class="k">if</span> <span class="n">amd5</span> <span class="o">!=</span> <span class="n">amd5str</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">wfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;refused!</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+                    <span class="n">write_logger</span><span class="p">(</span><span class="s">&#39;debug&#39;</span><span class="p">,</span><span class="s">&#39;CSserver md5 : </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">amd5str</span><span class="p">)</span>
+                    <span class="n">write_logger</span><span class="p">(</span><span class="s">&#39;debug&#39;</span><span class="p">,</span> <span class="s">&#39;Client CSserver: </span><span class="si">%s</span><span class="s">&#39;</span><span class="o">%</span> <span class="n">amd5</span><span class="p">)</span>
+                    <span class="n">write_logger</span><span class="p">(</span><span class="s">&#39;error&#39;</span><span class="p">,</span><span class="s">&quot;PassWord refused&quot;</span><span class="p">)</span>
+                    <span class="k">break</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">wfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;check OK!</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+                <span class="n">write_logger</span><span class="p">(</span><span class="s">&#39;info&#39;</span><span class="p">,</span><span class="s">&quot;PassWord check OK!&quot;</span><span class="p">)</span>
+
+                <span class="n">ares</span><span class="o">=</span><span class="s">&#39;&#39;</span>
+                <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+                    <span class="n">res</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+                    <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rfile</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                    <span class="k">if</span> <span class="n">data</span> <span class="o">!=</span> <span class="s">&quot;retry&quot;</span> <span class="p">:</span>
+                        <span class="k">if</span> <span class="n">data</span><span class="p">:</span>
+                            <span class="n">write_logger</span><span class="p">(</span><span class="s">&#39;warning&#39;</span><span class="p">,</span> <span class="s">&quot;receive command: </span><span class="si">%s</span><span class="s"> &quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+                            <span class="n">res</span> <span class="o">=</span> <span class="n">dataanalyse</span><span class="o">.</span><span class="n">dataanalyse</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">res</span> <span class="p">:</span>
+                            <span class="k">if</span> <span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                                <span class="n">write_logger</span><span class="p">(</span><span class="s">&#39;info&#39;</span><span class="p">,</span><span class="s">&quot;command EXEC OK&quot;</span><span class="p">)</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="n">write_logger</span><span class="p">(</span><span class="s">&#39;error&#39;</span><span class="p">,</span><span class="s">&quot;command EXEC FAILED&quot;</span><span class="p">)</span>
+
+                            <span class="n">res</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                            <span class="n">write_logger</span><span class="p">(</span><span class="s">&#39;debug&#39;</span><span class="p">,</span><span class="s">&quot;send result: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">res</span><span class="p">)</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">res</span><span class="o">=</span><span class="s">&quot;None&quot;</span>
+                    <span class="n">ares</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">res</span><span class="p">)))</span> <span class="o">+</span> <span class="s">&quot;wshzaiyunwei&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">res</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;wshzaiyunweiend</span><span class="se">\n</span><span class="s">&#39;</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">wfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">ares</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">wfile</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+
+
+        <span class="k">except</span> <span class="ne">IOError</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+</div></div>
+<div class="viewcode-block" id="ThreadedTCPServer"><a class="viewcode-back" href="../CSSocketServer.html#CSSocketServer.ThreadedTCPServer">[docs]</a><span class="k">class</span> <span class="nc">ThreadedTCPServer</span><span class="p">(</span><span class="n">SocketServer</span><span class="o">.</span><span class="n">ThreadingMixIn</span><span class="p">,</span> <span class="n">SocketServer</span><span class="o">.</span><span class="n">TCPServer</span><span class="p">):</span>
+    <span class="c"># 异步通信</span>
+    <span class="k">pass</span>
+</div>
+<div class="viewcode-block" id="daemonserver"><a class="viewcode-back" href="../CSSocketServer.html#CSSocketServer.daemonserver">[docs]</a><span class="k">class</span> <span class="nc">daemonserver</span><span class="p">(</span><span class="n">Daemon</span><span class="p">):</span>
+
+    <span class="c"># 重写run方法</span>
+<div class="viewcode-block" id="daemonserver.run"><a class="viewcode-back" href="../CSSocketServer.html#CSSocketServer.daemonserver.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">main</span><span class="p">()</span>
+
+</div></div>
+<div class="viewcode-block" id="daemon2server"><a class="viewcode-back" href="../CSSocketServer.html#CSSocketServer.daemon2server">[docs]</a><span class="k">class</span> <span class="nc">daemon2server</span><span class="p">(</span><span class="n">Daemon</span><span class="p">):</span>
+<div class="viewcode-block" id="daemon2server.run"><a class="viewcode-back" href="../CSSocketServer.html#CSSocketServer.daemon2server.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">pro2</span><span class="p">()</span>
+</div></div>
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../CSSocketServer.html#CSSocketServer.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">check</span><span class="p">():</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">write_logger</span><span class="p">(</span><span class="s">&#39;info&#39;</span><span class="p">,</span><span class="s">&#39;CSServer  Check OK&#39;</span><span class="p">)</span>
+    <span class="n">write_logger</span><span class="p">(</span><span class="s">&#39;info&#39;</span><span class="p">,</span><span class="s">&#39;CSServer starts&#39;</span><span class="p">)</span>
+    <span class="n">server</span> <span class="o">=</span> <span class="n">ThreadedTCPServer</span><span class="p">(</span><span class="n">addr</span><span class="p">,</span><span class="n">Servers</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">server</span><span class="o">.</span><span class="n">serve_forever</span><span class="p">()</span>
+    <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">,</span><span class="n">e</span><span class="p">:</span>
+        <span class="n">write_logger</span><span class="p">(</span><span class="s">&#39;debug&#39;</span><span class="p">,</span> <span class="s">&#39;You cancel it!!!!!&#39;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="pro2"><a class="viewcode-back" href="../CSSocketServer.html#CSSocketServer.pro2">[docs]</a><span class="k">def</span> <span class="nf">pro2</span><span class="p">():</span>
+    <span class="n">aurlres</span> <span class="o">=</span> <span class="n">URLRes</span><span class="p">()</span>
+    <span class="n">debug</span> <span class="o">=</span><span class="bp">True</span> <span class="k">if</span> <span class="n">log2enable</span> <span class="o">==</span> <span class="s">&quot;True&quot;</span> <span class="k">else</span> <span class="bp">False</span>
+    <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+        <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">res</span> <span class="o">=</span>  <span class="n">g</span><span class="o">.</span><span class="n">message_recv</span><span class="o">.</span><span class="n">recv</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">aurlres</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">res</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+                <span class="n">write_logger</span><span class="p">(</span><span class="s">&#39;error&#39;</span><span class="p">,</span><span class="s">&quot;can&#39;t connect webserver&quot;</span><span class="p">,</span><span class="n">internal</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</pre></div></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Author.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

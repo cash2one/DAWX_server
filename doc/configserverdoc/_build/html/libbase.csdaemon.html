@@ -1,0 +1,276 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>libbase.csdaemon module &mdash; configserver  documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="configserver  documentation" href="index.html"/>
+        <link rel="up" title="libbase package" href="libbase.html"/>
+        <link rel="next" title="libbase.encrypt module" href="libbase.encrypt.html"/>
+        <link rel="prev" title="libbase.check module" href="libbase.check.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> configserver
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="CSSocketServer.html">CSSocketServer module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CSsqlite.html">CSsqlite module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CSsqliteconsole.html">CSsqliteconsole module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dataanalyse.html">dataanalyse module</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="libbase.html">libbase package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="libbase.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="libbase.CSLogging.html">libbase.CSLogging module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="libbase.check.html">libbase.check module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="">libbase.csdaemon module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="libbase.encrypt.html">libbase.encrypt module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="libbase.getConfigClient.html">libbase.getConfigClient module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="libbase.initilize.html">libbase.initilize module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="libbase.mod_config.html">libbase.mod_config module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="libbase.subprores.html">libbase.subprores module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="libbase.urlres.html">libbase.urlres module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="libbase.html#module-libbase">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">configserver</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="libbase.html">libbase package</a> &raquo;</li>
+      
+    <li>libbase.csdaemon module</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/libbase.csdaemon.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-libbase.csdaemon">
+<span id="libbase-csdaemon-module"></span><h1>libbase.csdaemon module<a class="headerlink" href="#module-libbase.csdaemon" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="libbase.csdaemon.Daemon">
+<em class="property">class </em><code class="descclassname">libbase.csdaemon.</code><code class="descname">Daemon</code><span class="sig-paren">(</span><em>pidfile</em>, <em>stdin='/tmp/huihui.log'</em>, <em>stdout='/tmp/huihui.log'</em>, <em>stderr='/tmp/huihui.log'</em>, <em>home_dir='.'</em>, <em>umask=18</em>, <em>verbose=1</em>, <em>debug=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/libbase/csdaemon.html#Daemon"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#libbase.csdaemon.Daemon" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="libbase.csdaemon.Daemon.daemonize">
+<code class="descname">daemonize</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/libbase/csdaemon.html#Daemon.daemonize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#libbase.csdaemon.Daemon.daemonize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Do the UNIX double-fork magic, see Stevens&#8217; &#8220;Advanced
+Programming in the UNIX Environment&#8221; for details (ISBN 0201563177)
+<a class="reference external" href="http://www.erlenstar.demon.co.uk/unix/faq_2.html#SEC16">http://www.erlenstar.demon.co.uk/unix/faq_2.html#SEC16</a></p>
+<p>Arguments:
+- <cite>self</cite>:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="libbase.csdaemon.Daemon.delpid">
+<code class="descname">delpid</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/libbase/csdaemon.html#Daemon.delpid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#libbase.csdaemon.Daemon.delpid" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="libbase.csdaemon.Daemon.get_pid">
+<code class="descname">get_pid</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/libbase/csdaemon.html#Daemon.get_pid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#libbase.csdaemon.Daemon.get_pid" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="libbase.csdaemon.Daemon.is_running">
+<code class="descname">is_running</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/libbase/csdaemon.html#Daemon.is_running"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#libbase.csdaemon.Daemon.is_running" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="libbase.csdaemon.Daemon.restart">
+<code class="descname">restart</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/libbase/csdaemon.html#Daemon.restart"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#libbase.csdaemon.Daemon.restart" title="Permalink to this definition">¶</a></dt>
+<dd><p>Restart the Daemon</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="libbase.csdaemon.Daemon.run">
+<code class="descname">run</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/libbase/csdaemon.html#Daemon.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#libbase.csdaemon.Daemon.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>You should override this method when you subclass Daemon.
+It will be called after the process has been
+daemonized by start() or restart().</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="libbase.csdaemon.Daemon.start">
+<code class="descname">start</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/libbase/csdaemon.html#Daemon.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#libbase.csdaemon.Daemon.start" title="Permalink to this definition">¶</a></dt>
+<dd><p>start the daemon</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="libbase.csdaemon.Daemon.stop">
+<code class="descname">stop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/libbase/csdaemon.html#Daemon.stop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#libbase.csdaemon.Daemon.stop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stop the daemon</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="libbase.encrypt.html" class="btn btn-neutral float-right" title="libbase.encrypt module" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="libbase.check.html" class="btn btn-neutral" title="libbase.check module" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Author.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

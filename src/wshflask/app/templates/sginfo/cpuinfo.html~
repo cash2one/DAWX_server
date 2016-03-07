@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block title %} CPU_info {% endblock  %}
+
+
+
+
+{% block page_content %}
+
+<div class="col-lg-12">
+  <div class="nav navbar ">
+	
+	<div class="nav col-lg-2 col-lg-offset-1">
+	  <div class="form-group">
+		
+		<lable><h3>服务器类型:</h3></lable>
+		<select class="form-control" id="servertype">
+		</select>
+	  </div>
+	</div>
+	
+	<div class="nav col-lg-2 col-lg-offset-1">
+	  <div class="form-group">
+		<lable><h3>dbname:</h3></lable>
+		<select class="form-control " id="dbname"> </select>
+	  </div>
+
+	</div>
+
+
+	<div class="nav col-lg-3 col-lg-offset-1">
+	  <div class="form-group">
+	  <lable><h3>items:</h3></lable>
+	  <select class="form-control" id="item"> </select>
+	  </div>
+	</div>
+  </div>
+	
+	
+<hr />
+<div id="test" class='col-lg-12' style="height:400px"></div>
+
+
+</div>
+
+{% endblock %}
+
+ {% block scripts %}
+  {{ super() }}
+
+<script src="{{ url_for('static', filename='js/wsh.js') }}"></script>
+
+
+<script type="text/javascript">
+
+  
+var  dbnamelist = new Array();
+var dbcnamelist = new Array();
+var webnamelist = new Array();
+var webidlist = new Array();
+var dbidlist = new Array();
+var dbcidlist  = new Array();
+
+  var recvjson = {{ hostsjson|safe }};
+for(var i=0;i<recvjson.length;i++){
+				
+				  for(var p=0; p< recvjson[i][2].length;p++){
+								  if ( recvjson[i][1] == 'DB')
+								  {
+								  dbnamelist.push(recvjson[i][2][p][0]);
+								  dbidlist.push(recvjson[i][2][p][1]);
+								  }
+								  else if ( recvjson[i][1] == 'DBC' )
+								  {
+								  dbcnamelist.push(recvjson[i][2][p][0]);
+								  dbcidlist.push(recvjson[i][2][p][1]);
+								  }
+								  else if  ( recvjson[i][1] == 'WEB' )
+								  {
+								  webnamelist.push(recvjson[i][2][p][0]);
+								  webidlist.push(recvjson[i][2][p][1])
+								  }
+								  }
+								  }
+
+
+var servertypelist = [
+    {
+       id:123, name:'WEB',namelist: webnamelist, idlist : webidlist
+    },
+	{
+		id:456, name:'DB',namelist: dbnamelist, idlist : dbidlist
+	},
+	{
+		id: 78,name:'DBC',namelist:dbcnamelist, idlist : dbcidlist
+	}
+];
+
+
+								  addressInit('servertype', 'dbname', 'item'); 
+								  
+								  dawxget('item','getitems');
+
+
+$("document").ready(function(){
+      $("#dbname").change(function(){
+	     alert($(this).children('option:selected').val());
+      })
+								  $("#servertype").change(function(){
+                     dawxget('item','getitems')
+      })
+     $("#item").change(function(){
+								  itemid = $("#item").children('option:selected').val();
+								  getiteminfo('123');
+								  
+    })
+  })
+
+
+
+
+    </script>
+	  {% endblock %}
+

@@ -8,11 +8,11 @@ import SocketServer
 import socket
 from SocketServer import StreamRequestHandler as SRH
 import time
-import dataanalyse
 from multiprocessing  import Process
 
 
 # libbase
+from commands import dataanalyse
 from  CSLogging import write_logger
 from  csdaemon import Daemon
 from  mod_config import getConfig

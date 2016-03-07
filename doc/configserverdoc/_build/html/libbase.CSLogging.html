@@ -1,0 +1,282 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>libbase.CSLogging module &mdash; configserver  documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="configserver  documentation" href="index.html"/>
+        <link rel="up" title="libbase package" href="libbase.html"/>
+        <link rel="next" title="libbase.check module" href="libbase.check.html"/>
+        <link rel="prev" title="libbase package" href="libbase.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> configserver
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="CSSocketServer.html">CSSocketServer module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CSsqlite.html">CSsqlite module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CSsqliteconsole.html">CSsqliteconsole module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dataanalyse.html">dataanalyse module</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="libbase.html">libbase package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="libbase.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="">libbase.CSLogging module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cslogging">CSLogging</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="libbase.check.html">libbase.check module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="libbase.csdaemon.html">libbase.csdaemon module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="libbase.encrypt.html">libbase.encrypt module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="libbase.getConfigClient.html">libbase.getConfigClient module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="libbase.initilize.html">libbase.initilize module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="libbase.mod_config.html">libbase.mod_config module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="libbase.subprores.html">libbase.subprores module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="libbase.urlres.html">libbase.urlres module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="libbase.html#module-libbase">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">configserver</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="libbase.html">libbase package</a> &raquo;</li>
+      
+    <li>libbase.CSLogging module</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/libbase.CSLogging.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-libbase.CSLogging">
+<span id="libbase-cslogging-module"></span><h1>libbase.CSLogging module<a class="headerlink" href="#module-libbase.CSLogging" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="cslogging">
+<h2>CSLogging<a class="headerlink" href="#cslogging" title="Permalink to this headline">¶</a></h2>
+<p>日志记录模块，想使用Logging ，但是系统已经有了logging模块，又因为先写的CSserver，所有就这么定了名字。</p>
+<p>刚开始想法是利用管道，分出精简和详细的日志。但是后来使用了 <em>Deamon</em> 之后，所有的日志可以进行管道处理，于是只保留了精简的日志部分。</p>
+<dl class="class">
+<dt id="libbase.CSLogging.ColorFormatter">
+<em class="property">class </em><code class="descclassname">libbase.CSLogging.</code><code class="descname">ColorFormatter</code><span class="sig-paren">(</span><em>fmt=None</em>, <em>datefmt=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/libbase/CSLogging.html#ColorFormatter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#libbase.CSLogging.ColorFormatter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">logging.Formatter</span></code></p>
+<p>彩色的Formatter设置，应用在 <strong>streamHandler</strong> 上</p>
+<dl class="method">
+<dt id="libbase.CSLogging.ColorFormatter.format">
+<code class="descname">format</code><span class="sig-paren">(</span><em>record</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/libbase/CSLogging.html#ColorFormatter.format"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#libbase.CSLogging.ColorFormatter.format" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="libbase.CSLogging.add_filehandler">
+<code class="descclassname">libbase.CSLogging.</code><code class="descname">add_filehandler</code><span class="sig-paren">(</span><em>level</em>, <em>fmt</em>, <em>mode</em>, <em>backup_count</em>, <em>limit</em>, <em>when</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/libbase/CSLogging.html#add_filehandler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#libbase.CSLogging.add_filehandler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a file handler to the global logger.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="libbase.CSLogging.add_handler">
+<code class="descclassname">libbase.CSLogging.</code><code class="descname">add_handler</code><span class="sig-paren">(</span><em>cls</em>, <em>level</em>, <em>fmt</em>, <em>colorful</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/libbase/CSLogging.html#add_handler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#libbase.CSLogging.add_handler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a configured handler to the global logger.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="libbase.CSLogging.add_streamhandler">
+<code class="descclassname">libbase.CSLogging.</code><code class="descname">add_streamhandler</code><span class="sig-paren">(</span><em>level</em>, <em>fmt</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/libbase/CSLogging.html#add_streamhandler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#libbase.CSLogging.add_streamhandler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a stream handler to the global logger.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="libbase.CSLogging.import_log_funcs">
+<code class="descclassname">libbase.CSLogging.</code><code class="descname">import_log_funcs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/libbase/CSLogging.html#import_log_funcs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#libbase.CSLogging.import_log_funcs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Import the common log functions from the global logger to the modules.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="libbase.CSLogging.init_logger">
+<code class="descclassname">libbase.CSLogging.</code><code class="descname">init_logger</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/libbase/CSLogging.html#init_logger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#libbase.CSLogging.init_logger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reload the global logger.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="libbase.CSLogging.set_logger">
+<code class="descclassname">libbase.CSLogging.</code><code class="descname">set_logger</code><span class="sig-paren">(</span><em>filename=None</em>, <em>mode='a'</em>, <em>fmt='%(processName)s -- %(asctime)s  -- [%(levelname)s]  %(message)s'</em>, <em>backup_count=5</em>, <em>limit=20480</em>, <em>when=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/libbase/CSLogging.html#set_logger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#libbase.CSLogging.set_logger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Configure the global logger.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="libbase.CSLogging.write_logger">
+<code class="descclassname">libbase.CSLogging.</code><code class="descname">write_logger</code><span class="sig-paren">(</span><em>level</em>, <em>astr</em>, <em>internal=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/libbase/CSLogging.html#write_logger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#libbase.CSLogging.write_logger" title="Permalink to this definition">¶</a></dt>
+<dd><p>internal : 判断是否需要进行网络发送日志</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="libbase.check.html" class="btn btn-neutral float-right" title="libbase.check module" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="libbase.html" class="btn btn-neutral" title="libbase package" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Author.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

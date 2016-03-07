@@ -1,0 +1,108 @@
+#coding=utf-8
+"""
+Looks up a host based on its name, and then adds an item to it
+"""
+
+from pyzabbix import ZabbixAPI, ZabbixAPIException
+import sys
+import time
+
+# The hostname at which the Zabbix web interface is available
+#ZABBIX_SERVER = 'http://192.168.100.252:8001/zabbix/'
+
+#zapi = ZabbixAPI(ZABBIX_SERVER)
+
+# Login to the Zabbix API
+#zapi.login('Admin', 'zabbix')
+#host_name = '192.168.100.240'
+
+#hosts = zapi.host.get(filter={"host": host_name},selectInterfaces=["interfaceid"])
+# 获取 name为 Linux servers的主机的所有列表
+#grouplist = zapi.hostgroup.get(output=["hostid","name"], filter={"name":"Linux servers"})
+# 获取 linuxservers（id=2）下面的 host为"192.168.100.245"的属性
+#hostlist  = zapi.host.get(output=["host","status","snmp_available"],groupids="2",filter={"host":"192.168.100.245"})
+# 192.168.100.245 hostid : 10109
+
+#itemlist = zapi.item.get(output=["itemids","key_"], hostids=["10109"],filter={"key_":"cpu"})
+#applicationlist = zapi.application.get(output="extend",hostids="10109")
+
+#itemlist = zapi.item.get(output=["name","key_"], hostids=["10109"],filter={}, applicationids="566" )
+#historylist = zapi.history.get(output="extend",history="3",itemids=["24670"],limit=3)
+class DawxZabbix():
+    def __init__(self):
+        ZABBIX_SERVER = 'http://192.168.100.252:8001/zabbix/'
+        self.zapi = ZabbixAPI(ZABBIX_SERVER)
+        self.zapi.login('Admin', 'zabbix')
+        
+    def getHostsgroup(self):
+        grouplist = self.zapi.hostgroup.get(output=["hostid","name"])
+        name= []
+        
+        for group in grouplist:
+            if group[u'name'] in ("DB","DBC","WEB"):
+                name.append(group)
+        return  name
+
+    def gethost(self,hostsgroupid):
+        hostlist =  self.zapi.host.get(output=["host","name"],groupids=hostsgroupid)
+        return [ host[u'name']  for host in hostlist ]
+    
+    def getitem(self,hostid,applicationid):
+        return self.zapi.item.get(output=["name","itemids","key_"], hostids= hostid, applicationids=applicationid)
+
+    def getapplication(self,hostid):
+        return self.zapi.application.get(output="extend",hostids=hostid)
+
+    def getcommonhosts(self):
+        grouplist = self.getHostsgroup()
+        alist = []
+        for group in grouplist:
+            groupid = group[u'groupid']
+            groupname = group[u'name']
+            hostlist =  self.gethost(groupid)
+            alist.append((groupid,groupname,hostlist))
+        return alist
+            
+        
+    def wshtest(self):
+        host_name = '192.168.100.240'
+        itemlist = self.zapi.item.get(output=["name","key_"], hostids=["10109"],filter={}, applicationids="566" )
+        historylist = self.zapi.history.get(output="extend",history="3",itemids=["24672"],limit="10")
+        data_timeline = ",".join([x['clock'] for x in historylist ])
+        value_line = ",".join([x['value'] for x in historylist])
+        return data_timeline,value_line
+
+if __name__ == '__main__':
+    ainstance = DawxZabbix()
+    #    print ainstance.wshtest()
+    print ainstance.getcommonhosts()
+    
+
+        
+    """
+            applicationlist =  ainstance.getapplication(hostid)
+            for application in applicationlist:
+                applicationid = application[u'applicationid']
+                itemlist = ainstance.getitem(hostid,applicationid)
+                for item in itemlist:
+                    print item
+    """
+    
+#
+#template = zapi.template.create(host="dawx_test",groups={"groupid":1})
+# template = zapi.hostgroup.create(name="dawx")
+#template = zapi.hostgroup.create(name="dawx123")
+#template = zapi.hostgroup.delete("15","16")
+#template = zapi.template.get(output=["host","name","description"])
+
+"""
+        item=zapi.item.create(
+            hostid=host_id,
+            name='Used disk space on $1 in %',
+            key_='vfs.fs.size[/,pused]',
+            type=0,
+            value_type=3,
+            interfaceid=hosts[0]["interfaces"][0]["interfaceid"],
+            delay=30
+        )
+"""

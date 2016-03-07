@@ -1,0 +1,283 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>commands.kaixinqu &mdash; nodeserver  documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="nodeserver  documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> nodeserver
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../NDSocketServer.html">NDSocketServer module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../commands.html">commands package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">nodeserver</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      
+    <li>commands.kaixinqu</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for commands.kaixinqu</h1><div class="highlight"><pre>
+<span class="c">#!/bin/env python</span>
+<span class="c">#coding=utf-8</span>
+
+<span class="c"># 开新区的基本操作</span>
+<span class="c"># Author: wsh</span>
+<span class="c"># Time: 2015-05-31</span>
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    kaixinqu</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    开新区程序。</span>
+
+<span class="sd">    在命令行的实现为</span>
+
+<span class="sd">    kaixinqu dbnum  time</span>
+
+<span class="sd">    *dbnum*: 区服号码</span>
+
+<span class="sd">    *time*：8位的时间形式，like：20151011</span>
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;commands/libbase&#39;</span><span class="p">)</span>
+
+
+
+<span class="kn">from</span> <span class="nn">getConfigClient</span> <span class="kn">import</span> <span class="n">getres</span><span class="p">,</span><span class="n">getresbynum</span>
+<span class="kn">from</span> <span class="nn">subprores</span> <span class="kn">import</span> <span class="n">subprores</span>
+<span class="kn">from</span> <span class="nn">mod_config</span> <span class="kn">import</span> <span class="n">getConfig</span>
+<span class="kn">from</span> <span class="nn">CSLogging</span> <span class="kn">import</span> <span class="n">write_logger</span>
+
+
+
+<div class="viewcode-block" id="kaixinqu"><a class="viewcode-back" href="../../commands.kaixinqu.html#commands.kaixinqu.kaixinqu">[docs]</a><span class="k">def</span> <span class="nf">kaixinqu</span><span class="p">(</span><span class="n">alist</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;开新区程序的操作非常的简单，操作如下::</span>
+
+<span class="sd">        1. 参数判断，必须是两个参数</span>
+<span class="sd">        2. 是否为新区判断</span>
+<span class="sd">        3. 开区脚本执行</span>
+
+<span class="sd">    需要注意的是::</span>
+
+<span class="sd">        1. 参数中第一个为 *dbnum* ，第二个为 *time* ，时间参数的格式必须为&quot;20150101&quot;(8位)</span>
+
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c"># 因为只有一个正确结果，所以只需要删除两边的&#39;[(&#39;和&#39;)]&#39;</span>
+    <span class="c">#res = getres(&quot;findbydb &quot; + str(num)).lstrip(&#39;[(&#39;).rstrip(&#39;)]&#39;).split(&#39;,&#39;)</span>
+    <span class="c"># 20151126 追加： 可以使用eval函数进行处理</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">alist</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">write_logger</span><span class="p">(</span><span class="s">&#39;error&#39;</span><span class="p">,</span><span class="s">&quot;len(cmd) error&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;len(cmd) error!!&quot;</span><span class="p">]</span>
+    <span class="n">num</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">alist</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">time</span> <span class="o">=</span> <span class="n">alist</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">time</span><span class="p">)</span> <span class="o">!=</span>  <span class="mi">8</span><span class="p">:</span>
+        <span class="n">write_logger</span><span class="p">(</span><span class="s">&#39;error&#39;</span><span class="p">,</span><span class="s">&quot;len(time)(required: 8)  error&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">False</span><span class="p">,</span><span class="s">&quot;Time error!!,len(time)(required: 8) error&quot;</span><span class="p">]</span>
+
+
+    <span class="n">res</span> <span class="o">=</span> <span class="n">getresbynum</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+    <span class="k">print</span> <span class="n">res</span>
+    <span class="k">if</span> <span class="n">res</span> <span class="p">:</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">res</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">else</span> <span class="p">:</span>
+        <span class="n">write_logger</span><span class="p">(</span><span class="s">&#39;error&#39;</span><span class="p">,</span><span class="s">&quot;CSServer return  None!!&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">False</span><span class="p">,</span><span class="s">&quot;CSServer return Num error!!&quot;</span><span class="p">]</span>
+
+    <span class="c"># tag 用来判断是否是新区</span>
+    <span class="k">print</span> <span class="n">res</span>
+    <span class="n">tag</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">tag</span> <span class="o">!=</span> <span class="mi">0</span> <span class="p">:</span>
+        <span class="n">write_logger</span><span class="p">(</span><span class="s">&#39;error&#39;</span><span class="p">,</span><span class="s">&quot;Not new zone&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">False</span><span class="p">,</span><span class="s">&quot;Not new zone&quot;</span><span class="p">]</span>
+
+
+
+    <span class="c"># 2, 进行开区文件copy，重新启动cgi</span>
+    <span class="n">command</span> <span class="o">=</span> <span class="s">&quot;sh commands/shelltools/CreateNewZone.sh&quot;</span> <span class="o">+</span> <span class="s">&quot; &quot;</span> <span class="o">+</span>  <span class="nb">str</span><span class="p">(</span><span class="n">num</span><span class="p">)</span> <span class="o">+</span><span class="s">&quot; &quot;</span><span class="o">+</span> <span class="n">time</span>
+    <span class="c">#command = &quot;echo $PATH&quot;</span>
+    <span class="n">subp</span> <span class="o">=</span> <span class="n">subprores</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">subp</span><span class="p">:</span>
+        <span class="n">write_logger</span><span class="p">(</span><span class="s">&#39;error&#39;</span><span class="p">,</span><span class="s">&quot;sh: CreateNewZone.sh, ERROR occurred!!!&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">False</span><span class="p">,</span><span class="s">&quot;sh: CreateNewZone.sh, ERROR occurred!!!&quot;</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="p">[</span><span class="bp">True</span><span class="p">,</span><span class="s">&quot;Execution OK&quot;</span><span class="p">]</span>
+    <span class="c"># 更改config服务器的为已经开区</span>
+
+
+</div>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">kaixinqu</span><span class="p">([</span><span class="s">&#39;218&#39;</span><span class="p">,</span> <span class="s">&#39;20150418&#39;</span><span class="p">])</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Author.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -1,0 +1,442 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>CSsqlite &mdash; configserver  documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="configserver  documentation" href="../index.html"/>
+        <link rel="up" title="Module code" href="index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> configserver
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../CSSocketServer.html">CSSocketServer module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CSsqlite.html">CSsqlite module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CSsqliteconsole.html">CSsqliteconsole module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dataanalyse.html">dataanalyse module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../libbase.html">libbase package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">configserver</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="index.html">Module code</a> &raquo;</li>
+      
+    <li>CSsqlite</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for CSsqlite</h1><div class="highlight"><pre>
+<span class="c">#!/bin/env python</span>
+<span class="c">#coding=utf-8</span>
+
+<span class="c"># some API about sqlite</span>
+<span class="c"># Author : wsh</span>
+<span class="c"># Time: 2015-5-26</span>
+<span class="c"># Version: v0.1</span>
+<span class="c"># reference url: http://www.cnblogs.com/hongten/p/hongten_python_sqlite3.html#3192737</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;libbase&#39;</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">sqlite3</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="c"># libbase</span>
+<span class="kn">from</span> <span class="nn">CSLogging</span> <span class="kn">import</span> <span class="n">write_logger</span>
+<span class="kn">from</span> <span class="nn">mod_config</span> <span class="kn">import</span> <span class="n">getConfig</span>
+
+<span class="c"># global var</span>
+
+<span class="n">dbFilePath</span> <span class="o">=</span> <span class="n">getConfig</span><span class="p">(</span><span class="s">&#39;csserver&#39;</span><span class="p">,</span><span class="s">&#39;sqlitepath&#39;</span><span class="p">)</span>
+<span class="n">tableName</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+
+<div class="viewcode-block" id="getConn"><a class="viewcode-back" href="../CSsqlite.html#CSsqlite.getConn">[docs]</a><span class="k">def</span> <span class="nf">getConn</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">    - `path`:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">dbFilePath</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">dbFilePath</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">conn</span>
+</div>
+<div class="viewcode-block" id="getCursor"><a class="viewcode-back" href="../CSsqlite.html#CSsqlite.getCursor">[docs]</a><span class="k">def</span> <span class="nf">getCursor</span><span class="p">(</span><span class="n">conn</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">    - `conn`:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+
+</div>
+<div class="viewcode-block" id="dropTable"><a class="viewcode-back" href="../CSsqlite.html#CSsqlite.dropTable">[docs]</a><span class="k">def</span> <span class="nf">dropTable</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span><span class="n">table</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;如果表存在，就删除表，如果表中存在数据，使用该方法的要注意</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">    - `conn`:</span>
+<span class="sd">    - `table`:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">table</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">table</span> <span class="o">!=</span> <span class="s">&#39;&#39;</span><span class="p">:</span>
+        <span class="n">sql</span> <span class="o">=</span> <span class="s">&#39;DROP TABLE IF EXISTS&#39;</span> <span class="o">+</span> <span class="n">TABLE</span>
+        <span class="n">write_logger</span><span class="p">(</span><span class="s">&#39;debug&#39;</span><span class="p">,</span><span class="s">&#39;EXEC SQL: </span><span class="si">%s</span><span class="s"> </span><span class="se">\n\t\t</span><span class="s"> AND ARGV: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">sql</span><span class="p">,</span><span class="n">TABLE</span><span class="p">))</span>
+        <span class="n">cu</span> <span class="o">=</span> <span class="n">getCursor</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span>
+        <span class="n">cu</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+        <span class="n">conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+        <span class="n">write_logger</span><span class="p">(</span><span class="s">&#39;INFO&#39;</span><span class="p">,</span><span class="s">&#39;DELETE TABLE </span><span class="si">%s</span><span class="s"> SUCESS&#39;</span> <span class="o">%</span> <span class="n">TABLE</span> <span class="p">)</span>
+        <span class="n">closeAll</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span><span class="n">cu</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        
+        <span class="k">print</span><span class="p">(</span><span class="s">&#39;the [{0}] is empty or equal None&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sql</span><span class="p">))</span>
+
+</div>
+<div class="viewcode-block" id="createTable"><a class="viewcode-back" href="../CSsqlite.html#CSsqlite.createTable">[docs]</a><span class="k">def</span> <span class="nf">createTable</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span><span class="n">sql</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; 创建数据库</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">    - `conn`:</span>
+<span class="sd">    - `sql`:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">sql</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> <span class="p">:</span>
+        <span class="n">cu</span> <span class="o">=</span> <span class="n">getCursor</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span>
+        <span class="n">write_logger</span><span class="p">(</span><span class="s">&#39;debug&#39;</span><span class="p">,</span><span class="s">&#39;EXEC SQL: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">sql</span><span class="p">)</span>
+        <span class="n">cu</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+        <span class="n">conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+        <span class="n">write_logger</span><span class="p">(</span><span class="s">&#39;INFO&#39;</span><span class="p">,</span><span class="s">&#39;EXEC SQL: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">sql</span><span class="p">)</span>
+        <span class="n">closeAll</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span><span class="n">cu</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;The [{0}] is empty or equal None !&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sql</span><span class="p">))</span>
+
+    </div>
+<div class="viewcode-block" id="closeAll"><a class="viewcode-back" href="../CSsqlite.html#CSsqlite.closeAll">[docs]</a><span class="k">def</span> <span class="nf">closeAll</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span><span class="n">cu</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">    - `conn`:</span>
+<span class="sd">    - `cu`:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span> <span class="p">:</span>
+        <span class="k">if</span> <span class="n">cu</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">cu</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">cu</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">cu</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="save"><a class="viewcode-back" href="../CSsqlite.html#CSsqlite.save">[docs]</a><span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">    - `conn`:</span>
+<span class="sd">    - `sql`:</span>
+<span class="sd">    - `data`:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">sql</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">cu</span> <span class="o">=</span> <span class="n">getCursor</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+                <span class="n">write_logger</span><span class="p">(</span><span class="s">&#39;debug&#39;</span><span class="p">,</span><span class="s">&#39;EXEC SQL: </span><span class="si">%s</span><span class="s">  &#39;</span> <span class="o">%</span> <span class="n">sql</span><span class="p">)</span>
+                <span class="n">cu</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+                <span class="n">conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+            <span class="n">closeAll</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span><span class="n">cu</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">True</span><span class="p">,</span><span class="n">data</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&#39;the [{0}] is emptry or equal None!&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sql</span><span class="p">))</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;SQL error&quot;</span><span class="p">]</span>
+</div>
+<div class="viewcode-block" id="fetchall"><a class="viewcode-back" href="../CSsqlite.html#CSsqlite.fetchall">[docs]</a><span class="k">def</span> <span class="nf">fetchall</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span><span class="n">sql</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">    - `conn`:</span>
+<span class="sd">    - `sql`:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">sql</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
+        <span class="n">cu</span> <span class="o">=</span> <span class="n">getCursor</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span>
+
+        <span class="n">cu</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">cu</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">atuple</span> <span class="ow">in</span> <span class="n">r</span> <span class="p">:</span>
+                <span class="n">j</span> <span class="o">=</span> <span class="p">()</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">atuple</span><span class="p">:</span>
+                    <span class="n">j</span> <span class="o">+=</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">),)</span>
+                <span class="n">res</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">[</span><span class="bp">True</span><span class="p">,</span><span class="n">res</span><span class="p">]</span>
+    
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&#39;the [{0}] is empty or equal None&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sql</span><span class="p">))</span>
+
+</div>
+<div class="viewcode-block" id="fetchone"><a class="viewcode-back" href="../CSsqlite.html#CSsqlite.fetchone">[docs]</a><span class="k">def</span> <span class="nf">fetchone</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span><span class="n">sql</span><span class="p">,</span><span class="n">data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">    - `conn`:</span>
+<span class="sd">    - `sql`:</span>
+<span class="sd">    - `data`:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">sql</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
+        <span class="n">alist</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="c"># Do this instead</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="p">(</span><span class="n">data</span><span class="p">,)</span>
+            <span class="n">cu</span> <span class="o">=</span> <span class="n">getCursor</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span>
+            <span class="n">write_logger</span><span class="p">(</span><span class="s">&#39;debug&#39;</span><span class="p">,</span><span class="s">&#39;EXEC SQL: </span><span class="si">%s</span><span class="s"> </span><span class="se">\n\t\t</span><span class="s"> AND ARGV: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">sql</span><span class="p">,</span><span class="n">data</span><span class="p">))</span>
+            <span class="n">cu</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span><span class="n">d</span><span class="p">)</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">cu</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">atuple</span> <span class="ow">in</span> <span class="n">r</span> <span class="p">:</span>
+                    <span class="n">j</span> <span class="o">=</span> <span class="p">()</span>
+                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">atuple</span><span class="p">:</span>
+                        <span class="n">j</span> <span class="o">+=</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">),)</span>
+                    <span class="n">res</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+                        
+                <span class="k">return</span> <span class="p">[</span><span class="bp">True</span><span class="p">,</span><span class="n">res</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">write_logger</span><span class="p">(</span><span class="s">&#39;ERROR&#39;</span><span class="p">,</span><span class="s">&#39;the command error!!&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">write_logger</span><span class="p">(</span><span class="s">&#39;ERROR&#39;</span><span class="p">,</span><span class="s">&#39;the sql is wrong!!&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">[</span><span class="bp">False</span><span class="p">,</span><span class="s">&quot;sql error&quot;</span><span class="p">]</span>
+
+    
+
+</div>
+<div class="viewcode-block" id="update"><a class="viewcode-back" href="../CSsqlite.html#CSsqlite.update">[docs]</a><span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span><span class="n">sql</span><span class="p">,</span><span class="n">data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    </span>
+<span class="sd">    Arguments:</span>
+<span class="sd">    - `conn`:</span>
+<span class="sd">    - `sql`:</span>
+<span class="sd">    - `data`:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">sql</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">cu</span> <span class="o">=</span> <span class="n">getCursor</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+                <span class="n">cu</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span><span class="n">d</span><span class="p">)</span>
+                <span class="n">conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+
+            <span class="n">closeAll</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span><span class="n">cu</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">[</span><span class="bp">True</span><span class="p">,</span><span class="s">&quot;UPDATE SUCESS&quot;</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">write_logger</span><span class="p">(</span><span class="s">&#39;error&#39;</span><span class="p">,</span><span class="s">&#39;</span><span class="si">%s</span><span class="s"> is empty or equal None&#39;</span> <span class="o">%</span> <span class="n">sql</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">False</span><span class="p">,</span><span class="s">&quot;UPDATE error&quot;</span><span class="p">]</span>
+</div>
+<div class="viewcode-block" id="delete"><a class="viewcode-back" href="../CSsqlite.html#CSsqlite.delete">[docs]</a><span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span><span class="n">sql</span><span class="p">,</span><span class="n">data</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">sql</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">cu</span> <span class="o">=</span> <span class="n">getCursor</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="p">(</span><span class="n">data</span><span class="p">,)</span>
+            <span class="n">write_logger</span><span class="p">(</span><span class="s">&#39;DEBUG&#39;</span><span class="p">,</span><span class="s">&#39;EXEC SQL: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">sql</span><span class="p">)</span>
+            <span class="n">cu</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span><span class="n">d</span><span class="p">)</span>
+            <span class="n">conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+            <span class="n">closeAll</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span><span class="n">cu</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">[</span><span class="bp">True</span><span class="p">,</span><span class="s">&quot;DELETE OK&quot;</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">write_logger</span><span class="p">(</span><span class="s">&#39;error&#39;</span><span class="p">,</span><span class="s">&#39;</span><span class="si">%s</span><span class="s"> is empty or equal None&#39;</span> <span class="o">%</span> <span class="n">sql</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">False</span><span class="p">,</span><span class="s">&quot;DELETE SQL ERROR&quot;</span><span class="p">]</span>
+</div>
+<div class="viewcode-block" id="init"><a class="viewcode-back" href="../CSsqlite.html#CSsqlite.init">[docs]</a><span class="k">def</span> <span class="nf">init</span><span class="p">():</span>
+
+    <span class="c"># global var</span>
+    <span class="k">global</span> <span class="n">dbFilePath</span>
+    
+
+</div>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">init</span><span class="p">()</span>
+    <span class="n">create_sql1</span><span class="o">=</span><span class="s">&#39;&#39;&#39;CREATE TABLE &#39;server&#39;(</span>
+<span class="s">    &#39;name&#39; TEXT not null,</span>
+<span class="s">    &#39;ip&#39;   TEXT not null,</span>
+<span class="s">    servertype TEXT not null</span>
+<span class="s">    )&#39;&#39;&#39;</span>
+    <span class="n">create_sql2</span><span class="o">=</span><span class="s">&#39;&#39;&#39;CREATE TABLE &#39;domain&#39;(</span>
+<span class="s">    &#39;ip&#39;   TEXT not null,</span>
+<span class="s">    &#39;domainname&#39; TEXT not null,</span>
+<span class="s">    &#39;value&#39;   int  not null,</span>
+<span class="s">    &#39;dbnum&#39;   int  not null</span>
+<span class="s">    )&#39;&#39;&#39;</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">getConn</span><span class="p">()</span>
+    <span class="c">#createTable(conn,create_sql1)</span>
+    <span class="c">#createTable(conn,create_sql2)</span>
+    <span class="c">#save_sql = &#39;&#39;&#39;INSERT INTO domain values(?,?,?,?,?)&#39;&#39;&#39;</span>
+    <span class="c">#data = [(&#39;192.168.100.1&#39;, &#39;3.xxt.cn&#39;, 218, 218, )]</span>
+    <span class="c">#save(conn,save_sql,data)</span>
+    <span class="c">#sql = &#39;SELECT * from domain where dbnum = ?&#39;</span>
+    <span class="n">sql</span> <span class="o">=</span><span class="s">&#39;&#39;&#39;select server.name,server.ip,domain.value,domain.domainname,domain.iswork from domain,server where domain.ip = server.ip and iswork =1 and domain.ip =&#39;</span><span class="si">%s</span><span class="s">&#39; &#39;&#39;&#39;</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="s">&#39;10.190.169.146&#39;</span>
+    <span class="n">sql</span> <span class="o">=</span><span class="n">sql</span> <span class="o">%</span> <span class="n">data</span>
+    <span class="k">print</span> <span class="n">sql</span>
+    <span class="k">print</span> <span class="n">fetchall</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span><span class="n">sql</span><span class="p">)</span>
+    <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    
+    
+
+
+    
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Author.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

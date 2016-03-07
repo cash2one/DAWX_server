@@ -1,0 +1,617 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>commands.libbase.domai_config &mdash; nodeserver  documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="nodeserver  documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> nodeserver
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../NDSocketServer.html">NDSocketServer module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../commands.html">commands package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">nodeserver</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+    <li>commands.libbase.domai_config</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for commands.libbase.domai_config</h1><div class="highlight"><pre>
+<span class="c">#!/bin/ bash/env python</span>
+<span class="c"># coding=utf-8</span>
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    domai_config</span>
+<span class="sd">    ---------------</span>
+
+<span class="sd">    进行xml解析，同时生成domai_config 文件。</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+
+
+<span class="kn">import</span>  <span class="nn">sys</span>
+<span class="kn">import</span>  <span class="nn">getopt</span>
+<span class="kn">import</span>  <span class="nn">xml.etree.ElementTree</span> <span class="kn">as</span> <span class="nn">ET</span>
+<span class="kn">from</span> <span class="nn">getConfigClient</span> <span class="kn">import</span> <span class="n">getres</span><span class="p">,</span><span class="n">getresbynum</span>
+<span class="kn">from</span> <span class="nn">mod_config</span> <span class="kn">import</span> <span class="n">getConfig</span>
+<span class="kn">from</span> <span class="nn">CSLogging</span> <span class="kn">import</span> <span class="n">write_logger</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+
+<span class="n">filepath</span> <span class="o">=</span> <span class="n">getConfig</span><span class="p">(</span><span class="s">&#39;domai&#39;</span><span class="p">,</span><span class="s">&#39;filepath&#39;</span><span class="p">)</span>
+<span class="n">filetopath</span> <span class="o">=</span> <span class="n">getConfig</span><span class="p">(</span><span class="s">&#39;domai&#39;</span><span class="p">,</span><span class="s">&#39;filetopath&#39;</span><span class="p">)</span>
+<span class="n">csip</span> <span class="o">=</span> <span class="n">getConfig</span><span class="p">(</span><span class="s">&#39;csserver&#39;</span><span class="p">,</span><span class="s">&#39;CSip&#39;</span><span class="p">)</span>
+<span class="n">gameversion</span><span class="o">=</span><span class="n">getConfig</span><span class="p">(</span><span class="s">&#39;version&#39;</span><span class="p">,</span><span class="s">&#39;gameversion&#39;</span><span class="p">)</span>
+
+<span class="c">#############base xml 函数 ###############</span>
+<div class="viewcode-block" id="read_xml"><a class="viewcode-back" href="../../../commands.libbase.domai_config.html#commands.libbase.domai_config.read_xml">[docs]</a><span class="k">def</span> <span class="nf">read_xml</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;读取并解析xml文件，返回句柄</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">ElementTree</span><span class="p">()</span>
+    <span class="n">tree</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">tree</span>
+
+
+
+</div>
+<div class="viewcode-block" id="list_element"><a class="viewcode-back" href="../../../commands.libbase.domai_config.html#commands.libbase.domai_config.list_element">[docs]</a><span class="k">def</span> <span class="nf">list_element</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;列出所有的子节点</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">separator</span> <span class="o">=</span> <span class="s">&quot;|    &quot;</span>
+    <span class="n">preseprator</span> <span class="o">=</span> <span class="s">&quot;|----&quot;</span>
+
+    <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">:</span>
+        <span class="k">print</span> <span class="n">element</span><span class="o">.</span><span class="n">tag</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+
+    <span class="n">tmp</span> <span class="o">=</span> <span class="n">i</span>
+    <span class="k">for</span> <span class="n">subelement</span> <span class="ow">in</span> <span class="n">element</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">i</span>  <span class="o">==</span> <span class="mi">1</span> <span class="p">:</span>
+            <span class="k">print</span> <span class="n">preseprator</span> <span class="o">+</span> <span class="n">subelement</span><span class="o">.</span><span class="n">tag</span> <span class="o">+</span><span class="s">&quot;</span><span class="se">\t\t</span><span class="s">&quot;</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">subelement</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">print</span> <span class="n">separator</span> <span class="o">*</span> <span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">preseprator</span> <span class="o">+</span>  <span class="n">subelement</span><span class="o">.</span><span class="n">tag</span> <span class="o">+</span> <span class="s">&quot;</span><span class="se">\t\t</span><span class="s">&quot;</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">subelement</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">list_element</span><span class="p">(</span><span class="n">subelement</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">tmp</span>
+</div>
+<div class="viewcode-block" id="find_elements"><a class="viewcode-back" href="../../../commands.libbase.domai_config.html#commands.libbase.domai_config.find_elements">[docs]</a><span class="k">def</span> <span class="nf">find_elements</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;查找所有名字为 *name* 的元素</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">tree</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
+
+</div>
+<div class="viewcode-block" id="indent"><a class="viewcode-back" href="../../../commands.libbase.domai_config.html#commands.libbase.domai_config.indent">[docs]</a><span class="k">def</span> <span class="nf">indent</span><span class="p">(</span><span class="n">elem</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;结果增加缩进排序。ET生成结果是无缩近排序的，需要使用这个函数进行排序。</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">+</span> <span class="n">level</span><span class="o">*</span><span class="s">&quot;</span><span class="se">\t</span><span class="s">&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">elem</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">elem</span><span class="o">.</span><span class="n">text</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">elem</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>
+            <span class="n">elem</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="s">&quot;</span><span class="se">\t</span><span class="s">&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">elem</span><span class="o">.</span><span class="n">tail</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">elem</span><span class="o">.</span><span class="n">tail</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>
+            <span class="n">elem</span><span class="o">.</span><span class="n">tail</span> <span class="o">=</span> <span class="n">i</span>
+        <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">elem</span><span class="p">:</span>
+            <span class="n">indent</span><span class="p">(</span><span class="n">elem</span><span class="p">,</span> <span class="n">level</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">elem</span><span class="o">.</span><span class="n">tail</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">elem</span><span class="o">.</span><span class="n">tail</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>
+            <span class="n">elem</span><span class="o">.</span><span class="n">tail</span> <span class="o">=</span> <span class="n">i</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">level</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="n">elem</span><span class="o">.</span><span class="n">tail</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">elem</span><span class="o">.</span><span class="n">tail</span><span class="o">.</span><span class="n">strip</span><span class="p">()):</span>
+            <span class="n">elem</span><span class="o">.</span><span class="n">tail</span> <span class="o">=</span> <span class="n">i</span>
+</div>
+<div class="viewcode-block" id="write_xml"><a class="viewcode-back" href="../../../commands.libbase.domai_config.html#commands.libbase.domai_config.write_xml">[docs]</a><span class="k">def</span> <span class="nf">write_xml</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">out_file</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;将xml写出文件中</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c">#tree.write(out_file, encoding=&quot;UTF-8&quot;, xml_declaration=True)</span>
+    <span class="n">tree</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">out_file</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s">&quot;UTF-8&quot;</span><span class="p">)</span>
+
+
+
+</div>
+<div class="viewcode-block" id="add_child_subelement"><a class="viewcode-back" href="../../../commands.libbase.domai_config.html#commands.libbase.domai_config.add_child_subelement">[docs]</a><span class="k">def</span> <span class="nf">add_child_subelement</span><span class="p">(</span><span class="n">element</span><span class="p">,</span><span class="n">subelement</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;给一个节点添加一个子节点</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">element</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">subelement</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="create_element"><a class="viewcode-back" href="../../../commands.libbase.domai_config.html#commands.libbase.domai_config.create_element">[docs]</a><span class="k">def</span> <span class="nf">create_element</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span><span class="n">property_map</span><span class="p">,</span><span class="n">content</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;新造一个节点</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">element</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">Element</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="n">property_map</span><span class="p">)</span>
+    <span class="n">element</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">content</span>
+    <span class="k">return</span> <span class="n">element</span>
+
+
+
+<span class="c">##########################################</span>
+
+</div>
+<div class="viewcode-block" id="gamezones"><a class="viewcode-back" href="../../../commands.libbase.domai_config.html#commands.libbase.domai_config.gamezones">[docs]</a><span class="k">def</span> <span class="nf">gamezones</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;获取domai_config的区服元素，组成一个队列。</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">filepath</span>
+
+    <span class="n">root</span> <span class="o">=</span> <span class="n">read_xml</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+    <span class="n">elements</span> <span class="o">=</span> <span class="n">find_elements</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="s">&#39;config&#39;</span><span class="p">)</span>
+
+    <span class="n">alist</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">elements</span><span class="p">:</span>
+        <span class="n">aitem</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">attrib</span>
+        <span class="k">if</span> <span class="s">&#39;db&#39;</span> <span class="ow">in</span> <span class="n">aitem</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="ow">and</span> <span class="s">&#39;com&#39;</span> <span class="ow">in</span> <span class="n">aitem</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]:</span>
+            <span class="n">alist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">aitem</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">alist</span>
+</div>
+<div class="viewcode-block" id="getversion"><a class="viewcode-back" href="../../../commands.libbase.domai_config.html#commands.libbase.domai_config.getversion">[docs]</a><span class="k">def</span> <span class="nf">getversion</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; 获取domai_config中的version</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">filepath</span>
+
+    <span class="n">root</span> <span class="o">=</span> <span class="n">read_xml</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+    <span class="n">elements</span> <span class="o">=</span> <span class="n">find_elements</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="s">&#39;config&#39;</span><span class="p">)</span>
+    <span class="n">version</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">elements</span><span class="p">:</span>
+        <span class="n">aitem</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">attrib</span>
+        <span class="k">if</span> <span class="s">&#39;version&#39;</span> <span class="ow">in</span> <span class="n">aitem</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]:</span>
+            <span class="n">version</span> <span class="o">=</span> <span class="n">aitem</span><span class="p">[</span><span class="s">&#39;value&#39;</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">version</span>
+    <span class="k">return</span> <span class="n">version</span>
+</div>
+<div class="viewcode-block" id="sortitems"><a class="viewcode-back" href="../../../commands.libbase.domai_config.html#commands.libbase.domai_config.sortitems">[docs]</a><span class="k">def</span> <span class="nf">sortitems</span><span class="p">(</span><span class="n">listitems</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;根据 *value* ,然后是 *db* 对于 **listitems** 进行排序，注意的是得到的数据element的数据是拍好序列的。</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">listitems</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s">&#39;value&#39;</span><span class="p">]),</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s">&#39;db&#39;</span><span class="p">])))</span>
+
+</div>
+<div class="viewcode-block" id="argvToAlist"><a class="viewcode-back" href="../../../commands.libbase.domai_config.html#commands.libbase.domai_config.argvToAlist">[docs]</a><span class="k">def</span> <span class="nf">argvToAlist</span><span class="p">(</span><span class="n">db</span><span class="p">,</span><span class="n">value</span><span class="p">,</span><span class="n">name</span> <span class="o">=</span><span class="s">&quot;102.wsh.com&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;将系统输入的参数，生成一个list元素。</span>
+<span class="sd">    随便写个name。因为delete 和change不使用这个。在插入的时候，可以重新获取，这样方便一些</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s">&#39;db&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">db</span><span class="p">),</span> <span class="s">&#39;name&#39;</span><span class="p">:</span><span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="s">&#39;value&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="p">}</span>
+</div>
+<div class="viewcode-block" id="insertnewzone"><a class="viewcode-back" href="../../../commands.libbase.domai_config.html#commands.libbase.domai_config.insertnewzone">[docs]</a><span class="k">def</span>  <span class="nf">insertnewzone</span><span class="p">(</span><span class="n">alist</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;新插入一个元素（list 操作）</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">listitems</span> <span class="o">=</span> <span class="n">gamezones</span><span class="p">()</span>
+    <span class="n">dbnum</span> <span class="o">=</span> <span class="n">alist</span><span class="p">[</span><span class="s">&#39;db&#39;</span><span class="p">]</span>
+
+    <span class="n">res</span> <span class="o">=</span> <span class="n">getresbynum</span><span class="p">(</span><span class="n">dbnum</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">res</span><span class="p">:</span>
+        <span class="c">#res = res.replace(&quot;&#39;&quot;,&#39;&#39;).lstrip(&#39;[(&#39;).rstrip(&#39;)]&#39;).split(&#39;,&#39;)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">res</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">else</span> <span class="p">:</span>
+        <span class="n">write_logger</span><span class="p">(</span><span class="s">&#39;error&#39;</span><span class="p">,</span><span class="s">&quot;CSServer return Num error!!&quot;</span><span class="p">)</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+
+    <span class="n">dbvalue</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="n">dbname</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="n">alist</span> <span class="o">=</span> <span class="n">argvToAlist</span><span class="p">(</span><span class="n">dbnum</span><span class="p">,</span><span class="n">dbvalue</span><span class="p">,</span><span class="n">dbname</span><span class="p">)</span>
+
+    <span class="n">listitems</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">alist</span><span class="p">)</span>
+    <span class="n">astr</span> <span class="o">=</span> <span class="s">&quot;update iswork=1 dbnum=&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">dbnum</span><span class="p">)</span>
+
+    <span class="n">res</span> <span class="o">=</span> <span class="n">getres</span><span class="p">(</span><span class="n">astr</span><span class="p">,</span><span class="n">host</span><span class="o">=</span><span class="n">csip</span><span class="p">)</span>
+
+    <span class="n">write_xml_alist</span><span class="p">(</span><span class="n">sortitems</span><span class="p">(</span><span class="n">listitems</span><span class="p">))</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+
+    <span class="c">#return True</span>
+</div>
+<div class="viewcode-block" id="changezone"><a class="viewcode-back" href="../../../commands.libbase.domai_config.html#commands.libbase.domai_config.changezone">[docs]</a><span class="k">def</span>  <span class="nf">changezone</span><span class="p">(</span><span class="n">alist</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;更改zone。一般情况下是通过db修改value，所以不讨论别的情况</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">listitems</span> <span class="o">=</span> <span class="n">gamezones</span><span class="p">()</span>
+    <span class="n">dbnum</span> <span class="o">=</span> <span class="n">alist</span><span class="p">[</span><span class="s">&#39;db&#39;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">listitems</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">dbnum</span> <span class="o">==</span> <span class="n">line</span><span class="p">[</span><span class="s">&#39;db&#39;</span><span class="p">]:</span>
+            <span class="n">line</span><span class="p">[</span><span class="s">&#39;value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">alist</span><span class="p">[</span><span class="s">&#39;value&#39;</span><span class="p">]</span>
+            <span class="n">astr</span> <span class="o">=</span> <span class="s">&quot;update value=&quot;</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="s">&#39;value&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="s">&quot; dbnum=&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">dbnum</span><span class="p">)</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">getres</span><span class="p">(</span><span class="n">astr</span><span class="p">,</span><span class="n">host</span><span class="o">=</span><span class="n">csip</span><span class="p">)</span>
+            <span class="k">print</span> <span class="n">res</span>
+            <span class="n">write_xml_alist</span><span class="p">(</span><span class="n">listitems</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="write_xml_alist"><a class="viewcode-back" href="../../../commands.libbase.domai_config.html#commands.libbase.domai_config.write_xml_alist">[docs]</a><span class="k">def</span>  <span class="nf">write_xml_alist</span><span class="p">(</span><span class="n">alist</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;写入文件中</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">gameversion</span> <span class="o">==</span> <span class="s">&#39;10&#39;</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;10&quot;</span>
+        <span class="n">writexmlbyxml</span><span class="p">(</span><span class="n">alist</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">gameversion</span> <span class="o">==</span> <span class="s">&#39;5&#39;</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;5&quot;</span>
+        <span class="n">writexmlbytext</span><span class="p">(</span><span class="n">alist</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">write_logger</span><span class="p">(</span><span class="s">&#39;error&#39;</span><span class="p">,</span><span class="s">&#39;Please Check your gameversion :  </span><span class="si">%s</span><span class="s">  in your config.cnf&#39;</span> <span class="o">%</span> <span class="n">gameversion</span> <span class="p">)</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="writexmlbyxml"><a class="viewcode-back" href="../../../commands.libbase.domai_config.html#commands.libbase.domai_config.writexmlbyxml">[docs]</a><span class="k">def</span> <span class="nf">writexmlbyxml</span><span class="p">(</span><span class="n">alist</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;根据alist生成xml，然后让函数  **write_xml** 写入。</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">filetopath</span>
+    <span class="n">domaiversion</span> <span class="o">=</span> <span class="n">getversion</span><span class="p">()</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="s">&quot;&lt;configs&gt; &lt;/configs&gt;&quot;</span><span class="p">)</span>
+    <span class="n">add_child_subelement</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">create_element</span><span class="p">(</span><span class="s">&quot;config&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&#39;server_path&#39;</span><span class="p">,</span> <span class="s">&#39;value&#39;</span><span class="p">:</span> <span class="s">&#39;/data/release/sgonline&#39;</span><span class="p">},</span><span class="s">&#39;&#39;</span><span class="p">))</span>
+    <span class="n">add_child_subelement</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">create_element</span><span class="p">(</span><span class="s">&quot;config&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&#39;sversion&#39;</span><span class="p">,</span> <span class="s">&#39;value&#39;</span><span class="p">:</span> <span class="n">domaiversion</span><span class="p">},</span> <span class="s">&#39;&#39;</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">alist</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">dbnum</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">alist</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s">&#39;db&#39;</span><span class="p">])</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">getresbynum</span><span class="p">(</span><span class="n">dbnum</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">res</span> <span class="p">:</span>
+            <span class="c">#res = res.replace(&quot;&#39;&quot;,&#39;&#39;).lstrip(&#39;[(&#39;).rstrip(&#39;)]&#39;).split(&#39;,&#39;)</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">res</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span> <span class="p">:</span>
+            <span class="n">write_logger</span><span class="p">(</span><span class="s">&#39;error&#39;</span><span class="p">,</span><span class="s">&quot;CSServer return Num error!!&quot;</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+
+        <span class="n">ip</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+        <span class="n">add_child_subelement</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">create_element</span><span class="p">(</span><span class="s">&quot;config&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="n">ip</span><span class="p">,</span><span class="s">&#39;db&#39;</span><span class="p">:</span><span class="n">alist</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s">&#39;db&#39;</span><span class="p">],</span><span class="s">&#39;value&#39;</span><span class="p">:</span> <span class="n">alist</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s">&#39;value&#39;</span><span class="p">]},</span><span class="s">&#39;&#39;</span><span class="p">))</span>
+
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">alist</span><span class="p">:</span>
+        <span class="n">add_child_subelement</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">create_element</span><span class="p">(</span><span class="s">&quot;config&quot;</span><span class="p">,</span> <span class="n">line</span><span class="p">,</span><span class="s">&#39;&#39;</span><span class="p">))</span>
+    <span class="n">indent</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+    <span class="n">write_xml</span><span class="p">(</span><span class="n">ET</span><span class="o">.</span><span class="n">ElementTree</span><span class="p">(</span><span class="n">root</span><span class="p">),</span><span class="n">filetopath</span><span class="p">)</span>
+</div>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">def writexmlbytext(alist):</span>
+
+<span class="sd">    global filetopath</span>
+<span class="sd">    domaiversion = getversion()</span>
+<span class="sd">    fp = open(filetopath,&#39;w+&#39;)</span>
+<span class="sd">    fp.write(r&#39;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;&#39; )</span>
+<span class="sd">    fp.write(&#39;\n&#39;)</span>
+<span class="sd">    fp.write(r&#39;&lt;configs&gt;&#39; )</span>
+<span class="sd">    fp.write(&#39;\n&#39;)</span>
+<span class="sd">    fp.write(&#39;\t&#39; + r&#39;&lt;config name=&quot;server_path&quot; value=&quot;/data/release/sgonline&quot; /&gt;&#39;)</span>
+<span class="sd">    fp.write(&#39;\n&#39;)</span>
+<span class="sd">    fp.write(&#39;\t&#39; + r&#39;&lt;config name=&quot;sversion&quot; value=&quot;&#39; + str(domaiversion)+r&#39;&quot; /&gt;&#39;)</span>
+<span class="sd">    fp.write(&#39;\n&#39;)</span>
+
+<span class="sd">    if len(alist) &gt; 0:</span>
+<span class="sd">        dbnum = int(alist[0][&#39;db&#39;])</span>
+<span class="sd">        res = getresbynum(dbnum)</span>
+<span class="sd">        if res :</span>
+<span class="sd">            #res = res.replace(&quot;&#39;&quot;,&#39;&#39;).lstrip(&#39;[(&#39;).rstrip(&#39;)]&#39;).split(&#39;,&#39;)</span>
+<span class="sd">            res = eval(res)[0]</span>
+<span class="sd">        else :</span>
+<span class="sd">            write_logger(&#39;error&#39;,&quot;CSServer return Num error!!&quot;)</span>
+<span class="sd">            sys.exit(100)</span>
+
+<span class="sd">        ip = res[1].strip()</span>
+
+<span class="sd">        #add_child_subelement(root, create_element(&quot;config&quot;, {&#39;name&#39;:ip,&#39;db&#39;:alist[0][&#39;db&#39;],&#39;value&#39;: alist[0][&#39;value&#39;]},&#39;&#39;))</span>
+<span class="sd">        fp.write(&#39;\t&#39; + r&#39;&lt;config name=&quot;&#39; + str(ip) + r&#39;&quot; value=&quot;&#39; + str(alist[0][&#39;value&#39;]) + r&#39;&quot; db=&quot;&#39;+ str(alist[0][&#39;db&#39;])+&#39;&quot; /&gt;&#39;)</span>
+<span class="sd">        fp.write(&#39;\n&#39;)</span>
+
+<span class="sd">    for line in alist:</span>
+<span class="sd">        fp.write(&#39;\t&#39; + r&#39;&lt;config name=&quot;&#39; + str(line[&#39;name&#39;]) + r&#39;&quot; value=&quot;&#39; + str(line[&#39;value&#39;]) + r&#39;&quot; db=&quot;&#39;+ str(line[&#39;db&#39;]) + &#39;&quot; /&gt;&#39;)</span>
+<span class="sd">        fp.write(&#39;\n&#39;)</span>
+
+<span class="sd">    fp.write(r&#39;&lt;/configs&gt;&#39;)</span>
+<span class="sd">    fp.close()</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="writexmlbytext"><a class="viewcode-back" href="../../../commands.libbase.domai_config.html#commands.libbase.domai_config.writexmlbytext">[docs]</a><span class="k">def</span> <span class="nf">writexmlbytext</span><span class="p">(</span><span class="n">alist</span><span class="p">):</span>
+    <span class="k">global</span> <span class="n">filetopath</span>
+    <span class="n">domaiversion</span> <span class="o">=</span> <span class="n">getversion</span><span class="p">()</span>
+
+    <span class="c">###################</span>
+    <span class="n">domai_xml_lines</span><span class="o">=</span><span class="p">[]</span>
+    <span class="n">domai_xml_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">r&#39;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;&#39;</span><span class="p">)</span>
+    <span class="n">domai_xml_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+    <span class="n">domai_xml_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">r&#39;&lt;configs&gt;&#39;</span><span class="p">)</span>
+    <span class="n">domai_xml_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+    <span class="n">domai_xml_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span> <span class="o">+</span> <span class="s">r&#39;&lt;config name=&quot;server_path&quot; value=&quot;/data/release/sgonline&quot; /&gt;&#39;</span><span class="p">)</span>
+    <span class="n">domai_xml_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+    <span class="n">domai_xml_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span> <span class="o">+</span> <span class="s">r&#39;&lt;config name=&quot;sversion&quot; value=&quot;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">domaiversion</span><span class="p">)</span><span class="o">+</span><span class="s">r&#39;&quot; /&gt;&#39;</span><span class="p">)</span>
+    <span class="n">domai_xml_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+    <span class="c">#############</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">alist</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">dbnum</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">alist</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s">&#39;db&#39;</span><span class="p">])</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">getresbynum</span><span class="p">(</span><span class="n">dbnum</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">res</span> <span class="p">:</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">res</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span> <span class="p">:</span>
+            <span class="n">write_logger</span><span class="p">(</span><span class="s">&#39;error&#39;</span><span class="p">,</span><span class="s">&quot;CSServer return Num error!!&quot;</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+
+        <span class="n">ip</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="n">domai_xml_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span> <span class="o">+</span> <span class="s">r&#39;&lt;config name=&quot;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">ip</span><span class="p">)</span> <span class="o">+</span> <span class="s">r&#39;&quot; value=&quot;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">alist</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s">&#39;value&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="s">r&#39;&quot; db=&quot;&#39;</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">alist</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s">&#39;db&#39;</span><span class="p">])</span><span class="o">+</span><span class="s">&#39;&quot; /&gt;&#39;</span><span class="p">)</span>
+        <span class="n">domai_xml_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">alist</span><span class="p">:</span>
+        <span class="n">domai_xml_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span> <span class="o">+</span> <span class="s">r&#39;&lt;config name=&quot;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="s">r&#39;&quot; value=&quot;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="s">&#39;value&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="s">r&#39;&quot; db=&quot;&#39;</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="s">&#39;db&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="s">&#39;&quot; /&gt;&#39;</span><span class="p">)</span>
+        <span class="n">domai_xml_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+    <span class="n">domai_xml_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">r&#39;&lt;/configs&gt;&#39;</span><span class="p">)</span>
+    <span class="n">domai_xml_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+
+    <span class="n">fp</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filetopath</span><span class="p">,</span><span class="s">&#39;w&#39;</span><span class="p">)</span>
+    <span class="n">fp</span><span class="o">.</span><span class="n">writelines</span><span class="p">(</span><span class="n">domai_xml_lines</span><span class="p">)</span>
+    <span class="n">fp</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+
+
+</div>
+<div class="viewcode-block" id="deletezone"><a class="viewcode-back" href="../../../commands.libbase.domai_config.html#commands.libbase.domai_config.deletezone">[docs]</a><span class="k">def</span>  <span class="nf">deletezone</span><span class="p">(</span><span class="n">alist</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; 在domai_config删除alist元素。</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">listitems</span> <span class="o">=</span> <span class="n">gamezones</span><span class="p">()</span>
+    <span class="n">dbnum</span> <span class="o">=</span> <span class="n">alist</span><span class="p">[</span><span class="s">&#39;db&#39;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">listitems</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">dbnum</span> <span class="o">==</span> <span class="n">line</span><span class="p">[</span><span class="s">&#39;db&#39;</span><span class="p">]</span> <span class="p">:</span>
+            <span class="n">listitems</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+            <span class="n">astr</span> <span class="o">=</span> <span class="s">&quot;update iswork=0 dbnum=&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">dbnum</span><span class="p">)</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">getres</span><span class="p">(</span><span class="n">astr</span><span class="p">,</span><span class="n">host</span><span class="o">=</span><span class="n">csip</span><span class="p">)</span>
+            <span class="n">write_xml_alist</span><span class="p">(</span><span class="n">listitems</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+
+    <span class="n">write_logger</span><span class="p">(</span><span class="s">&#39;error&#39;</span><span class="p">,</span><span class="s">&#39;NO dbnum </span><span class="si">%s</span><span class="s"> deleted&#39;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">dbnum</span><span class="p">))</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="getlist"><a class="viewcode-back" href="../../../commands.libbase.domai_config.html#commands.libbase.domai_config.getlist">[docs]</a><span class="k">def</span> <span class="nf">getlist</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;获取list。</span>
+<span class="sd">    包含 ip，dbnum，name，value</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">fp</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">fp</span><span class="o">.</span><span class="n">readlines</span><span class="p">():</span>
+        <span class="n">iplist</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">r&#39;\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}&#39;</span><span class="p">,</span><span class="n">line</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">iplist</span><span class="p">:</span>
+            <span class="n">ip</span> <span class="o">=</span> <span class="n">iplist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> 
+            <span class="k">break</span>
+
+    <span class="n">alistitem</span> <span class="o">=</span> <span class="n">sortitems</span><span class="p">(</span><span class="n">gamezones</span><span class="p">())</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">alistitem</span><span class="p">:</span>
+        <span class="n">dbnum</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="s">&#39;db&#39;</span><span class="p">]</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="s">&#39;value&#39;</span><span class="p">]</span>
+        <span class="k">print</span> <span class="n">ip</span> <span class="o">+</span> <span class="s">&quot;</span><span class="se">\t</span><span class="s">&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">dbnum</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot;</span><span class="se">\t</span><span class="s">&quot;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span><span class="s">&quot;</span><span class="se">\t</span><span class="s">&quot;</span> <span class="o">+</span>  <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+
+</div>
+<div class="viewcode-block" id="usage"><a class="viewcode-back" href="../../../commands.libbase.domai_config.html#commands.libbase.domai_config.usage">[docs]</a><span class="k">def</span> <span class="nf">usage</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; help方式</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">print</span> <span class="s">&quot;##################author wsh ####################&quot;</span>
+    <span class="k">print</span> <span class="s">&quot;-h/--help : for help&quot;</span>
+    <span class="k">print</span> <span class="s">&quot;-d dbnum/ --db=dbnum &quot;</span>
+    <span class="k">print</span> <span class="s">&quot;-v dbvalue/ --value=dbvalue&quot;</span>
+    <span class="k">print</span> <span class="s">&quot;--file=filename/--tofile=filename&quot;</span>
+    <span class="k">print</span> <span class="s">&quot;--add/--delete/--change/--show&quot;</span>
+    <span class="k">print</span> <span class="s">&quot;#################################################&quot;</span>
+
+</div>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="c"># sate : 1 增加  2 删除 3 修改</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">dbnum</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+    <span class="n">dbvalue</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">opts</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">getopt</span><span class="o">.</span><span class="n">getopt</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="s">&quot;hd:v:&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s">&quot;help&quot;</span><span class="p">,</span><span class="s">&quot;db=&quot;</span><span class="p">,</span><span class="s">&quot;value=&quot;</span><span class="p">,</span> <span class="s">&quot;file=&quot;</span><span class="p">,</span><span class="s">&quot;tofile=&quot;</span><span class="p">,</span><span class="s">&quot;show&quot;</span><span class="p">,</span> <span class="s">&quot;add&quot;</span><span class="p">,</span><span class="s">&quot;delete&quot;</span><span class="p">,</span><span class="s">&quot;change&quot;</span><span class="p">,</span><span class="s">&quot;getlist&quot;</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">op</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span>  <span class="n">opts</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">op</span> <span class="ow">in</span> <span class="p">(</span><span class="s">&quot;-h&quot;</span><span class="p">,</span><span class="s">&quot;--help&quot;</span><span class="p">)</span> <span class="p">:</span>
+                <span class="n">usage</span><span class="p">()</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">op</span> <span class="ow">in</span> <span class="p">(</span><span class="s">&quot;-d&quot;</span><span class="p">,</span><span class="s">&quot;--db&quot;</span><span class="p">):</span>
+                <span class="n">dbnum</span> <span class="o">=</span> <span class="n">value</span>
+            <span class="k">if</span> <span class="n">op</span> <span class="ow">in</span> <span class="p">(</span><span class="s">&quot;-v&quot;</span><span class="p">,</span><span class="s">&quot;--value&quot;</span><span class="p">)</span> <span class="p">:</span>
+                <span class="n">dbvalue</span> <span class="o">=</span> <span class="n">value</span>
+            <span class="k">if</span> <span class="n">op</span> <span class="o">==</span> <span class="s">&quot;--add&quot;</span> <span class="p">:</span>
+                <span class="n">state</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="n">dbvalue</span> <span class="o">=</span> <span class="mi">11111</span>
+            <span class="k">if</span> <span class="n">op</span> <span class="o">==</span> <span class="s">&quot;--delete&quot;</span><span class="p">:</span>
+                <span class="n">state</span> <span class="o">=</span> <span class="mi">2</span>
+                <span class="n">dbvalue</span> <span class="o">=</span> <span class="mi">11111</span>
+            <span class="k">if</span> <span class="n">op</span> <span class="o">==</span> <span class="s">&quot;--change&quot;</span><span class="p">:</span>
+                <span class="n">state</span> <span class="o">=</span> <span class="mi">3</span>
+            <span class="k">if</span> <span class="n">op</span> <span class="o">==</span> <span class="s">&quot;--show&quot;</span><span class="p">:</span>
+                <span class="n">state</span> <span class="o">=</span> <span class="mi">4</span>
+                <span class="n">dbnum</span> <span class="o">=</span> <span class="mi">11111</span>
+                <span class="n">dbvalue</span> <span class="o">=</span> <span class="mi">11111</span>
+            <span class="k">if</span> <span class="n">op</span> <span class="o">==</span> <span class="s">&quot;--getlist&quot;</span><span class="p">:</span>
+                <span class="n">state</span> <span class="o">=</span> <span class="mi">5</span>
+                <span class="n">dbnum</span> <span class="o">=</span> <span class="mi">11111</span>
+                <span class="n">dbvalue</span> <span class="o">=</span> <span class="mi">11111</span>
+            <span class="k">if</span> <span class="n">op</span> <span class="o">==</span> <span class="s">&quot;--file&quot;</span><span class="p">:</span>
+                <span class="n">filepath</span> <span class="o">=</span> <span class="n">value</span>
+            <span class="k">if</span> <span class="n">op</span> <span class="o">==</span> <span class="s">&quot;--tofile&quot;</span><span class="p">:</span>
+                <span class="n">filetopath</span> <span class="o">=</span> <span class="n">value</span>
+
+
+    <span class="k">except</span> <span class="n">getopt</span><span class="o">.</span><span class="n">GetoptError</span><span class="p">,</span><span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="n">e</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">str</span><span class="p">(</span><span class="n">dbnum</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">str</span><span class="p">(</span><span class="n">dbvalue</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> <span class="p">:</span>
+        <span class="n">write_logger</span><span class="p">(</span><span class="s">&#39;error&#39;</span><span class="p">,</span><span class="s">&quot;Error, no dbnum or dbvalue input&quot;</span><span class="p">)</span>
+        <span class="k">print</span> <span class="s">&quot;Error, no dbnum or dbvalue input&quot;</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">state</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">insertnewzone</span><span class="p">(</span><span class="n">argvToAlist</span><span class="p">(</span><span class="n">dbnum</span><span class="p">,</span><span class="n">dbvalue</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">state</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">deletezone</span><span class="p">(</span><span class="n">argvToAlist</span><span class="p">(</span><span class="n">dbnum</span><span class="p">,</span><span class="n">dbvalue</span><span class="p">))</span>
+        <span class="k">elif</span>  <span class="n">state</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&quot;Change&quot;</span>
+            <span class="n">changezone</span><span class="p">(</span><span class="n">argvToAlist</span><span class="p">(</span><span class="n">dbnum</span><span class="p">,</span><span class="n">dbvalue</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">state</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&quot;show!!!!!!!!!!!&quot;</span>
+            <span class="n">root</span> <span class="o">=</span> <span class="n">read_xml</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+            <span class="n">list_element</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">state</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>
+            <span class="n">getlist</span><span class="p">()</span>
+            <span class="c">#alist  =  sortitems(gamezones())</span>
+            <span class="c">#write_xml_alist(alist)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&quot;Error&quot;</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Author.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
