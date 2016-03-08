@@ -108,7 +108,7 @@
 
 依赖软件:
 
-    sda
+    主要是flask软件，有点多，以后更新
 
 # 命令介绍<a id="orgheadline11"></a>
 
@@ -215,10 +215,13 @@
 
 # api<a id="orgheadline29"></a>
 
-请参考：
+CSsocketServer请参考：<doc/configserverdoc/_build/html/index.html>
+NDSocketServer请参考：<doc/nodeserverdoc/_build/html/index.html>
 
 # 关于我<a id="orgheadline30"></a>
 
 linux运维开发
+
 archlinux重度使用者
+
 <872807604@qq.com>
