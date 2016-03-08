@@ -3,12 +3,11 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="zh_cn" xml:lang="zh_cn">
 <head>
-<!-- 2016-03-04 五 11:51 -->
+<!-- 2016-03-08 二 22:36 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="viewport" content="width=device-width, initial-scale=1" />
 <title></title>
 <meta  name="generator" content="Org-mode" />
-<meta  name="author" content="huihui" />
 <style type="text/css">
  <!--/*--><![CDATA[/*><!--*/
   .title  { text-align: center;
@@ -153,7 +152,7 @@ for the JavaScript code in this tag.
 <li><a href="#orgheadline2">2.1. wshflask需求环境</a></li>
 </ul>
 </li>
-<li><a href="#orgheadline10">3. 命令介绍</a>
+<li><a href="#orgheadline11">3. 命令介绍</a>
 <ul>
 <li><a href="#orgheadline6">3.1. CSserver/NDserver</a>
 <ul>
@@ -161,57 +160,42 @@ for the JavaScript code in this tag.
 <li><a href="#orgheadline5">3.1.2. 效果展示</a></li>
 </ul>
 </li>
-<li><a href="#orgheadline9">3.2. wshflask</a>
+<li><a href="#orgheadline10">3.2. wshflask</a>
 <ul>
 <li><a href="#orgheadline7">3.2.1. 启动方式</a></li>
 <li><a href="#orgheadline8">3.2.2. 效果展示</a></li>
+<li><a href="#orgheadline9">3.2.3. web界面展示</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#orgheadline16">4. 架构说明</a>
+<li><a href="#orgheadline28">4. 架构说明</a>
 <ul>
-<li><a href="#orgheadline12">4.1. 整体架构</a>
+<li><a href="#orgheadline14">4.1. 整体架构</a>
 <ul>
-<li><a href="#orgheadline11">4.1.1. 示意图</a></li>
+<li><a href="#orgheadline12">4.1.1. 说明：</a></li>
+<li><a href="#orgheadline13">4.1.2. 框架</a></li>
 </ul>
 </li>
-<li><a href="#orgheadline15">4.2. 服务架构</a>
+<li><a href="#orgheadline18">4.2. 服务架构</a>
 <ul>
-<li><a href="#orgheadline13">4.2.1. nodeserver</a></li>
-<li><a href="#orgheadline14">4.2.2. CSserver</a></li>
+<li><a href="#orgheadline15">4.2.1. nodeserver</a></li>
+<li><a href="#orgheadline16">4.2.2. CSserver</a></li>
+<li><a href="#orgheadline17">4.2.3. wshflask</a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li><a href="#orgheadline27">5. 功能讲解</a>
+<li><a href="#orgheadline27">4.3. 日志系统</a>
 <ul>
-<li><a href="#orgheadline26">5.1. 通用和基础功能</a>
-<ul>
-<li><a href="#orgheadline19">5.1.1. 服务器架构方面</a></li>
-<li><a href="#orgheadline25">5.1.2. libbase</a></li>
+<li><a href="#orgheadline19">4.3.1. 日志系统的作用</a></li>
+<li><a href="#orgheadline22">4.3.2. 技术实现</a></li>
+<li><a href="#orgheadline23">4.3.3. 日志系统的框架设计</a></li>
+<li><a href="#orgheadline26">4.3.4. 日志系统的效果展示</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#orgheadline35">6. 业务功能</a>
-<ul>
-<li><a href="#orgheadline30">6.1. CSServer 功能讲解</a>
-<ul>
-<li><a href="#orgheadline28">6.1.1. 数据库连接模块&#x2014;&#x2014;CSsqlite.py</a></li>
-<li><a href="#orgheadline29">6.1.2. 命令处理&#x2014;&#x2014;CSsqliteconsole.py</a></li>
-</ul>
-</li>
-<li><a href="#orgheadline33">6.2. nodeserver 功能讲解</a>
-<ul>
-<li><a href="#orgheadline31">6.2.1. 开新区&#x2014;&#x2014;kaixinqu.py</a></li>
-<li><a href="#orgheadline32">6.2.2. 合区&#x2014;&#x2014;hequ.py</a></li>
-</ul>
-</li>
-<li><a href="#orgheadline34">6.3. webclient 功能讲解</a></li>
-</ul>
-</li>
-<li><a href="#orgheadline36">7. api 函数使用</a></li>
+<li><a href="#orgheadline29">5. api</a></li>
+<li><a href="#orgheadline30">6. 关于我</a></li>
 </ul>
 </div>
 </div>
@@ -224,6 +208,7 @@ for the JavaScript code in this tag.
 </p>
 </div>
 </div>
+
 
 <div id="outline-container-orgheadline3" class="outline-2">
 <h2 id="orgheadline3"><span class="section-number-2">2</span> 系统需求：</h2>
@@ -275,14 +260,15 @@ for the JavaScript code in this tag.
 </p>
 
 <pre class="example">
-sda
+    主要是flask软件，有点多，以后更新
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgheadline10" class="outline-2">
-<h2 id="orgheadline10"><span class="section-number-2">3</span> 命令介绍</h2>
+
+<div id="outline-container-orgheadline11" class="outline-2">
+<h2 id="orgheadline11"><span class="section-number-2">3</span> 命令介绍</h2>
 <div class="outline-text-2" id="text-3">
 </div><div id="outline-container-orgheadline6" class="outline-3">
 <h3 id="orgheadline6"><span class="section-number-3">3.1</span> CSserver/NDserver</h3>
@@ -320,6 +306,13 @@ python NDSocketServer.py debug/start/restart/stop
 </div>
 <ol class="org-ol">
 <li>restart命令</li>
+</ol>
+
+<div class="figure">
+<p><img src="doc/pic/csserver/CSserver_restart.png" alt="CSserver_restart.png" />
+</p>
+</div>
+<ol class="org-ol">
 <li>debug命令</li>
 </ol>
 
@@ -331,241 +324,198 @@ python NDSocketServer.py debug/start/restart/stop
 </div>
 </div>
 
-<div id="outline-container-orgheadline9" class="outline-3">
-<h3 id="orgheadline9"><span class="section-number-3">3.2</span> wshflask</h3>
+<div id="outline-container-orgheadline10" class="outline-3">
+<h3 id="orgheadline10"><span class="section-number-3">3.2</span> wshflask</h3>
 <div class="outline-text-3" id="text-3-2">
 </div><div id="outline-container-orgheadline7" class="outline-4">
 <h4 id="orgheadline7"><span class="section-number-4">3.2.1</span> 启动方式</h4>
+<div class="outline-text-4" id="text-3-2-1">
+<pre class="example">
+python manage.py runserver
+</pre>
 </div>
-
+</div>
 <div id="outline-container-orgheadline8" class="outline-4">
 <h4 id="orgheadline8"><span class="section-number-4">3.2.2</span> 效果展示</h4>
+<div class="outline-text-4" id="text-3-2-2">
+
+<div class="figure">
+<p><img src="doc/pic/flask/wshflask_start.png" alt="wshflask_start.png" />
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgheadline9" class="outline-4">
+<h4 id="orgheadline9"><span class="section-number-4">3.2.3</span> web界面展示</h4>
+<div class="outline-text-4" id="text-3-2-3">
+
+<div class="figure">
+<p><img src="doc/pic/flask/web_main.png" alt="web_main.png" />
+</p>
+</div>
+</div>
 </div>
 </div>
 </div>
 
 
 
-<div id="outline-container-orgheadline16" class="outline-2">
-<h2 id="orgheadline16"><span class="section-number-2">4</span> 架构说明</h2>
+
+
+<div id="outline-container-orgheadline28" class="outline-2">
+<h2 id="orgheadline28"><span class="section-number-2">4</span> 架构说明</h2>
 <div class="outline-text-2" id="text-4">
-</div><div id="outline-container-orgheadline12" class="outline-3">
-<h3 id="orgheadline12"><span class="section-number-3">4.1</span> 整体架构</h3>
+</div><div id="outline-container-orgheadline14" class="outline-3">
+<h3 id="orgheadline14"><span class="section-number-3">4.1</span> 整体架构</h3>
 <div class="outline-text-3" id="text-4-1">
-</div><div id="outline-container-orgheadline11" class="outline-4">
-<h4 id="orgheadline11"><span class="section-number-4">4.1.1</span> 示意图</h4>
+</div><div id="outline-container-orgheadline12" class="outline-4">
+<h4 id="orgheadline12"><span class="section-number-4">4.1.1</span> 说明：</h4>
 <div class="outline-text-4" id="text-4-1-1">
-<p>
-<a href="./dia/开新区.jpeg">开新区</a>
+<ol class="org-ol">
+<li>所有的查找都是基于 CSserver的</li>
+<li>任何的两台服务器之间都是可以通信的</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgheadline13" class="outline-4">
+<h4 id="orgheadline13"><span class="section-number-4">4.1.2</span> 框架</h4>
+<div class="outline-text-4" id="text-4-1-2">
+
+<div class="figure">
+<p><img src="doc/dia/zengti.jpeg" alt="zengti.jpeg" />
 </p>
 </div>
 </div>
 </div>
-<div id="outline-container-orgheadline15" class="outline-3">
-<h3 id="orgheadline15"><span class="section-number-3">4.2</span> 服务架构</h3>
+</div>
+
+
+<div id="outline-container-orgheadline18" class="outline-3">
+<h3 id="orgheadline18"><span class="section-number-3">4.2</span> 服务架构</h3>
 <div class="outline-text-3" id="text-4-2">
-</div><div id="outline-container-orgheadline13" class="outline-4">
-<h4 id="orgheadline13"><span class="section-number-4">4.2.1</span> nodeserver</h4>
+</div><div id="outline-container-orgheadline15" class="outline-4">
+<h4 id="orgheadline15"><span class="section-number-4">4.2.1</span> nodeserver</h4>
 <div class="outline-text-4" id="text-4-2-1">
-<p>
-<a href="./dia/nodeserver.jpeg">nodeserver</a>
+
+<div class="figure">
+<p><img src="./doc/dia/nodeserver.jpeg" alt="nodeserver.jpeg" />
 </p>
 </div>
 </div>
-<div id="outline-container-orgheadline14" class="outline-4">
-<h4 id="orgheadline14"><span class="section-number-4">4.2.2</span> CSserver</h4>
+</div>
+<div id="outline-container-orgheadline16" class="outline-4">
+<h4 id="orgheadline16"><span class="section-number-4">4.2.2</span> CSserver</h4>
 <div class="outline-text-4" id="text-4-2-2">
-<p>
-<a href="./dia/CSserver.jpeg">CSserver</a>
+
+<div class="figure">
+<p><img src="./doc/dia/CSserver.jpeg" alt="CSserver.jpeg" />
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgheadline17" class="outline-4">
+<h4 id="orgheadline17"><span class="section-number-4">4.2.3</span> wshflask</h4>
+<div class="outline-text-4" id="text-4-2-3">
+
+<div class="figure">
+<p><img src="doc/dia/wshflask.png" alt="wshflask.png" />
 </p>
 </div>
 </div>
 </div>
 </div>
 
-
-
-
-<div id="outline-container-orgheadline27" class="outline-2">
-<h2 id="orgheadline27"><span class="section-number-2">5</span> 功能讲解</h2>
-<div class="outline-text-2" id="text-5">
-</div><div id="outline-container-orgheadline26" class="outline-3">
-<h3 id="orgheadline26"><span class="section-number-3">5.1</span> 通用和基础功能</h3>
-<div class="outline-text-3" id="text-5-1">
+<div id="outline-container-orgheadline27" class="outline-3">
+<h3 id="orgheadline27"><span class="section-number-3">4.3</span> 日志系统</h3>
+<div class="outline-text-3" id="text-4-3">
 </div><div id="outline-container-orgheadline19" class="outline-4">
-<h4 id="orgheadline19"><span class="section-number-4">5.1.1</span> 服务器架构方面</h4>
-<div class="outline-text-4" id="text-5-1-1">
-</div><ol class="org-ol"><li><a id="orgheadline17"></a>服务器主程序&#x2014;&#x2014;NDSocketServer.py 和CSSocketServer.py<br  /><div class="outline-text-5" id="text-5-1-1-1">
+<h4 id="orgheadline19"><span class="section-number-4">4.3.1</span> 日志系统的作用</h4>
+<div class="outline-text-4" id="text-4-3-1">
 <p>
-服务端使用的是系统自带的SocketServer模块进行书写，利用StreamRequestHandler作为基本的socket请求。利用 SocketServer.ThreadingMixIn 作为异步通信使用，然后使用自己改写的daemon作为守护进行使用。
+日志可以分为三个部分：
 </p>
+<ol class="org-ol">
+<li>输出到屏幕上，用来作为debug</li>
+<li>输出到日志中，作为历史记录</li>
+<li>输出到远端，作为远端服务区的实时显示。</li>
+</ol>
 
 <p>
-对于外部的socket请求。服务端的处理过程：
+<b>NOTE：</b> 目前1 和2 放到了一起。
 </p>
-<ul class="org-ul">
-<li>密码验证，本程序使用的是md5加密，也是最简单的加密方式。</li>
-<li>命令接收，然后交给后端的dataanalyse进行命令分析</li>
-</ul>
+</div>
+</div>
+<div id="outline-container-orgheadline22" class="outline-4">
+<h4 id="orgheadline22"><span class="section-number-4">4.3.2</span> 技术实现</h4>
+<div class="outline-text-4" id="text-4-3-2">
+</div><ol class="org-ol"><li><a id="orgheadline20"></a>CSserver/NDserver<br  /><div class="outline-text-5" id="text-4-3-2-1">
+<ol class="org-ol">
+<li>python的 logging实现 本地的屏幕和日志输出</li>
+<li>利用multiprocessing 的Pipe实现日志的远端发送</li>
+</ol>
 </div></li>
-
-<li><a id="orgheadline18"></a>命令分析&#x2014;&#x2014;dataanalyse.py<br  /><div class="outline-text-5" id="text-5-1-1-2">
+<li><a id="orgheadline21"></a>wshflask消息接受机制<br  /><div class="outline-text-5" id="text-4-3-2-2">
 <p>
-这个模块的处理很简单, 判断是否有命令，然后将参数传递给对于的处理模块。
+采用 js的 socket io 实现
 </p>
-
-<p>
-在实现上，先将函数和命令做一个字典映射。
-</p>
-<div class="org-src-container">
-
-<pre class="src src-python-mode">dictname = {'findbydb':CSsqliteconsole.findbydb,
-               'findbyip':CSsqliteconsole.findbyip,
-               'update':CSsqliteconsole.update,
-               'delete':CSsqliteconsole.deletebydb,
-               'add': CSsqliteconsole.add
-               }
-</pre>
-</div>
-
-<p>
-下一步将从socket服务端接收的命令拆分，知道对应命令，然后将参数进行传递
-</p>
-<div class="org-src-container">
-
-<pre class="src src-python-mode">if handlecmd in dictname.keys():
-    return dictname[handlecmd](alist[1:])
-elif  handlecmd == 'help' :
-    return usage()
-else:
-    return [False , "You should use the right command"]
-</pre>
-</div>
 </div></li></ol>
 </div>
 
+<div id="outline-container-orgheadline23" class="outline-4">
+<h4 id="orgheadline23"><span class="section-number-4">4.3.3</span> 日志系统的框架设计</h4>
+<div class="outline-text-4" id="text-4-3-3">
 
-<div id="outline-container-orgheadline25" class="outline-4">
-<h4 id="orgheadline25"><span class="section-number-4">5.1.2</span> libbase</h4>
-<div class="outline-text-4" id="text-5-1-2">
-</div><ol class="org-ol"><li><a id="orgheadline20"></a>日志记录&#x2014;&#x2014;CSLogging.py<br  /><div class="outline-text-5" id="text-5-1-2-1">
-<p>
-利用的是系统的logging模块，目前实现的功能有：
+<div class="figure">
+<p><img src="doc/dia/logkuangjia.png" alt="logkuangjia.png" />
 </p>
-<ul class="org-ul">
-<li>实现了两种类型的日志记录：filehandler 和streamhandler，</li>
-<li>日志级别的控制，可以自定义filehandler和streamhandler的记录级别，已经配置在config.cfg中。</li>
-<li>日志轮询</li>
-<li>streamhandler的级别颜色控制，这个可以作为debug的时候的显示</li>
-</ul>
-
-<p>
-外部调用使用的write_logger函数，函数形式是：
-</p>
-<div class="org-src-container">
-
-<pre class="src src-python-mode">write_logger(level ,astr)
-</pre>
 </div>
+</div>
+</div>
+<div id="outline-container-orgheadline26" class="outline-4">
+<h4 id="orgheadline26"><span class="section-number-4">4.3.4</span> 日志系统的效果展示</h4>
+<div class="outline-text-4" id="text-4-3-4">
+</div><ol class="org-ol"><li><a id="orgheadline24"></a>CSServer/NDserver端<br  /></li>
 
-<p>
-目前分类的级别是：
-</p>
-<pre class="example">
-exception &gt; critical &gt; error &gt; warning &gt; info &gt; debug
-</pre>
-</div></li>
 
-<li><a id="orgheadline21"></a>守护进程&#x2014;&#x2014;daemon.py<br  /><div class="outline-text-5" id="text-5-1-2-2">
-<p>
-查看网上的国外一个大神的代码，对于其中的部分进行了更改，对于服务端进行了包装。有三个命令选项 start/stop/restart 。因为自己的CSLogging 有一个streamhandler，所以增加了一个debug模式。
-</p>
-</div></li>
-
-<li><a id="orgheadline22"></a>加密模块&#x2014;&#x2014;encrypt.py<br  /><div class="outline-text-5" id="text-5-1-2-3">
-<p>
-单纯的md5加密，每天一换。
-</p>
-</div></li>
-
-<li><a id="orgheadline23"></a>本地配置模块&#x2014;&#x2014;mod_config.py<br  /><div class="outline-text-5" id="text-5-1-2-4">
-<p>
-利用系统自带的ConfigParser模块。来获取配置参数。
-</p>
-</div></li>
-
-<li><a id="orgheadline24"></a>获取配置服务器客户端&#x2014;&#x2014;getConfigClient.py<br  /><div class="outline-text-5" id="text-5-1-2-5">
-<p>
-是一个socket客户端，获取服务端的数据
-</p>
-</div></li></ol>
+<li><a id="orgheadline25"></a>wshflask的实时显示<br  /></li></ol>
 </div>
 </div>
 </div>
 
 
-<div id="outline-container-orgheadline35" class="outline-2">
-<h2 id="orgheadline35"><span class="section-number-2">6</span> 业务功能</h2>
+
+
+<div id="outline-container-orgheadline29" class="outline-2">
+<h2 id="orgheadline29"><span class="section-number-2">5</span> api</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+CSsocketServer请参考：<a href="doc/configserverdoc/_build/html/index.html">doc/configserverdoc/_build/html/index.html</a>
+NDSocketServer请参考：<a href="doc/nodeserverdoc/_build/html/index.html">doc/nodeserverdoc/_build/html/index.html</a>
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orgheadline30" class="outline-2">
+<h2 id="orgheadline30"><span class="section-number-2">6</span> 关于我</h2>
 <div class="outline-text-2" id="text-6">
-</div><div id="outline-container-orgheadline30" class="outline-3">
-<h3 id="orgheadline30"><span class="section-number-3">6.1</span> CSServer 功能讲解</h3>
-<div class="outline-text-3" id="text-6-1">
-</div><div id="outline-container-orgheadline28" class="outline-4">
-<h4 id="orgheadline28"><span class="section-number-4">6.1.1</span> 数据库连接模块&#x2014;&#x2014;CSsqlite.py</h4>
-<div class="outline-text-4" id="text-6-1-1">
 <p>
-对于数据库连接的二次包装，实现了增删改查。
+linux运维开发
 </p>
-</div>
-</div>
-<div id="outline-container-orgheadline29" class="outline-4">
-<h4 id="orgheadline29"><span class="section-number-4">6.1.2</span> 命令处理&#x2014;&#x2014;CSsqliteconsole.py</h4>
-<div class="outline-text-4" id="text-6-1-2">
-<p>
-实现了dataanalyse和CSsqlite的命令转换。感觉不太彻底。以后改进。
-</p>
-</div>
-</div>
-</div>
-<div id="outline-container-orgheadline33" class="outline-3">
-<h3 id="orgheadline33"><span class="section-number-3">6.2</span> nodeserver 功能讲解</h3>
-<div class="outline-text-3" id="text-6-2">
-</div><div id="outline-container-orgheadline31" class="outline-4">
-<h4 id="orgheadline31"><span class="section-number-4">6.2.1</span> 开新区&#x2014;&#x2014;kaixinqu.py</h4>
-<div class="outline-text-4" id="text-6-2-1">
-<p>
-<a href="./dia/开新区.jpeg">开新区</a>
-</p>
-</div>
-</div>
 
-<div id="outline-container-orgheadline32" class="outline-4">
-<h4 id="orgheadline32"><span class="section-number-4">6.2.2</span> 合区&#x2014;&#x2014;hequ.py</h4>
-<div class="outline-text-4" id="text-6-2-2">
 <p>
-<a href="./dia/合区.jpeg">合区</a>
+archlinux重度使用者
 </p>
-</div>
-</div>
-</div>
 
-<div id="outline-container-orgheadline34" class="outline-3">
-<h3 id="orgheadline34"><span class="section-number-3">6.3</span> webclient 功能讲解</h3>
-</div>
-</div>
-
-<div id="outline-container-orgheadline36" class="outline-2">
-<h2 id="orgheadline36"><span class="section-number-2">7</span> api 函数使用</h2>
-<div class="outline-text-2" id="text-7">
 <p>
-请参考 
+<a href="mailto:872807604@qq.com">mailto:872807604@qq.com</a>
 </p>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
-<p class="author">Author: huihui</p>
-<p class="date">Created: 2016-03-04 五 11:51</p>
+<p class="date">Created: 2016-03-08 二 22:36</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
