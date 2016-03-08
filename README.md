@@ -50,35 +50,8 @@
 </li>
 </ul>
 </li>
-<li><a href="#orgheadline39">5. 文件讲解</a>
-<ul>
-<li><a href="#orgheadline38">5.1. 通用和基础功能</a>
-<ul>
-<li><a href="#orgheadline31">5.1.1. 服务器架构方面</a></li>
-<li><a href="#orgheadline37">5.1.2. libbase</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#orgheadline47">6. 业务功能简介</a>
-<ul>
-<li><a href="#orgheadline42">6.1. CSServer 功能讲解</a>
-<ul>
-<li><a href="#orgheadline40">6.1.1. 数据库连接模块&#x2014;&#x2014;CSsqlite.py</a></li>
-<li><a href="#orgheadline41">6.1.2. 命令处理&#x2014;&#x2014;CSsqliteconsole.py</a></li>
-</ul>
-</li>
-<li><a href="#orgheadline45">6.2. nodeserver 功能讲解</a>
-<ul>
-<li><a href="#orgheadline43">6.2.1. 开新区&#x2014;&#x2014;kaixinqu.py</a></li>
-<li><a href="#orgheadline44">6.2.2. 合区&#x2014;&#x2014;hequ.py</a></li>
-</ul>
-</li>
-<li><a href="#orgheadline46">6.3. webclient 功能讲解</a></li>
-</ul>
-</li>
-<li><a href="#orgheadline48">7. api 函数使用</a></li>
-<li><a href="#orgheadline49">8. 关于我</a></li>
+<li><a href="#orgheadline29">5. api</a></li>
+<li><a href="#orgheadline30">6. 关于我</a></li>
 </ul>
 </div>
 </div>
@@ -240,107 +213,11 @@
 
 2.  wshflask的实时显示
 
-# 文件讲解<a id="orgheadline39"></a>
+# api<a id="orgheadline29"></a>
 
-## 通用和基础功能<a id="orgheadline38"></a>
+请参考：
 
-### 服务器架构方面<a id="orgheadline31"></a>
-
-1.  服务器主程序&#x2014;&#x2014;NDSocketServer.py 和CSSocketServer.py
-
-    服务端使用的是系统自带的SocketServer模块进行书写，利用StreamRequestHandler作为基本的socket请求。利用 SocketServer.ThreadingMixIn 作为异步通信使用，然后使用自己改写的daemon作为守护进行使用。
-    
-    对于外部的socket请求。服务端的处理过程：
-    
-    -   密码验证，本程序使用的是md5加密，也是最简单的加密方式。
-    -   命令接收，然后交给后端的dataanalyse进行命令分析
-
-2.  命令分析&#x2014;&#x2014;dataanalyse.py
-
-    这个模块的处理很简单, 判断是否有命令，然后将参数传递给对于的处理模块。
-    
-    在实现上，先将函数和命令做一个字典映射。
-    
-        dictname = {'findbydb':CSsqliteconsole.findbydb,
-                       'findbyip':CSsqliteconsole.findbyip,
-                       'update':CSsqliteconsole.update,
-                       'delete':CSsqliteconsole.deletebydb,
-                       'add': CSsqliteconsole.add
-                       }
-    
-    下一步将从socket服务端接收的命令拆分，知道对应命令，然后将参数进行传递
-    
-        if handlecmd in dictname.keys():
-            return dictname[handlecmd](alist[1:])
-        elif  handlecmd == 'help' :
-            return usage()
-        else:
-            return [False , "You should use the right command"]
-
-### libbase<a id="orgheadline37"></a>
-
-1.  日志记录&#x2014;&#x2014;CSLogging.py
-
-    利用的是系统的logging模块，目前实现的功能有：
-    
-    -   实现了两种类型的日志记录：filehandler 和streamhandler，
-    -   日志级别的控制，可以自定义filehandler和streamhandler的记录级别，已经配置在config.cfg中。
-    -   日志轮询
-    -   streamhandler的级别颜色控制，这个可以作为debug的时候的显示
-    
-    外部调用使用的write\_logger函数，函数形式是：
-    
-        write_logger(level ,astr)
-    
-    目前分类的级别是：
-    
-        exception > critical > error > warning > info > debug
-
-2.  守护进程&#x2014;&#x2014;daemon.py
-
-    查看网上的国外一个大神的代码，对于其中的部分进行了更改，对于服务端进行了包装。有三个命令选项 start/stop/restart 。因为自己的CSLogging 有一个streamhandler，所以增加了一个debug模式。
-
-3.  加密模块&#x2014;&#x2014;encrypt.py
-
-    单纯的md5加密，每天一换。
-
-4.  本地配置模块&#x2014;&#x2014;mod\_config.py
-
-    利用系统自带的ConfigParser模块。来获取配置参数。
-
-5.  获取配置服务器客户端&#x2014;&#x2014;getConfigClient.py
-
-    是一个socket客户端，获取服务端的数据
-
-# 业务功能简介<a id="orgheadline47"></a>
-
-## CSServer 功能讲解<a id="orgheadline42"></a>
-
-### 数据库连接模块&#x2014;&#x2014;CSsqlite.py<a id="orgheadline40"></a>
-
-对于数据库连接的二次包装，实现了增删改查。
-
-### 命令处理&#x2014;&#x2014;CSsqliteconsole.py<a id="orgheadline41"></a>
-
-实现了dataanalyse和CSsqlite的命令转换。感觉不太彻底。以后改进。
-
-## nodeserver 功能讲解<a id="orgheadline45"></a>
-
-### 开新区&#x2014;&#x2014;kaixinqu.py<a id="orgheadline43"></a>
-
-[开新区](./dia/开新区.jpeg)
-
-### 合区&#x2014;&#x2014;hequ.py<a id="orgheadline44"></a>
-
-[合区](./dia/合区.jpeg)
-
-## webclient 功能讲解<a id="orgheadline46"></a>
-
-# api 函数使用<a id="orgheadline48"></a>
-
-请参考 
-
-# 关于我<a id="orgheadline49"></a>
+# 关于我<a id="orgheadline30"></a>
 
 linux运维开发
 archlinux重度使用者
